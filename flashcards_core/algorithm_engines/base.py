@@ -11,7 +11,7 @@ class BaseAlgorithmEngine:
     algorithm_name = None
 
     def __init__(self, db: Session, deck: Deck):
-        
+
         #: The session to use to interact with the database
         self.db = db
 

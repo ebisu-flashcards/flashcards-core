@@ -7,11 +7,10 @@ from flashcards_core.database import Base
 
 
 class CrudOperations:
-
     @classmethod
     def get_all(cls, db: Session, offset: int = 0, limit: int = 100) -> List:
         """
-        Returns a list of all the model objects available in the DB, or a 
+        Returns a list of all the model objects available in the DB, or a
         subset of them.
 
         :param db: the session (see flashcards_core.database:SessionLocal()).
@@ -38,7 +37,7 @@ class CrudOperations:
         Create a new model object with the given kwargs.
         Check the model to understand what you can give as **kwargs.
 
-        :param db: the session (see flashcards_core.database:SessionLocal()).    
+        :param db: the session (see flashcards_core.database:SessionLocal()).
         :returns: the new model object.
         """
         db_object = cls(**kwargs)
@@ -61,7 +60,9 @@ class CrudOperations:
         """
         db_object = cls.get_one(db=db, object_id=object_id)
         if not db_object:
-            raise ValueError(f"Model object not found. You must create it before updating it.")
+            raise ValueError(
+                f"Model object not found. You must create it before updating it."
+            )
         for key, value in kwargs.items():
             setattr(db_object, key, value)
         db.commit()

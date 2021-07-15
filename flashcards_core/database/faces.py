@@ -9,11 +9,12 @@ from flashcards_core.database.crud import CrudOperations
 # Many2Many with Facts
 #
 
-FaceFact = Table('FaceFact',
+FaceFact = Table(
+    "FaceFact",
     Base.metadata,
-    Column('id', Integer, primary_key=True),
-    Column('face_id', Integer, ForeignKey('faces.id')),
-    Column('fact_id', Integer, ForeignKey('facts.id')),
+    Column("id", Integer, primary_key=True),
+    Column("face_id", Integer, ForeignKey("faces.id")),
+    Column("fact_id", Integer, ForeignKey("facts.id")),
 )
 
 
@@ -21,11 +22,12 @@ FaceFact = Table('FaceFact',
 # Many2Many with Tags
 #
 
-FaceTag = Table('FaceTag',
+FaceTag = Table(
+    "FaceTag",
     Base.metadata,
-    Column('id', Integer, primary_key=True),
-    Column('face_id', Integer, ForeignKey('faces.id')),
-    Column('tag_id', Integer, ForeignKey('tags.id')),
+    Column("id", Integer, primary_key=True),
+    Column("face_id", Integer, ForeignKey("faces.id")),
+    Column("tag_id", Integer, ForeignKey("tags.id")),
 )
 
 
@@ -34,20 +36,21 @@ class Face(Base, CrudOperations):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    reveal_order = Float(Integer)  # To always allow extra stages to go in between existing ones
-    
+    reveal_order = Float(
+        Integer
+    )  # To always allow extra stages to go in between existing ones
+
     # Card is 12M because it should be easy to copy faces.
     # Faces hold no actual data: it's just an associative table
-    card_id = Column(Integer, ForeignKey('cards.id'))
-    card = relationship("Card", foreign_keys='Face.card_id')
+    card_id = Column(Integer, ForeignKey("cards.id"))
+    card = relationship("Card", foreign_keys="Face.card_id")
 
-    facts = relationship('Fact', secondary='FaceFact', back_populates="faces")
-    tags = relationship('Tag', secondary='FaceTag', backref='Face')
+    facts = relationship("Fact", secondary="FaceFact", back_populates="faces")
+    tags = relationship("Tag", secondary="FaceTag", backref="Face")
 
     def __repr__(self):
         return f"<Face (ID: {self.id}, card ID: {self.card_id})>"
 
-    
     def assign_fact(self, db: Session, fact_id: int) -> FaceFact:
         """
         Assign the given Fact to this Face.
@@ -62,7 +65,6 @@ class Face(Base, CrudOperations):
         db.refresh(db_facefact)
         return db_facefact
 
-
     def remove_fact(self, db: Session, facefact_id: int) -> None:
         """
         Remove the given Fact from this Face.
@@ -75,10 +77,12 @@ class Face(Base, CrudOperations):
         """
         db_facefact = db.query(FaceFact).filter(FaceFact.id == facefact_id).first()
         if not db_facefact:
-            raise ValueError(f"No FaceFact with ID '{facefact_id}' found. Cannot delete non-existing connection.")
+            raise ValueError(
+                f"No FaceFact with ID '{facefact_id}' found. Cannot delete non-existing"
+                " connection."
+            )
         db.delete(db_facefact)
         db.commit()
-
 
     def assign_tag(self, db: Session, tag_id: int) -> FaceTag:
         """
@@ -96,7 +100,6 @@ class Face(Base, CrudOperations):
         db.refresh(db_facetag)
         return db_facetag
 
-
     def remove_tag(self, db: Session, facetag_id: int) -> None:
         """
         Remove the given Tag from this Face.
@@ -110,6 +113,9 @@ class Face(Base, CrudOperations):
         """
         db_facetag = db.query(FaceTag).filter(FaceTag.id == facetag_id).first()
         if not db_facetag:
-            raise ValueError(f"No FaceTag with ID '{facetag_id}' found. Cannot delete non-existing connection.")
+            raise ValueError(
+                f"No FaceTag with ID '{facetag_id}' found. Cannot delete non-existing"
+                " connection."
+            )
         db.delete(db_facetag)
         db.commit()

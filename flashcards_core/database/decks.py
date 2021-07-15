@@ -13,11 +13,12 @@ from flashcards_core.database.crud import CrudOperations
 # Many2Many with Tags
 #
 
-DeckTag = Table('DeckTag',
+DeckTag = Table(
+    "DeckTag",
     Base.metadata,
-    Column('id', Integer, primary_key=True),
-    Column('deck_id', Integer, ForeignKey('decks.id')),
-    Column('tag_id', Integer, ForeignKey('tags.id'))
+    Column("id", Integer, primary_key=True),
+    Column("deck_id", Integer, ForeignKey("decks.id")),
+    Column("tag_id", Integer, ForeignKey("tags.id")),
 )
 
 
@@ -27,18 +28,19 @@ class Deck(Base, CrudOperations):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     description = Column(String)
-    state = Column(String, default="{}")  # JSON for all the mixed stuff: params, state, etc...
+    state = Column(
+        String, default="{}"
+    )  # JSON for all the mixed stuff: params, state, etc...
 
-    algorithm_id = Column(Integer, ForeignKey('algorithms.id'))
-    algorithm = relationship("Algorithm", foreign_keys='Deck.algorithm_id')
+    algorithm_id = Column(Integer, ForeignKey("algorithms.id"))
+    algorithm = relationship("Algorithm", foreign_keys="Deck.algorithm_id")
 
-    cards = relationship('Card', back_populates='deck')
-    tags = relationship('Tag', secondary='DeckTag', backref='Deck')
+    cards = relationship("Card", back_populates="deck")
+    tags = relationship("Tag", secondary="DeckTag", backref="Deck")
 
     def __repr__(self):
         return f"<Deck '{self.name}' (ID: {self.id})>"
 
-    
     def get_state(self) -> Dict[str, Any]:
         """
         Returns the state of the deck as a dictionary, obtained by loading
@@ -47,7 +49,6 @@ class Deck(Base, CrudOperations):
         Please do not read/write this field directly, but use the getter/setter.
         """
         return json.loads(self.state)
-
 
     def set_state(self, db: Session, state: Dict[str, Any]):
         """
@@ -60,15 +61,13 @@ class Deck(Base, CrudOperations):
         db.commit()
         db.refresh(self)
 
-
-    def unseen_cards_list(self) -> List['Card']:
+    def unseen_cards_list(self) -> List["Card"]:
         """
         Return a list of all the cards belonging to this deck that have no Reviews,
         which means they have never been seen/reviewed.
         """
         # FIXME Redo as a proper SQL query!!!
         return [card for card in self.cards if len(card.reviews) == 0]
-
 
     def unseen_cards_number(self) -> int:
         """
@@ -78,7 +77,6 @@ class Deck(Base, CrudOperations):
         # FIXME Redo as a proper SQL query!!!
         return len([card for card in self.cards if len(card.reviews) == 0])
 
-        
     def assign_tag(self, db: Session, tag_id: int, deck_id: int) -> DeckTag:
         """
         Assign the given Tag to this Deck.
@@ -94,7 +92,6 @@ class Deck(Base, CrudOperations):
         db.refresh(db_decktag)
         return db_decktag
 
-
     def remove_tag(self, db: Session, decktag_id: int) -> None:
         """
         Remove the given Tag from this Deck.
@@ -106,6 +103,9 @@ class Deck(Base, CrudOperations):
         """
         db_decktag = db.query(DeckTag).filter(DeckTag.id == decktag_id).first()
         if not db_decktag:
-            raise ValueError(f"No DeckTag with ID '{decktag_id}' found. Cannot delete non-existing connection.")
+            raise ValueError(
+                f"No DeckTag with ID '{decktag_id}' found. Cannot delete non-existing"
+                " connection."
+            )
         db.delete(db_decktag)
         db.commit()

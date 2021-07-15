@@ -7,8 +7,8 @@ from sqlalchemy.orm import sessionmaker, Session
 SQLALCHEMY_DATABASE_URL = f"sqlite:///{Path(__name__).parent.absolute()}/sql_app.db"
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, 
-    connect_args={"check_same_thread": False}   # Needed only for SQLite
+    SQLALCHEMY_DATABASE_URL,
+    connect_args={"check_same_thread": False},  # Needed only for SQLite
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

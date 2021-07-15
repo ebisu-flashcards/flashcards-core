@@ -4,14 +4,12 @@ from flashcards_core.database.decks import Deck
 
 
 class SpacedRepetition:
-
     def __init__(self, deck: Deck):
         """
         Create a SpacedRepetition object for a given deck.
         The deck is used mainly to create the proper AlgorithmEngine.
         """
         self.engine = get_algorithm_engine(deck.algorithm_id)
-
 
     def next_card(self, deck_id: str):
         """
@@ -21,7 +19,6 @@ class SpacedRepetition:
         :returns: a database Card object.
         """
         return self.engine.next_card_to_review()
-
 
     def save_test_results(self, card_id: str, test_results: Mapping[str, Any]) -> None:
         """
@@ -34,4 +31,6 @@ class SpacedRepetition:
         :raises Card.DoesNotExist if the card does not exist in this deck
         :raises Deck.DoesNotExist if the deck does not exist for this user
         """
-        return self.engine.process_test_result(card_id=card_id, test_results=test_results)
+        return self.engine.process_test_result(
+            card_id=card_id, test_results=test_results
+        )
