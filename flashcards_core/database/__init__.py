@@ -23,15 +23,14 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
-from flashcards_core.database.algorithms.model import Algorithm
-from flashcards_core.database.algorithm_params.model import AlgorithmParam
-from flashcards_core.database.cards.model import Card
-from flashcards_core.database.decks.model import Deck
-from flashcards_core.database.faces.model import Face
-from flashcards_core.database.facts.model import Fact
-from flashcards_core.database.reviews.model import Review
-from flashcards_core.database.tags.model import Tag
-from flashcards_core.database.many_to_many.model import FaceFact, DeckTag, CardTag, FaceTag, FactTag
+from flashcards_core.database.algorithms import Algorithm
+from flashcards_core.database.algorithm_params import AlgorithmParam
+from flashcards_core.database.cards import Card, CardTag
+from flashcards_core.database.decks import Deck, DeckTag
+from flashcards_core.database.faces import Face, FaceFact, FaceTag
+from flashcards_core.database.facts import Fact, FactTag
+from flashcards_core.database.reviews import Review
+from flashcards_core.database.tags import Tag
 
 # Create all the tables imported above
 Base.metadata.create_all(bind=engine)

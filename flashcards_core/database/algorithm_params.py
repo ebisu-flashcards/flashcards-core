@@ -1,10 +1,11 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 
-from flashcards_core.database.database import Base
+from flashcards_core.database import Base
+from flashcards_core.database.crud import CrudOperations
 
 
-class AlgorithmParam(Base):
+class AlgorithmParam(Base, CrudOperations):
     __tablename__ = "algorithm_params"
 
     id = Column(Integer, primary_key=True, index=True)
