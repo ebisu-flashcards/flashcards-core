@@ -26,6 +26,7 @@ REQUIREMENTS: dict = {
         "pre-commit",
         "black",
         "flake8",
+        "coveralls",  # To publish the coverage data on coveralls
     ],
     "doc": [
         "sphinx",
