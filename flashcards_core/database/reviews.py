@@ -1,6 +1,6 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.sql import func
-from sqlalchemy.orm import relationship, Session
+from sqlalchemy.orm import relationship
 
 from flashcards_core.database import Base
 from flashcards_core.database.crud import CrudOperations

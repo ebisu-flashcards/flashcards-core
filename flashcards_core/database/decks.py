@@ -2,7 +2,7 @@ from typing import Any, Dict, List
 
 import json
 
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float, Table
+from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship, Session
 
 from flashcards_core.database import Base
@@ -61,7 +61,7 @@ class Deck(Base, CrudOperations):
         db.commit()
         db.refresh(self)
 
-    def unseen_cards_list(self) -> List["Card"]:
+    def unseen_cards_list(self) -> List:
         """
         Return a list of all the cards belonging to this deck that have no Reviews,
         which means they have never been seen/reviewed.

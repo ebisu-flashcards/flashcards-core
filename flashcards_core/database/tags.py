@@ -1,5 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Table
-from sqlalchemy.orm import relationship, Session
+from sqlalchemy import Column, Integer, String
 
 from flashcards_core.database import Base
 from flashcards_core.database.crud import CrudOperations

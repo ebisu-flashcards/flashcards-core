@@ -1,6 +1,5 @@
 from typing import Any
 
-import json
 import random
 import logging
 from datetime import datetime
@@ -108,7 +107,7 @@ class RandomEngine(BaseAlgorithmEngine):
         )
 
         # Create the review
-        review = Review.create(db=self.db, card_id=card.id, result=result)
+        Review.create(db=self.db, card_id=card.id, result=result)
 
         # Update the deck state
         deck_state = card.deck.get_state()

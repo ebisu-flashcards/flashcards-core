@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, Float, String, Table
+from sqlalchemy import Column, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship, Session
 
 from flashcards_core.database import Base

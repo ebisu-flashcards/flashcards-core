@@ -1,9 +1,6 @@
 from typing import List, Optional
 
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship, Session
-
-from flashcards_core.database import Base
+from sqlalchemy.orm import Session
 
 
 class CrudOperations:
@@ -61,7 +58,7 @@ class CrudOperations:
         db_object = cls.get_one(db=db, object_id=object_id)
         if not db_object:
             raise ValueError(
-                f"Model object not found. You must create it before updating it."
+                "Model object not found. You must create it before updating it."
             )
         for key, value in kwargs.items():
             setattr(db_object, key, value)
@@ -82,6 +79,6 @@ class CrudOperations:
         """
         db_object = cls.get_one(db=db, object_id=object_id)
         if not db_object:
-            raise ValueError(f"Model object not found. Cannot delete it.")
+            raise ValueError("Model object not found. Cannot delete it.")
         db.delete(db_object)
         db.commit()

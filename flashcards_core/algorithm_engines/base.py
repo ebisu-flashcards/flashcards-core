@@ -2,7 +2,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from flashcards_core.database import Deck, Card, Review
+from flashcards_core.database import Deck, Card
 
 
 class BaseAlgorithmEngine:
