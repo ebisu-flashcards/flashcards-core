@@ -11,8 +11,21 @@ familiar with Python.
 ## Install
 
 ```bash
-> cd backend
 > python3 -m venv venv
 > source venv/bin/activate
 > pip install .
 ```
+
+# Contribute
+
+```bash
+> python3 -m venv venv
+> source venv/bin/activate
+> pip install -e .
+> pre-commit install
+
+... do some changes ...
+
+pytest
+```
+The pre-commit hook runs Black and Flake8 with fairly standard setups. Do not send a PR if these checks, or the tests, are failing.
