@@ -1,3 +1,7 @@
+from typing import Any, Dict, List
+
+import json
+
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float, Table
 from sqlalchemy.orm import relationship, Session
 
@@ -22,17 +26,57 @@ class Deck(Base, CrudOperations):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
-    description = Column(String, index=True)
+    description = Column(String)
+    state = Column(String, default="{}")  # JSON for all the mixed stuff: params, state, etc...
 
-    # algorithm_id = Column(Integer, ForeignKey('algorithms.id'))
-    # algorithm = relationship("Algorithm", foreign_keys='decks.algorithm_id')
+    algorithm_id = Column(Integer, ForeignKey('algorithms.id'))
+    algorithm = relationship("Algorithm", foreign_keys='Deck.algorithm_id')
 
-    algorithm_params = relationship('AlgorithmParam', back_populates='deck')
     cards = relationship('Card', back_populates='deck')
     tags = relationship('Tag', secondary='DeckTag', backref='Deck')
 
     def __repr__(self):
         return f"<Deck '{self.name}' (ID: {self.id})>"
+
+    
+    def get_state(self) -> Dict[str, Any]:
+        """
+        Returns the state of the deck as a dictionary, obtained by loading
+        the field `state` as JSON.
+
+        Please do not read/write this field directly, but use the getter/setter.
+        """
+        return json.loads(self.state)
+
+
+    def set_state(self, db: Session, state: Dict[str, Any]):
+        """
+        Sets the state of the deck from the dictionary, by dumping the value
+        in the `state` field as JSON
+
+        Please do not read/write this field directly, but use the getter/setter.
+        """
+        self.state = json.dumps(state)
+        db.commit()
+        db.refresh(self)
+
+
+    def unseen_cards_list(self) -> List['Card']:
+        """
+        Return a list of all the cards belonging to this deck that have no Reviews,
+        which means they have never been seen/reviewed.
+        """
+        # FIXME Redo as a proper SQL query!!!
+        return [card for card in self.cards if len(card.reviews) == 0]
+
+
+    def unseen_cards_number(self) -> int:
+        """
+        Return the number of cards belonging to this deck that have no Reviews,
+        which means they have never been seen/reviewed.
+        """
+        # FIXME Redo as a proper SQL query!!!
+        return len([card for card in self.cards if len(card.reviews) == 0])
 
         
     def assign_tag(self, db: Session, tag_id: int, deck_id: int) -> DeckTag:

@@ -1,6 +1,6 @@
 from flashcards_core.algorithm_engines import get_algorithm_engine
-from flashcards_core.database.cards.model import Card
-from flashcards_core.database.decks.model import Deck
+from flashcards_core.database.cards import Card
+from flashcards_core.database.decks import Deck
 
 
 class SpacedRepetition:

@@ -11,16 +11,16 @@ class Review(Base, CrudOperations):
 
     id = Column(Integer, primary_key=True, index=True)
     
-    result = Column(String)  # FIXME depends on the algorithm to some degree (think Anki)
+    result = Column(String)  # FIXME depends on the algorithm to some degree (think SM2+)
     datetime = Column(DateTime(timezone=True), server_default=func.now())
 
-    card_id = Column(Integer, ForeignKey('cards.id'), primary_key=True)
+    card_id = Column(Integer, ForeignKey('cards.id'))
     card = relationship("Card", foreign_keys='Review.card_id')
 
     # The fact that both reviews and decks have algorithm_id implies we must do
     # checks before adding reviews to cards belonging to a specific deck
-    algorithm_id = Column(Integer, ForeignKey('algorithms.id'), primary_key=True)
-    algorithm_data = Column(String)  # TODO put a limit on the lenght here.
+    algorithm_id = Column(Integer, ForeignKey('algorithms.id'))
+    algorithm = relationship("Algorithm", foreign_keys='Review.algorithm_id')
 
     def __repr__(self):
         return f"<Review of card ID: {self.card_id}: {self.result} (ID: {self.id})>"

@@ -1,7 +1,7 @@
-from flashcards_core.algorithm_engines.random import Random
+from flashcards_core.algorithm_engines.random import RandomEngine
 
 ENGINES = [
-    Random,
+    RandomEngine,
 ]
 
 def get_algorithm_engine(self, algorithm_name: str):
