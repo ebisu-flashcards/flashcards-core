@@ -26,6 +26,6 @@ familiar with Python.
 
 ... do some changes ...
 
-pytest
+> pytest
 ```
 The pre-commit hook runs Black and Flake8 with fairly standard setups. Do not send a PR if these checks, or the tests, are failing.
