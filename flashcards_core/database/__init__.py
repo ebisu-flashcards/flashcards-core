@@ -12,15 +12,6 @@ engine = create_engine(
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# # FastAPI "Dependency" (used with Depends)
-# def get_db():
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
-
 Base = declarative_base()
 
 from flashcards_core.database.algorithms import Algorithm  # noqa: F401, E402
