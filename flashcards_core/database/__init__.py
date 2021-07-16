@@ -12,7 +12,6 @@ engine = create_engine(
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 Base = declarative_base()
 
 from flashcards_core.database.algorithms import Algorithm  # noqa: F401, E402
