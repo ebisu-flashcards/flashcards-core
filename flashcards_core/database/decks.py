@@ -28,14 +28,13 @@ class Deck(Base, CrudOperations):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     description = Column(String)
-    state = Column(
-        String, default="{}"
-    )  # JSON for all the mixed stuff: params, state, etc...
+    # JSON for all the mixed stuff: params, state, etc...
+    state = Column(String, default="{}")
 
     algorithm_id = Column(Integer, ForeignKey("algorithms.id"))
     algorithm = relationship("Algorithm", foreign_keys="Deck.algorithm_id")
 
-    cards = relationship("Card", back_populates="deck")
+    cards = relationship("Card", cascade="all,delete", back_populates="deck")
     tags = relationship("Tag", secondary="DeckTag", backref="Deck")
 
     def __repr__(self):

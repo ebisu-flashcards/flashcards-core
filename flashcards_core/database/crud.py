@@ -11,7 +11,7 @@ class CrudOperations:
         subset of them.
 
         :param db: the session (see flashcards_core.database:SessionLocal()).
-        :param skip: for pagination, index at which to start returning values.
+        :param offset: for pagination, index at which to start returning values.
         :param limit: for pagination, maximum number of elements to return.
         :returns: List of model objects.
         """

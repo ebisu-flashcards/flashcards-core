@@ -28,8 +28,8 @@ class Card(Base, CrudOperations):
     deck_id = Column(Integer, ForeignKey("decks.id"))
     deck = relationship("Deck", foreign_keys="Card.deck_id")
 
-    faces = relationship("Face", back_populates="card")
-    reviews = relationship("Review", back_populates="card")
+    faces = relationship("Face", cascade="all,delete", back_populates="card")
+    reviews = relationship("Review", cascade="all,delete", back_populates="card")
     tags = relationship("Tag", secondary="CardTag", backref="Card")
 
     def __repr__(self):
