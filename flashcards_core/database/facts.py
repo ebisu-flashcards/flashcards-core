@@ -23,8 +23,10 @@ class Fact(Base, CrudOperations):
 
     id = Column(Integer, primary_key=True, index=True)
     value = Column(String)  # Can be text, a URL, a path, etc. Figure this out better.
+    format = Column(String)  # Specify what it is, how to read the content of 'value'
+    # FIXME add some sort of metadata here too?
+    #   Question/answers have them on the card already
 
-    faces = relationship("Face", secondary="FaceFact", back_populates="facts")
     tags = relationship("Tag", secondary="FactTag", backref="Fact")
 
     def __repr__(self):

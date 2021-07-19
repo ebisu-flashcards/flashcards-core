@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, Table
+from sqlalchemy import Column, ForeignKey, Integer, Table, String
 from sqlalchemy.orm import relationship, Session
 
 from flashcards_core.database import Base
@@ -17,6 +17,18 @@ CardTag = Table(
     Column("tag_id", Integer, ForeignKey("tags.id")),
 )
 
+#
+# Many2Many with Cards
+#
+
+RelatedCard = Table(
+    "RelatedCard",
+    Base.metadata,
+    Column("original_card_id", Integer, ForeignKey("cards.id"), primary_key=True),
+    Column("related_card_id", Integer, ForeignKey("cards.id"), primary_key=True),
+    Column("relationship", String),
+)
+
 
 class Card(Base, CrudOperations):
     __tablename__ = "cards"
@@ -28,7 +40,19 @@ class Card(Base, CrudOperations):
     deck_id = Column(Integer, ForeignKey("decks.id"))
     deck = relationship("Deck", foreign_keys="Card.deck_id")
 
-    faces = relationship("Face", cascade="all,delete", back_populates="card")
+    question_id = Column(Integer, ForeignKey("facts.id"))
+    question = relationship("Fact", foreign_keys="Card.question_id")
+    # FIXME should extras be Facts themselves or not?
+    question_context = Column(String)  # FIXME JSON? Markdown? HTML? Media files?
+
+    answer_id = Column(Integer, ForeignKey("facts.id"))
+    answer = relationship("Fact", foreign_keys="Card.answer_id")
+    # FIXME should extras be Facts themselves or not?
+    answer_context = Column(String)  # FIXME JSON? Markdown? HTML? Media files?
+
+    # FIXME AmbiguousForeignKeysError!
+    # related_cards = relationship("Card", secondary="RelatedCard")
+
     reviews = relationship("Review", cascade="all,delete", back_populates="card")
     tags = relationship("Tag", secondary="CardTag", backref="Card")
 

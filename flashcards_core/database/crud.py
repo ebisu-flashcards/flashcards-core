@@ -23,7 +23,7 @@ class CrudOperations:
         Returns the model object corresponding to the given ID.
 
         :param db: the session (see flashcards_core.database:SessionLocal()).
-        :param algorithm_param_id: the ID of the model object to return.
+        :param object_id: the ID of the model object to return.
         :returns: the matching model object.
         """
         return db.query(cls).filter(cls.id == object_id).first()

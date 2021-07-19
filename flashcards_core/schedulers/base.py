@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from flashcards_core.database import Deck, Card
 
 
-class BaseAlgorithmEngine:
+class BaseScheduler:
 
     #: The algorithm ID associated with this engine
     algorithm_name = None
@@ -30,15 +30,15 @@ class BaseAlgorithmEngine:
         """
         raise NotImplementedError("This is the base class, use an implementation.")
 
-    def process_test_result(self, card: Card, test_results: Any):
+    def process_test_result(self, card: Card, result: Any):
         """
         Creates a Review for the card, storing the test result.
 
         Different implementations might use a different type for the results,
         therefore this parameter is not typed.
 
-        :param card_id: the card that was reviewed
-        :param test_results: the results of the test
+        :param card: the card that was reviewed
+        :param result: the results of the test
         :return: None
         """
         raise NotImplementedError("This is the base class, use an implementation.")

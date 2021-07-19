@@ -14,10 +14,8 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-from flashcards_core.database.algorithms import Algorithm  # noqa: F401, E402
 from flashcards_core.database.cards import Card, CardTag  # noqa: F401, E402
 from flashcards_core.database.decks import Deck, DeckTag  # noqa: F401, E402
-from flashcards_core.database.faces import Face, FaceFact, FaceTag  # noqa: F401, E402
 from flashcards_core.database.facts import Fact, FactTag  # noqa: F401, E402
 from flashcards_core.database.reviews import Review  # noqa: F401, E402
 from flashcards_core.database.tags import Tag  # noqa: F401, E402

@@ -7,15 +7,25 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 
 from flashcards_core.database import Deck, Card, Review
-from flashcards_core.algorithm_engines.base import BaseAlgorithmEngine
+from flashcards_core.schedulers.base import BaseScheduler
 
-
+#
+# Parameter keys for RandomScheduler
+#
+#: Pick the next card from the unseen ones, if any
 UNSEEN_FIRST = "unseen_first"
+#: Never pick the same card twice in a row,
+#:   if there is more than one card in the deck
 NEVER_REPEAT = "never_repeat"
+
+#
+# State keys for RandomScheduler
+#
+#: ID of the last card reviewed
 LAST_REVIEWED_CARD = "last_reviewed_card"
 
 
-class RandomEngine(BaseAlgorithmEngine):
+class RandomScheduler(BaseScheduler):
 
     algorithm_name = "Random"
 
@@ -52,8 +62,8 @@ class RandomEngine(BaseAlgorithmEngine):
             return self.deck.cards[0]
 
         # Give priority to unseen cards if configured to do so
-        deck_state = self.deck.get_state()
-        if deck_state.get(UNSEEN_FIRST) and self.deck.unseen_cards_number() > 0:
+        deck_parameters = self.deck.get_parameters()
+        if deck_parameters.get(UNSEEN_FIRST) and self.deck.unseen_cards_number() > 0:
             logging.debug(
                 f"Picking from the {self.deck.unseen_cards_number()} unseen cards"
             )
@@ -63,14 +73,11 @@ class RandomEngine(BaseAlgorithmEngine):
         logging.debug(f"Picked card ID {next_card.id}")
 
         # Avoid repeating cards if configured to do so
-        if deck_state.get(NEVER_REPEAT):
+        if deck_parameters.get(NEVER_REPEAT):
 
-            last_card_id = deck_state.get(LAST_REVIEWED_CARD)
+            last_card_id = deck_parameters.get(LAST_REVIEWED_CARD)
             while last_card_id == next_card.id:
-                logging.debug(
-                    f"It's the same card as last time ({last_card_id}), retrying"
-                )
-
+                logging.debug(f"It's the same card again ({last_card_id}), retrying")
                 next_card = random.choice(self.deck.cards)
                 logging.debug(f"Picked card ID {next_card.id}")
 
@@ -92,7 +99,7 @@ class RandomEngine(BaseAlgorithmEngine):
         typed.
 
         :param card: the card that was reviewed
-        :param test_results: the results of the test
+        :param result: the results of the test
         :return: None
 
         :raise: ValueError if the card does not belong to the deck

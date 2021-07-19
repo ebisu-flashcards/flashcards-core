@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import json
 
@@ -26,19 +26,48 @@ class Deck(Base, CrudOperations):
     __tablename__ = "decks"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
+    name = Column(String, unique=True)
     description = Column(String)
-    # JSON for all the mixed stuff: params, state, etc...
-    state = Column(String, default="{}")
-
-    algorithm_id = Column(Integer, ForeignKey("algorithms.id"))
-    algorithm = relationship("Algorithm", foreign_keys="Deck.algorithm_id")
+    algorithm = Column(String)
+    parameters = Column(String, default="{}")  # FIXME JSON field
+    state = Column(String, default="{}")  # FIXME JSON field
 
     cards = relationship("Card", cascade="all,delete", back_populates="deck")
     tags = relationship("Tag", secondary="DeckTag", backref="Deck")
 
     def __repr__(self):
         return f"<Deck '{self.name}' (ID: {self.id})>"
+
+    @classmethod
+    def get_by_name(cls, db: Session, name: str) -> Optional:
+        """
+        Returns the deck corresponding to the given name.
+
+        :param db: the session (see flashcards_core.database:SessionLocal()).
+        :param name: the name of the model object to return.
+        :returns: the matching model object.
+        """
+        return db.query(Deck).filter(Deck.name == name).first()
+
+    def get_parameters(self) -> Dict[str, Any]:
+        """
+        Returns the parameters of the deck as a dictionary, obtained by loading
+        the field `parameters` as JSON.
+
+        Please do not read/write this field directly, but use the getter/setter.
+        """
+        return json.loads(self.parameters)
+
+    def set_parameters(self, db: Session, parameters: Dict[str, Any]):
+        """
+        Sets the parameters of the deck from the dictionary, by dumping the value
+        in the `parameters` field as JSON
+
+        Please do not read/write this field directly, but use the getter/setter.
+        """
+        self.parameters = json.dumps(parameters)
+        db.commit()
+        db.refresh(self)
 
     def get_state(self) -> Dict[str, Any]:
         """
