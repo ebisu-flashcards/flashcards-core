@@ -1,5 +1,5 @@
 from flashcards_core.database import Deck, Card
-from flashcards_core.algorithm_engines import RandomEngine
+from flashcards_core.schedulers import RandomScheduler
 
 
 def test_random(session, temp_db):
@@ -14,7 +14,7 @@ def test_random(session, temp_db):
     card = Card.create(db=session, deck_id=deck.id)
     card = Card.create(db=session, deck_id=deck.id)
 
-    engine = RandomEngine(db=session, deck=deck)
+    engine = RandomScheduler(db=session, deck=deck)
 
     for i in range(7):
         card = engine.next_card()
