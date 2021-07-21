@@ -26,9 +26,6 @@ LAST_REVIEWED_CARD = "last_reviewed_card"
 
 
 class RandomScheduler(BaseScheduler):
-
-    algorithm_name = "Random"
-
     def __init__(self, db: Session, deck: Deck):
         super().__init__(db=db, deck=deck)
 
