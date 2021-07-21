@@ -22,7 +22,7 @@ jobs:
         run: pip install -e .[all]
 
       - name: Unit tests
-        run: coverage run --source=flashcards_core -m pytest 
+        run: coverage run --source=flashcards_core -m pytest --random-order
 
       - name: Coveralls.io
         run: |
