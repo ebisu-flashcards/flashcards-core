@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, Table, String
+from sqlalchemy import Column, ForeignKey, Integer, Table
 from sqlalchemy.orm import relationship, Session
 
 from flashcards_core.database import Base
@@ -21,12 +21,32 @@ CardTag = Table(
 # Many2Many with Cards
 #
 
-RelatedCard = Table(
-    "RelatedCard",
+# RelatedCard = Table(
+#     "RelatedCard",
+#     Base.metadata,
+#     Column("original_card_id", Integer, ForeignKey("cards.id"), primary_key=True),
+#     Column("related_card_id", Integer, ForeignKey("cards.id"), primary_key=True),
+#     Column("relationship", String),
+# )
+
+#
+# Many2Many with Facts (Question & Answers Context)
+#
+
+CardQuestionContext = Table(
+    "CardQuestionContext",
     Base.metadata,
-    Column("original_card_id", Integer, ForeignKey("cards.id"), primary_key=True),
-    Column("related_card_id", Integer, ForeignKey("cards.id"), primary_key=True),
-    Column("relationship", String),
+    Column("id", Integer, primary_key=True),
+    Column("card_id", Integer, ForeignKey("cards.id")),
+    Column("fact_id", Integer, ForeignKey("facts.id")),
+)
+
+CardAnswerContext = Table(
+    "CardAnswerContext",
+    Base.metadata,
+    Column("id", Integer, primary_key=True),
+    Column("card_id", Integer, ForeignKey("cards.id")),
+    Column("fact_id", Integer, ForeignKey("facts.id")),
 )
 
 
@@ -42,13 +62,11 @@ class Card(Base, CrudOperations):
 
     question_id = Column(Integer, ForeignKey("facts.id"))
     question = relationship("Fact", foreign_keys="Card.question_id")
-    # FIXME should extras be Facts themselves or not?
-    question_context = Column(String)  # FIXME JSON? Markdown? HTML? Media files?
+    question_context_facts = relationship("Fact", secondary="CardQuestionContext")
 
     answer_id = Column(Integer, ForeignKey("facts.id"))
     answer = relationship("Fact", foreign_keys="Card.answer_id")
-    # FIXME should extras be Facts themselves or not?
-    answer_context = Column(String)  # FIXME JSON? Markdown? HTML? Media files?
+    answer_context_facts = relationship("Fact", secondary="CardAnswerContext")
 
     # FIXME AmbiguousForeignKeysError!
     # related_cards = relationship("Card", secondary="RelatedCard")
@@ -82,7 +100,8 @@ class Card(Base, CrudOperations):
         :param db: the session (see flashcards_core.database:SessionLocal()).
         :returns: None.
 
-        :raises: ValueError if no CardTag object with the given ID was found in the database.
+        :raises: ValueError if no CardTag object with the given ID was found
+            in the database.
         """
         db_cardtag = db.query(CardTag).filter(CardTag.id == cardtag_id).first()
         if not db_cardtag:
@@ -91,4 +110,90 @@ class Card(Base, CrudOperations):
                 " connection."
             )
         db.delete(db_cardtag)
+        db.commit()
+
+    def assign_question_context(
+        self, db: Session, card_id: int, fact_id: int
+    ) -> CardQuestionContext:
+        """
+        Assign the given Fact as context to the Question to this Card.
+
+        :param card_id: the name of the Card to assign the Fact to.
+        :param fact_id: the name of the Fact to assign as context to the question
+            of this card.
+        :param db: the session (see flashcards_core.database:SessionLocal()).
+        :returns: the new CardQuestionContext model object.
+        """
+        db_context = CardQuestionContext(fact_id=fact_id, card_id=card_id)
+        db.add(db_context)
+        db.commit()
+        db.refresh(db_context)
+        return db_context
+
+    def remove_question_context(self, db: Session, question_context_id: int) -> None:
+        """
+        Remove the given Fact as a context for the Question from this Card.
+
+        :param question_context_id: the ID of the connection between a context
+            fact and a card.
+        :param db: the session (see flashcards_core.database:SessionLocal()).
+        :returns: None.
+
+        :raises: ValueError if no CardQuestionContext object with the given
+            ID was found in the database.
+        """
+        db_context = (
+            db.query(CardQuestionContext)
+            .filter(CardQuestionContext.id == question_context_id)
+            .first()
+        )
+        if not db_context:
+            raise ValueError(
+                f"No CardQuestionContext with ID '{question_context_id}' found. Cannot"
+                " delete non-existing connection."
+            )
+        db.delete(db_context)
+        db.commit()
+
+    def assign_answer_context(
+        self, db: Session, card_id: int, fact_id: int
+    ) -> CardAnswerContext:
+        """
+        Assign the given Fact as context to the Answer to this Card.
+
+        :param card_id: the name of the Card to assign the Fact to.
+        :param fact_id: the name of the Fact to assign as context to the answer
+            of this card.
+        :param db: the session (see flashcards_core.database:SessionLocal()).
+        :returns: the new CardAnswerContext model object.
+        """
+        db_context = CardAnswerContext(fact_id=fact_id, card_id=card_id)
+        db.add(db_context)
+        db.commit()
+        db.refresh(db_context)
+        return db_context
+
+    def remove_answer_context(self, db: Session, answer_context_id: int) -> None:
+        """
+        Remove the given Fact as a context for the Answer from this Card.
+
+        :param answer_context_id: the ID of the connection between a context
+            fact and a card.
+        :param db: the session (see flashcards_core.database:SessionLocal()).
+        :returns: None.
+
+        :raises: ValueError if no CardAnswerContext object with the given ID
+            was found in the database.
+        """
+        db_context = (
+            db.query(CardAnswerContext)
+            .filter(CardAnswerContext.id == answer_context_id)
+            .first()
+        )
+        if not db_context:
+            raise ValueError(
+                f"No CardAnswerContext with ID '{answer_context_id}' found. Cannot"
+                " delete non-existing connection."
+            )
+        db.delete(db_context)
         db.commit()
