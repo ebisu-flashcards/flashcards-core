@@ -1,8 +1,6 @@
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
-import json
-
-from sqlalchemy import Column, ForeignKey, Integer, String, Table
+from sqlalchemy import Column, ForeignKey, Integer, String, Table, JSON
 from sqlalchemy.orm import relationship, Session
 
 from flashcards_core.database import Base
@@ -14,7 +12,7 @@ from flashcards_core.database.crud import CrudOperations
 #
 
 DeckTag = Table(
-    "DeckTag",
+    "decktags",
     Base.metadata,
     Column("id", Integer, primary_key=True),
     Column("deck_id", Integer, ForeignKey("decks.id")),
@@ -29,11 +27,11 @@ class Deck(Base, CrudOperations):
     name = Column(String, unique=True)
     description = Column(String)
     algorithm = Column(String)
-    parameters = Column(String, default="{}")  # FIXME JSON field
-    state = Column(String, default="{}")  # FIXME JSON field
+    parameters = Column(JSON, default={})
+    state = Column(JSON, default={})
 
     cards = relationship("Card", cascade="all,delete", back_populates="deck")
-    tags = relationship("Tag", secondary="DeckTag", backref="Deck")
+    tags = relationship("Tag", secondary="decktags", backref="Deck")
 
     def __repr__(self):
         return f"<Deck '{self.name}' (ID: {self.id})>"
@@ -48,46 +46,6 @@ class Deck(Base, CrudOperations):
         :returns: the matching model object.
         """
         return session.query(Deck).filter(Deck.name == name).first()
-
-    def get_parameters(self) -> Dict[str, Any]:
-        """
-        Returns the parameters of the deck as a dictionary, obtained by loading
-        the field `parameters` as JSON.
-
-        Please do not read/write this field directly, but use the getter/setter.
-        """
-        return json.loads(self.parameters)
-
-    def set_parameters(self, session: Session, parameters: Dict[str, Any]):
-        """
-        Sets the parameters of the deck from the dictionary, by dumping the value
-        in the `parameters` field as JSON
-
-        Please do not read/write this field directly, but use the getter/setter.
-        """
-        self.parameters = json.dumps(parameters)
-        session.commit()
-        session.refresh(self)
-
-    def get_state(self) -> Dict[str, Any]:
-        """
-        Returns the state of the deck as a dictionary, obtained by loading
-        the field `state` as JSON.
-
-        Please do not read/write this field directly, but use the getter/setter.
-        """
-        return json.loads(self.state)
-
-    def set_state(self, session: Session, state: Dict[str, Any]):
-        """
-        Sets the state of the deck from the dictionary, by dumping the value
-        in the `state` field as JSON
-
-        Please do not read/write this field directly, but use the getter/setter.
-        """
-        self.state = json.dumps(state)
-        session.commit()
-        session.refresh(self)
 
     def unseen_cards_list(self) -> List:
         """
@@ -105,35 +63,26 @@ class Deck(Base, CrudOperations):
         # FIXME Redo as a proper SQL query!!!
         return len([card for card in self.cards if len(card.reviews) == 0])
 
-    def assign_tag(self, session: Session, tag_id: int, deck_id: int) -> DeckTag:
+    def assign_tag(self, session: Session, tag_id: int) -> None:
         """
-        Assign the given Tag to this Deck.
+        Assign the given Tag to this Deck and refreshes the Deck object.
 
         :param tag_id: the name of the Tag to assign to the Deck.
-        :param deck_id: the name of the Deck to assign the Tag to.
         :param session: the session (see flashcards_core.database:init_db()).
-        :returns: the new DeckTag model object.
         """
-        decktag = DeckTag(tag_id=tag_id, deck_id=deck_id)
-        session.add(decktag)
-        session.commit()
-        session.refresh(decktag)
-        return decktag
+        insert = DeckTag.insert().values(deck_id=self.id, tag_id=tag_id)
+        session.execute(insert)
+        session.refresh(self)
 
-    def remove_tag(self, session: Session, decktag_id: int) -> None:
+    def remove_tag(self, session: Session, tag_id: int) -> None:
         """
         Remove the given Tag from this Deck.
 
-        :param decktag_id: the ID of the connection between a tag and a deck.
+        :param tag_id: the ID of the tag to remove from this deck
         :param session: the session (see flashcards_core.database:init_db()).
         :returns: None.
-        :raises: ValueError if no DeckTag object with the given ID was found in the database.
+        :raises: ValueError if no tag object with the given ID was assigned to this deck.
         """
-        decktag = session.query(DeckTag).filter(DeckTag.id == decktag_id).first()
-        if not decktag:
-            raise ValueError(
-                f"No DeckTag with ID '{decktag_id}' found. Cannot delete non-existing"
-                " connection."
-            )
-        session.delete(decktag)
-        session.commit()
+        delete = DeckTag.delete().where(DeckTag.c.tag_id == tag_id)
+        session.execute(delete)
+        session.refresh(self)

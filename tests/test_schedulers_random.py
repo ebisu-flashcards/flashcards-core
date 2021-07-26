@@ -8,8 +8,12 @@ def test_random(session):
 
     FIXME this is a stub!
     """
-    deck = Deck.create(session=session, name="TestDeck", description="Test Deck")
-    deck.set_state(session=session, state={"unseen_first": True, "never_repeat": True})
+    deck = Deck.create(
+        session=session,
+        name="TestDeck",
+        description="Test Deck",
+        state={"unseen_first": True, "never_repeat": True},
+    )
     card = Card.create(session=session, deck_id=deck.id)
     card = Card.create(session=session, deck_id=deck.id)
     card = Card.create(session=session, deck_id=deck.id)

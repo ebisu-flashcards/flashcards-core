@@ -10,7 +10,7 @@ from flashcards_core.database.crud import CrudOperations
 #
 
 FactTag = Table(
-    "FactTag",
+    "facttags",
     Base.metadata,
     Column("id", Integer, primary_key=True),
     Column("fact_id", Integer, ForeignKey("facts.id")),
@@ -27,7 +27,7 @@ class Fact(Base, CrudOperations):
     # FIXME add some sort of metadata here too?
     #   Question/answers have them on the card already
 
-    tags = relationship("Tag", secondary="FactTag", backref="Fact")
+    tags = relationship("Tag", secondary="facttags", backref="Fact")
 
     def __repr__(self):
         return (
@@ -40,18 +40,13 @@ class Fact(Base, CrudOperations):
         Assign the given Tag to this Fact.
 
         :param tag_id: the name of the Tag to assign to the Fact.
-        :param fact_id: the name of the Fact to assign the Tag to.
         :param session: the session (see flashcards_core.database:init_db()).
-
-        :returns: the new FactTag model object.
         """
-        facttag = FactTag(tag_id=tag_id, fact_id=self.id)
-        session.add(facttag)
-        session.commit()
-        session.refresh(facttag)
-        return facttag
+        insert = FactTag.insert().values(fact_id=self.id, tag_id=tag_id)
+        session.execute(insert)
+        session.refresh(self)
 
-    def remove_tag(self, session: Session, facttag_id: int) -> None:
+    def remove_tag(self, session: Session, tag_id: int) -> None:
         """
         Remove the given Tag from this Fact.
 
@@ -62,11 +57,6 @@ class Fact(Base, CrudOperations):
 
         :raises: ValueError if no FactTag object with the given ID was found in the database.
         """
-        facttag = session.query(FactTag).filter(FactTag.id == facttag_id).first()
-        if not facttag:
-            raise ValueError(
-                f"No FactTag with ID '{facttag_id}' found. Cannot delete non-existing"
-                " connection."
-            )
-        session.delete(facttag)
-        session.commit()
+        delete = FactTag.delete().where(FactTag.c.tag_id == tag_id)
+        session.execute(delete)
+        session.refresh(self)

@@ -50,7 +50,7 @@ class RandomScheduler(BaseScheduler):
         """
         logging.debug(f"Picking the next card to review from deck {self.deck} ")
         logging.debug(
-            f"Deck state: {self.deck.get_state()}. Unseen cards:"
+            f"Deck state: {self.deck.state}. Unseen cards:"
             f" {self.deck.unseen_cards_number()}"
         )
         logging.debug(f"This deck has {len(self.deck.cards)} cards.")
@@ -62,7 +62,7 @@ class RandomScheduler(BaseScheduler):
             return self.deck.cards[0]
 
         # Give priority to unseen cards if configured to do so
-        deck_parameters = self.deck.get_parameters()
+        deck_parameters = self.deck.parameters
         if deck_parameters.get(UNSEEN_FIRST) and self.deck.unseen_cards_number() > 0:
             logging.debug(
                 f"Picking from the {self.deck.unseen_cards_number()} unseen cards"
@@ -117,6 +117,6 @@ class RandomScheduler(BaseScheduler):
         Review.create(session=self.session, card_id=card.id, result=result)
 
         # Update the deck state
-        deck_state = card.deck.get_state()
+        deck_state = card.deck.state
         deck_state[LAST_REVIEWED_CARD] = card.id
-        card.deck.set_state(session=self.session, state=deck_state)
+        Deck.update(session=self.session, object_id=card.deck.id, state=deck_state)
