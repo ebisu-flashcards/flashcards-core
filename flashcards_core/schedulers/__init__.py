@@ -30,7 +30,7 @@ def get_scheduler_for_deck(db, deck):
     """
     Returns a ready-to-use scheduler for the algorithm assigned to this deck.
 
-    :param db: the session (see flashcards_core.database:SessionLocal()).
+    :param session: the session (see flashcards_core.database:init_db()).
     :param deck: the deck this scheduler is generated for
     :returns: a subclass of BaseScheduler
     """

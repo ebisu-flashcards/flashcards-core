@@ -39,15 +39,15 @@ class Deck(Base, CrudOperations):
         return f"<Deck '{self.name}' (ID: {self.id})>"
 
     @classmethod
-    def get_by_name(cls, db: Session, name: str) -> Optional:
+    def get_by_name(cls, session: Session, name: str) -> Optional:
         """
         Returns the deck corresponding to the given name.
 
-        :param db: the session (see flashcards_core.database:SessionLocal()).
+        :param session: the session (see flashcards_core.database:init_db()).
         :param name: the name of the model object to return.
         :returns: the matching model object.
         """
-        return db.query(Deck).filter(Deck.name == name).first()
+        return session.query(Deck).filter(Deck.name == name).first()
 
     def get_parameters(self) -> Dict[str, Any]:
         """
@@ -58,7 +58,7 @@ class Deck(Base, CrudOperations):
         """
         return json.loads(self.parameters)
 
-    def set_parameters(self, db: Session, parameters: Dict[str, Any]):
+    def set_parameters(self, session: Session, parameters: Dict[str, Any]):
         """
         Sets the parameters of the deck from the dictionary, by dumping the value
         in the `parameters` field as JSON
@@ -66,8 +66,8 @@ class Deck(Base, CrudOperations):
         Please do not read/write this field directly, but use the getter/setter.
         """
         self.parameters = json.dumps(parameters)
-        db.commit()
-        db.refresh(self)
+        session.commit()
+        session.refresh(self)
 
     def get_state(self) -> Dict[str, Any]:
         """
@@ -78,7 +78,7 @@ class Deck(Base, CrudOperations):
         """
         return json.loads(self.state)
 
-    def set_state(self, db: Session, state: Dict[str, Any]):
+    def set_state(self, session: Session, state: Dict[str, Any]):
         """
         Sets the state of the deck from the dictionary, by dumping the value
         in the `state` field as JSON
@@ -86,8 +86,8 @@ class Deck(Base, CrudOperations):
         Please do not read/write this field directly, but use the getter/setter.
         """
         self.state = json.dumps(state)
-        db.commit()
-        db.refresh(self)
+        session.commit()
+        session.refresh(self)
 
     def unseen_cards_list(self) -> List:
         """
@@ -105,35 +105,35 @@ class Deck(Base, CrudOperations):
         # FIXME Redo as a proper SQL query!!!
         return len([card for card in self.cards if len(card.reviews) == 0])
 
-    def assign_tag(self, db: Session, tag_id: int, deck_id: int) -> DeckTag:
+    def assign_tag(self, session: Session, tag_id: int, deck_id: int) -> DeckTag:
         """
         Assign the given Tag to this Deck.
 
         :param tag_id: the name of the Tag to assign to the Deck.
         :param deck_id: the name of the Deck to assign the Tag to.
-        :param db: the session (see flashcards_core.database:SessionLocal()).
+        :param session: the session (see flashcards_core.database:init_db()).
         :returns: the new DeckTag model object.
         """
-        db_decktag = DeckTag(tag_id=tag_id, deck_id=deck_id)
-        db.add(db_decktag)
-        db.commit()
-        db.refresh(db_decktag)
-        return db_decktag
+        decktag = DeckTag(tag_id=tag_id, deck_id=deck_id)
+        session.add(decktag)
+        session.commit()
+        session.refresh(decktag)
+        return decktag
 
-    def remove_tag(self, db: Session, decktag_id: int) -> None:
+    def remove_tag(self, session: Session, decktag_id: int) -> None:
         """
         Remove the given Tag from this Deck.
 
         :param decktag_id: the ID of the connection between a tag and a deck.
-        :param db: the session (see flashcards_core.database:SessionLocal()).
+        :param session: the session (see flashcards_core.database:init_db()).
         :returns: None.
         :raises: ValueError if no DeckTag object with the given ID was found in the database.
         """
-        db_decktag = db.query(DeckTag).filter(DeckTag.id == decktag_id).first()
-        if not db_decktag:
+        decktag = session.query(DeckTag).filter(DeckTag.id == decktag_id).first()
+        if not decktag:
             raise ValueError(
                 f"No DeckTag with ID '{decktag_id}' found. Cannot delete non-existing"
                 " connection."
             )
-        db.delete(db_decktag)
-        db.commit()
+        session.delete(decktag)
+        session.commit()

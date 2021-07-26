@@ -35,38 +35,38 @@ class Fact(Base, CrudOperations):
             f" (ID: {self.id})>"
         )
 
-    def assign_tag(self, db: Session, tag_id: int) -> FactTag:
+    def assign_tag(self, session: Session, tag_id: int) -> FactTag:
         """
         Assign the given Tag to this Fact.
 
         :param tag_id: the name of the Tag to assign to the Fact.
         :param fact_id: the name of the Fact to assign the Tag to.
-        :param db: the session (see flashcards_core.database:SessionLocal()).
+        :param session: the session (see flashcards_core.database:init_db()).
 
         :returns: the new FactTag model object.
         """
-        db_facttag = FactTag(tag_id=tag_id, fact_id=self.id)
-        db.add(db_facttag)
-        db.commit()
-        db.refresh(db_facttag)
-        return db_facttag
+        facttag = FactTag(tag_id=tag_id, fact_id=self.id)
+        session.add(facttag)
+        session.commit()
+        session.refresh(facttag)
+        return facttag
 
-    def remove_tag(self, db: Session, facttag_id: int) -> None:
+    def remove_tag(self, session: Session, facttag_id: int) -> None:
         """
         Remove the given Tag from this Fact.
 
         :param facttag_id: the ID of the connection between a tag and a fact.
-        :param db: the session (see flashcards_core.database:SessionLocal()).
+        :param session: the session (see flashcards_core.database:init_db()).
 
         :returns: None.
 
         :raises: ValueError if no FactTag object with the given ID was found in the database.
         """
-        db_facttag = db.query(FactTag).filter(FactTag.id == facttag_id).first()
-        if not db_facttag:
+        facttag = session.query(FactTag).filter(FactTag.id == facttag_id).first()
+        if not facttag:
             raise ValueError(
                 f"No FactTag with ID '{facttag_id}' found. Cannot delete non-existing"
                 " connection."
             )
-        db.delete(db_facttag)
-        db.commit()
+        session.delete(facttag)
+        session.commit()

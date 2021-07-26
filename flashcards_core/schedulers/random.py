@@ -12,8 +12,10 @@ from flashcards_core.schedulers.base import BaseScheduler
 #
 # Parameter keys for RandomScheduler
 #
+
 #: Pick the next card from the unseen ones, if any
 UNSEEN_FIRST = "unseen_first"
+
 #: Never pick the same card twice in a row,
 #:   if there is more than one card in the deck
 NEVER_REPEAT = "never_repeat"
@@ -21,13 +23,14 @@ NEVER_REPEAT = "never_repeat"
 #
 # State keys for RandomScheduler
 #
+
 #: ID of the last card reviewed
 LAST_REVIEWED_CARD = "last_reviewed_card"
 
 
 class RandomScheduler(BaseScheduler):
-    def __init__(self, db: Session, deck: Deck):
-        super().__init__(db=db, deck=deck)
+    def __init__(self, session: Session, deck: Deck):
+        super().__init__(session=session, deck=deck)
 
     def next_card(self) -> Card:
         """
@@ -111,9 +114,9 @@ class RandomScheduler(BaseScheduler):
         )
 
         # Create the review
-        Review.create(db=self.db, card_id=card.id, result=result)
+        Review.create(session=self.session, card_id=card.id, result=result)
 
         # Update the deck state
         deck_state = card.deck.get_state()
         deck_state[LAST_REVIEWED_CARD] = card.id
-        card.deck.set_state(db=self.db, state=deck_state)
+        card.deck.set_state(session=self.session, state=deck_state)

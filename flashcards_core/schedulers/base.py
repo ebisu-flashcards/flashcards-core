@@ -10,10 +10,10 @@ class BaseScheduler:
     #: The algorithm ID associated with this engine
     algorithm_name = None
 
-    def __init__(self, db: Session, deck: Deck):
+    def __init__(self, session: Session, deck: Deck):
 
         #: The session to use to interact with the database
-        self.db = db
+        self.session = session
 
         #: The deck we're studying
         self.deck = deck
