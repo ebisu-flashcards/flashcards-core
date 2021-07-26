@@ -3,6 +3,7 @@
 
 sql_app.db
 test.py
+.vscode/*
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
