@@ -12,4 +12,8 @@ Docs are coming!
       * :ref:`search`
 
 .. toctree::
- :maxdepth: 2
+   :maxdepth: 2
+
+   study
+   schedulers
+   database
