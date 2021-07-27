@@ -29,6 +29,9 @@ You can see the various parts of the library in mode detail by [checking out the
 
 Note that this is a library, not a complete application! This package provides no interface whatsoever and can be used only through the Python REPL or other Python scripts. If you're looking for a flashcards application, check out [Flashcards Web](https://github.com/ebisu-flashcards/flashcards-web), [Flashcards CLI](https://github.com/ebisu-flashcards/flashcards-cli), or make your own frontend.
 
+## Versioning
+
+This library is in development and might still experience radical changes from version to version. Do not assume backwards compatibility between minor versions until we hit version 1.0.
 
 ## Install
 
