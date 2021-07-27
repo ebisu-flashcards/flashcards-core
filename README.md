@@ -25,6 +25,8 @@ Flashcards is made of two main components:
 
 In addition, it provides a simple **Study API**, an object that can be initialized and used to study existing collections through a single function call (see (the docs)[https://ebisu-flashcards.github.io/flashcards-core/study.html]).
 
+You can see the various parts of the library in mode detail by (checking out the docs)[https://ebisu-flashcards.github.io/flashcards-core/].
+
 Note that this is a library, not a complete application! This package provides no interface whatsoever and can be used only through the Python REPL or other Python scripts. If you're looking for a flashcards application, check out (Flashcards Web)[https://github.com/ebisu-flashcards/flashcards-web], (Flashcards CLI)[https://github.com/ebisu-flashcards/flashcards-cli], or make your own frontend.
 
 
@@ -57,7 +59,7 @@ Contributions are welcome here! To get started, install an editable version of t
 > cd flashcards-core/
 > python3 -m venv venv
 > source venv/bin/activate
-> pip install -e .
+> pip install --editable .
 > pre-commit install
 
 ... do your changes ...
@@ -65,8 +67,10 @@ Contributions are welcome here! To get started, install an editable version of t
 > pytest
 ```
 
-The pre-commit hook runs Black and Flake8 with fairly standard setups. 
-Do not send a PR if these checks, or the tests, are failing, but rather ask for help.
+The pre-commit hook runs (Black)[https://black.readthedocs.io/en/stable/] and 
+(Flake8)[https://flake8.pycqa.org/en/latest/] with fairly standard setups. 
+Do not send a PR if these checks, or the tests, are failing, but rather 
+(ask for help)[https://github.com/ebisu-flashcards/flashcards-core/issues/new].
 
 
 ## Contacts
