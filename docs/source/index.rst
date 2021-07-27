@@ -10,3 +10,4 @@ Docs are coming!
       * :ref:`genindex`
       * :ref:`modindex`
       * :ref:`search`
+      * :ref:`study`
