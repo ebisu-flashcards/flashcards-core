@@ -14,6 +14,7 @@ Docs are coming!
 .. toctree::
    :maxdepth: 2
 
+   index
    study
    schedulers
    database
