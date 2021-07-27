@@ -9,11 +9,11 @@ from flashcards_core.schedulers import get_scheduler_for_deck
 
 class Study:
     """
-    Creates a study session by initializing an algorithm
-    engine to process the cards once they're studied.
+    Creates a study session by initializing a scheduler
+    to provide the cards to study and process them once studied.
 
     This is more of a convenience class than an API, as all
-    engines should be stateless.
+    schedulers should be stateless.
     """
 
     def __init__(self, session: Session, deck: Deck):
