@@ -1,0 +1,30 @@
+name: Docs
+ 
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+ 
+jobs:
+ 
+  build_docs:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Prerequisites
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git clone "https://token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" .
+        sudo chmod +x .github/workflows/build_docs.sh
+        pip install -e .[dev]
+      shell: bash
+ 
+    - name: Build the docs and update pages
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: ".github/workflows/build_docs.sh"
+      shell: bash
