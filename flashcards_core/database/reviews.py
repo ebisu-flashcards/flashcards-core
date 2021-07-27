@@ -11,9 +11,11 @@ class Review(Base, CrudOperations):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    result = Column(String)
-    algorithm = Column(String)  # Note: to interpret the result if needed later
-    datetime = Column(DateTime, default=lambda: datetime.datetime.now())
+    result = Column(String, nullable=False)
+    algorithm = Column(
+        String, nullable=False
+    )  # Note: to interpret the result if needed later
+    datetime = Column(DateTime, default=lambda: datetime.datetime.now(), nullable=False)
 
     card_id = Column(Integer, ForeignKey("cards.id"))
     card = relationship("Card", foreign_keys="Review.card_id")

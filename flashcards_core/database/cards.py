@@ -57,14 +57,14 @@ class Card(Base, CrudOperations):
 
     # Deck is 12M because it should be easy to copy cards.
     # Cards hold no actual data: it's just an associative table
-    deck_id = Column(Integer, ForeignKey("decks.id"))
+    deck_id = Column(Integer, ForeignKey("decks.id"), nullable=False)
     deck = relationship("Deck", foreign_keys="Card.deck_id")
 
-    question_id = Column(Integer, ForeignKey("facts.id"))
+    question_id = Column(Integer, ForeignKey("facts.id"), nullable=False)
     question = relationship("Fact", foreign_keys="Card.question_id")
     question_context_facts = relationship("Fact", secondary="card_question_contextes")
 
-    answer_id = Column(Integer, ForeignKey("facts.id"))
+    answer_id = Column(Integer, ForeignKey("facts.id"), nullable=False)
     answer = relationship("Fact", foreign_keys="Card.answer_id")
     answer_context_facts = relationship("Fact", secondary="card_answer_contextes")
 

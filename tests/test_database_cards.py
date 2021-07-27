@@ -1,9 +1,12 @@
+import pytest
+from sqlalchemy.exc import IntegrityError
 from flashcards_core.database import Deck, Card, Fact, Tag
 
 
 def test_card_create_empty_card(session):
     deck = Deck.create(session=session, name="1", description="1", algorithm="a")
-    assert Card.create(session=session, deck_id=deck.id)
+    with pytest.raises(IntegrityError):
+        Card.create(session=session, deck_id=deck.id)
 
 
 def test_card_create_question_equals_answer(session):

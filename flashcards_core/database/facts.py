@@ -22,8 +22,8 @@ class Fact(Base, CrudOperations):
     __tablename__ = "facts"
 
     id = Column(Integer, primary_key=True, index=True)
-    value = Column(String)  # Can be text, a URL, a path, etc. Figure this out better.
-    format = Column(String)  # Specify what it is, how to read the content of 'value'
+    value = Column(String, nullable=False)  # Can be text, URL, path, etc.
+    format = Column(String, nullable=False)  # How to read the content of 'value'
     # FIXME add some sort of metadata here too?
     #   Question/answers have them on the card already
 

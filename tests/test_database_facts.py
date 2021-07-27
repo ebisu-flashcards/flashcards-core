@@ -1,8 +1,11 @@
+import pytest
+from sqlalchemy.exc import IntegrityError
 from flashcards_core.database import Fact, Tag
 
 
 def test_fact_create_empty_fact(session):
-    assert Fact.create(session=session)
+    with pytest.raises(IntegrityError):
+        Fact.create(session=session)
 
 
 def test_fact_create_with_everything(session):

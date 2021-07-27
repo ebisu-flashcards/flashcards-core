@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from sqlalchemy import Column, ForeignKey, Integer, String, Table, JSON
 from sqlalchemy.orm import relationship, Session
+from sqlalchemy_json import mutable_json_type
 
 from flashcards_core.database import Base
 from flashcards_core.database.crud import CrudOperations
@@ -24,11 +25,15 @@ class Deck(Base, CrudOperations):
     __tablename__ = "decks"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True)
+    name = Column(String, unique=True, nullable=False)
     description = Column(String)
-    algorithm = Column(String)
-    parameters = Column(JSON, default={})
-    state = Column(JSON, default={})
+    algorithm = Column(String, nullable=False)
+    parameters = Column(
+        mutable_json_type(dbtype=JSON, nested=True), nullable=False, default={}
+    )
+    state = Column(
+        mutable_json_type(dbtype=JSON, nested=True), nullable=False, default={}
+    )
 
     cards = relationship("Card", cascade="all,delete", back_populates="deck")
     tags = relationship("Tag", secondary="decktags", backref="Deck")

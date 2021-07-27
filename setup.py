@@ -22,6 +22,7 @@ setup(
     ],
     install_requires=[
         "sqlalchemy",
+        "sqlalchemy-json",
         # FIXME we could make algorithms pluggable instead of pulling them all... right?
         "ebisu",
     ],
