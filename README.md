@@ -1,6 +1,6 @@
 # Flashcards Core
 
-[![Unit Tests](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/tests.yml/badge.svg)](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/tests.yml)  [![CodeQL](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/codeql.yml/badge.svg)](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/codeql.yml)  [![Coverage Status](https://coveralls.io/repos/github/ebisu-flashcards/flashcards-core/badge.svg?branch=main)](https://coveralls.io/github/ebisu-flashcards/flashcards-core?branch=main)  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)   <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+[![Unit Tests](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/tests.yml/badge.svg)](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/tests.yml)  [![CodeQL](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/codeql.yml/badge.svg)](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/codeql.yml)  [![Coverage Status](https://coveralls.io/repos/github/ebisu-flashcards/flashcards-core/badge.svg?branch=main)](https://coveralls.io/github/ebisu-flashcards/flashcards-core?branch=main)  ![Profile View Counter](https://komarev.com/ghpvc/?username=flashcards-core)  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)   <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>  
 
 Python library for flashcards and spaced repetition applications.
 
@@ -73,11 +73,6 @@ Do not send a PR if these checks, or the tests, are failing, but rather ask for 
 
 Soon...
 
-
-# Some badges to test:
-
-![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=flashcards-core&show_icons=true)
+## Contributors
 
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=ebisu-flashcards/flashcards-core)
-
-![Profile View Counter](https://komarev.com/ghpvc/?username=flashcards-core)
