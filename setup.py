@@ -36,6 +36,8 @@ setup(
             "black",
             "flake8",
             "coveralls",
+            "sphinx",
+            "sphinx-rtd-theme",
         ]
     },
 )
