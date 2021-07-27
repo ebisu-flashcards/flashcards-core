@@ -6,10 +6,6 @@ from flashcards_core.database import Deck, Card
 
 
 class BaseScheduler:
-
-    #: The algorithm ID associated with this engine
-    algorithm_name = None
-
     def __init__(self, session: Session, deck: Deck):
 
         #: The session to use to interact with the database

@@ -22,6 +22,7 @@ setup(
     ],
     install_requires=[
         "sqlalchemy",
+        # FIXME we could make algorithms pluggable instead of pulling them all... right?
         "ebisu",
     ],
     extras_require={
@@ -29,11 +30,11 @@ setup(
             "pytest",
             "pytest-cov",
             "pytest-random-order",
+            "freezegun",  # Mock datetime objects
             "pre-commit",
             "black",
             "flake8",
-            "coveralls",  # To publish the coverage data on coveralls
-            "sphinx",
+            "coveralls",
         ]
     },
 )

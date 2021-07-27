@@ -1,5 +1,5 @@
+import datetime
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
 from flashcards_core.database import Base
@@ -13,10 +13,13 @@ class Review(Base, CrudOperations):
 
     result = Column(String)
     algorithm = Column(String)  # Note: to interpret the result if needed later
-    datetime = Column(DateTime(timezone=True), server_default=func.now())
+    datetime = Column(DateTime, default=lambda: datetime.datetime.now())
 
     card_id = Column(Integer, ForeignKey("cards.id"))
     card = relationship("Card", foreign_keys="Review.card_id")
 
     def __repr__(self):
-        return f"<Review of card ID: {self.card_id}: {self.result} (ID: {self.id})>"
+        return (
+            f"<Review of card #{self.card_id}: '{self.result}'"
+            f" at {self.datetime} (ID: {self.id})>"
+        )

@@ -1,6 +1,7 @@
 from flashcards_core.schedulers.random import RandomScheduler
 
 
+# FIXME we could make algorithms pluggable instead of hardcoding them all... right?
 SCHEDULERS = {
     "Random": RandomScheduler,
 }
@@ -21,12 +22,12 @@ def get_scheduler_class(algorithm_name: str):
     if not scheduler:
         raise ValueError(
             f"No schedulers found for algorithm '{algorithm_name}' "
-            f"(available schedulers: {[s.algorith_name for s in SCHEDULERS]})"
+            f"(available schedulers: {list(SCHEDULERS.keys())})"
         )
     return scheduler
 
 
-def get_scheduler_for_deck(db, deck):
+def get_scheduler_for_deck(session, deck):
     """
     Returns a ready-to-use scheduler for the algorithm assigned to this deck.
 
@@ -35,4 +36,4 @@ def get_scheduler_for_deck(db, deck):
     :returns: a subclass of BaseScheduler
     """
     scheduler_class = get_scheduler_class(deck.algorithm)
-    return scheduler_class(db=db, deck=deck)
+    return scheduler_class(session=session, deck=deck)

@@ -1,20 +1,30 @@
+import datetime
+from freezegun import freeze_time
+
 from flashcards_core.database import Card, Review
 
 
+@freeze_time("2021-01-01 12:00:00")
 def test_review_create_review_no_card(session):
-    assert Review.create(session=session, result="result", algorithm="a")
+    review = Review.create(session=session, result="result", algorithm="a")
+    assert review
+    assert review.datetime == datetime.datetime.now()
 
 
+@freeze_time("2021-01-01 12:00:00")
 def test_review_create(session):
     card = Card.create(session=session)
-    assert Review.create(
+    review = Review.create(
         session=session, result="review", algorithm="a", card_id=card.id
     )
+    assert review
+    assert review.datetime == datetime.datetime.now()
 
 
+@freeze_time("2021-01-01 12:00:00")
 def test_review_repr(session):
     card = Card.create(session=session)
     review = Review.create(
         session=session, result="review", algorithm="a", card_id=card.id
     )
-    assert "<Review of card ID: 1: review (ID: 1)>" == f"{review}"
+    assert "<Review of card #1: 'review' at 2021-01-01 12:00:00 (ID: 1)>" == f"{review}"
