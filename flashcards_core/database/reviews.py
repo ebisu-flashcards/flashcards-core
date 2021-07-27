@@ -11,10 +11,8 @@ class Review(Base, CrudOperations):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    # FIXME depends on the algorithm to some degree (think SM2+)
-    #  Shall we add any reference to the algorithm used?
-    #  Even just for statistics/book-keeping.
     result = Column(String)
+    algorithm = Column(String)  # Note: to interpret the result if needed later
     datetime = Column(DateTime(timezone=True), server_default=func.now())
 
     card_id = Column(Integer, ForeignKey("cards.id"))

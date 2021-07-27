@@ -114,7 +114,12 @@ class RandomScheduler(BaseScheduler):
         )
 
         # Create the review
-        Review.create(session=self.session, card_id=card.id, result=result)
+        Review.create(
+            session=self.session,
+            card_id=card.id,
+            result=result,
+            algorithm=self.deck.algorithm,
+        )
 
         # Update the deck state
         deck_state = card.deck.state

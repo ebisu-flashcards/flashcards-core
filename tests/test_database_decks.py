@@ -141,19 +141,6 @@ def test_deck_unseen_cards_list_all_cards_have_reviews(session):
     assert deck.unseen_cards_list() == []
 
 
-def test_deck_assign_tag(session):
-    deck = Deck.create(
-        session=session,
-        name="Test",
-        description="A long description for the deck",
-        algorithm="random",
-    )
-    tag = Tag.create(session=session, name="test-tag")
-    assert len(deck.tags) == 0
-    deck.assign_tag(session=session, tag_id=tag.id)
-    assert len(deck.tags) == 1
-
-
 def test_deck_assign_and_remove_tag(session):
     deck = Deck.create(
         session=session,
