@@ -1,4 +1,5 @@
 import pytest
+import random
 import datetime
 from freezegun import freeze_time
 
@@ -84,7 +85,8 @@ def test_random_next_card_two_cards_no_params(session, deck, fact):
     card2 = Card.create(
         session=session, deck_id=deck.id, question_id=fact.id, answer_id=fact.id
     )
-    scheduler = RandomScheduler(session=session, deck=deck, _seed=12345)
+    random.seed(12345)
+    scheduler = RandomScheduler(session=session, deck=deck)
 
     assert card2 == scheduler.next_card()
     scheduler.process_test_result(card=card2, result=True)
@@ -112,7 +114,8 @@ def test_random_next_card_two_cards_never_repeat(session, deck, fact):
     card2 = Card.create(
         session=session, deck_id=deck.id, question_id=fact.id, answer_id=fact.id
     )
-    scheduler = RandomScheduler(session=session, deck=deck, _seed=12345)
+    random.seed(12345)
+    scheduler = RandomScheduler(session=session, deck=deck)
     for i in range(10):
         if i % 2 == 1:
             assert card1 == scheduler.next_card()
@@ -123,7 +126,8 @@ def test_random_next_card_two_cards_never_repeat(session, deck, fact):
 
 
 def test_random_next_card_two_cards_unseen_first(session, deck, fact):
-    scheduler = RandomScheduler(session=session, deck=deck, _seed=12345)
+    random.seed(12345)
+    scheduler = RandomScheduler(session=session, deck=deck)
     for i in range(10):
         card = Card.create(
             session=session, deck_id=deck.id, question_id=fact.id, answer_id=fact.id

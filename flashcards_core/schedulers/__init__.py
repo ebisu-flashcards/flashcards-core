@@ -3,7 +3,7 @@ from flashcards_core.schedulers.random import RandomScheduler
 
 # FIXME we could make algorithms pluggable instead of hardcoding them all... right?
 SCHEDULERS = {
-    "Random": RandomScheduler,
+    "random": RandomScheduler,
 }
 
 

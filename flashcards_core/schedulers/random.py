@@ -29,10 +29,8 @@ LAST_REVIEWED_CARD = "last_reviewed_card"
 
 
 class RandomScheduler(BaseScheduler):
-    def __init__(self, session: Session, deck: Deck, _seed: int = None):
+    def __init__(self, session: Session, deck: Deck):
         super().__init__(session=session, deck=deck)
-        if _seed:
-            random.seed(_seed)
 
     def next_card(self) -> Card:
         """

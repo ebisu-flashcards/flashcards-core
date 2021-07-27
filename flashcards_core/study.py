@@ -1,8 +1,10 @@
-from typing import Any, Mapping
+from typing import Any
+
+from sqlalchemy.orm import Session
 
 from flashcards_core.database.decks import Deck
 from flashcards_core.database.cards import Card
-from flashcards_core.spaced_repetition.schedulers import get_algorithm_engine
+from flashcards_core.schedulers import get_scheduler_for_deck
 
 
 class Study:
@@ -14,26 +16,18 @@ class Study:
     engines should be stateless.
     """
 
-    def __init__(self, deck_id: int):
-        self.deck = Deck.get_one(object_id=deck_id)
-        self.scheduler = get_algorithm_engine(self.deck.algorithm_id)
+    def __init__(self, session: Session, deck: Deck):
+        self.deck = deck
+        self.scheduler = get_scheduler_for_deck(session=session, deck=deck)
 
-    def next_card(self) -> Card:
+    def next(self, studied_card: Card = None, result: Any = None) -> Card:
         """
-        Returns the next card to be studied.
-        :returns: a database Card object.
-        """
-        return self.scheduler.next_card_to_review()
+        Saves the results of a test and returns the next card to be studied.
 
-    def save_result(self, card_id: int, result: Mapping[str, Any]) -> None:
+        :param studied_card: Card reviewed. Cano be None if the session just started.
+        :param result: the result of the review. Type depends on the algorithm.
+        :returns: the next Card to study
         """
-        Saves the results of a test.
-
-        :param card_id: Card reviewed
-        :param result: the content of the form of the user, as a dictionary.
-            Passed to the algorihtm as a series of arg=value.
-        :returns: Nothing.
-        :raises Card.DoesNotExist if the card does not exist in this deck
-        :raises Deck.DoesNotExist if the deck does not exist for this user
-        """
-        self.scheduler.process_test_result(card_id=card_id, result=result)
+        if studied_card:
+            self.scheduler.process_test_result(card=studied_card, result=result)
+        return self.scheduler.next_card()
