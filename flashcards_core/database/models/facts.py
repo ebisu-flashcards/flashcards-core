@@ -21,12 +21,22 @@ FactTag = Table(
 class Fact(Base, CrudOperations):
     __tablename__ = "facts"
 
+    #: Primary key
     id = Column(Integer, primary_key=True, index=True)
-    value = Column(String, nullable=False)  # Can be text, URL, path, etc.
-    format = Column(String, nullable=False)  # How to read the content of 'value'
-    # FIXME add some sort of metadata here too?
-    #   Question/answers have them on the card already
 
+    #: The content of this fact. Can be plaintext, html,
+    #: markdown, a URL, a path to a file... Use the content
+    #: of `Fact.format` to understando how to decode this field.
+    value = Column(String, nullable=False)
+
+    #: How to interpret the content of `Fact.value`.
+    #: It's up to the frontend application to decide how to
+    #: represent the card, but this field should give a good
+    #: hint. For example, it can have values like 'plaintext',
+    #: 'markdown', 'image', 'url', etc.
+    format = Column(String, nullable=False)  # How to read the content of 'value'
+
+    #: All the tags assigned to this fact
     tags = relationship("Tag", secondary="facttags")
 
     def __repr__(self):

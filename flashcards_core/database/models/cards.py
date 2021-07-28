@@ -44,6 +44,7 @@ CardAnswerContext = Table(
 class Card(Base, CrudOperations):
     __tablename__ = "cards"
 
+    #: Primary key
     id = Column(Integer, primary_key=True, index=True)
 
     #: ID to the deck this card belongs to.

@@ -21,6 +21,7 @@ DeckTag = Table(
 class Deck(Base, CrudOperations):
     __tablename__ = "decks"
 
+    #: Primary key
     id = Column(Integer, primary_key=True, index=True)
 
     #: Name of the deck (short)
