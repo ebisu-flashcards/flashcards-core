@@ -38,6 +38,7 @@ setup(
             "coveralls",
             "sphinx",
             "sphinx-rtd-theme",
+            "m2r2",  # Render included Markdown in Sphinx
         ]
     },
 )
