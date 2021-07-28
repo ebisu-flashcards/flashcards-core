@@ -1,10 +1,7 @@
 # Flashcards Core
 
-[![Unit Tests](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/tests.yml/badge.svg)](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/tests.yml)  
-[![CodeQL](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/codeql.yml/badge.svg)](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/codeql.yml)  
-[![Coverage Status](https://coveralls.io/repos/github/ebisu-flashcards/flashcards-core/badge.svg?branch=main)](https://coveralls.io/github/ebisu-flashcards/flashcards-core?branch=main)  
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)   
-<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>  
+[![Unit Tests](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/tests.yml/badge.svg)](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/tests.yml)  [![CodeQL](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/codeql.yml/badge.svg)](https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/codeql.yml)  [![Coverage Status](https://coveralls.io/repos/github/ebisu-flashcards/flashcards-core/badge.svg?branch=main)](https://coveralls.io/github/ebisu-flashcards/flashcards-core?branch=main)  
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)   <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>  
 
 Python library for flashcards and spaced repetition applications.
 
@@ -55,8 +52,12 @@ out the [documentation](https://ebisu-flashcards.github.io/flashcards-core/).
 
 ```python
 
-from flashcards_core.database import Deck, Card, Fact
+from flashcards_core.database import Deck, Card, Fact, init_db
 from flashcards_core.study import Study
+
+# Initialize the database connection
+sessionmaker = init_db()
+session = sessionmaker()
 
 # Create a deck
 deck = Deck.create(
@@ -75,8 +76,6 @@ Card.create(
     question_id=question.id, 
     answer_id=answer.id
 )
-
-... add more cards ...
 
 
 # Study your deck
