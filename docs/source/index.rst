@@ -18,3 +18,4 @@ Docs are coming!
    study
    schedulers
    database
+   models

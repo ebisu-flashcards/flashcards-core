@@ -17,43 +17,10 @@ CRUD Base class
    :undoc-members:
    :show-inheritance:
 
+Export Utils
+------------
 
-Decks
------
-
-.. automodule:: flashcards_core.database.decks
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Cards
------
-
-.. automodule:: flashcards_core.database.cards
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Facts
------
-
-.. automodule:: flashcards_core.database.facts
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Reviews
--------
-
-.. automodule:: flashcards_core.database.reviews
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Tags
-----
-
-.. automodule:: flashcards_core.database.tags
+.. automodule:: flashcards_core.database.export
    :members:
    :undoc-members:
    :show-inheritance:
