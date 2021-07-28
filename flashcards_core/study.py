@@ -2,8 +2,8 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from flashcards_core.database.decks import Deck
-from flashcards_core.database.cards import Card
+from flashcards_core.database import Deck
+from flashcards_core.database import Card
 from flashcards_core.schedulers import get_scheduler_for_deck
 
 

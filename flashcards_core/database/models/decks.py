@@ -36,7 +36,7 @@ class Deck(Base, CrudOperations):
     )
 
     cards = relationship("Card", cascade="all,delete", back_populates="deck")
-    tags = relationship("Tag", secondary="decktags", backref="Deck")
+    tags = relationship("Tag", secondary="decktags")
 
     def __repr__(self):
         return f"<Deck '{self.name}' (ID: {self.id})>"

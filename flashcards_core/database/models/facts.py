@@ -27,7 +27,7 @@ class Fact(Base, CrudOperations):
     # FIXME add some sort of metadata here too?
     #   Question/answers have them on the card already
 
-    tags = relationship("Tag", secondary="facttags", backref="Fact")
+    tags = relationship("Tag", secondary="facttags")
 
     def __repr__(self):
         return (

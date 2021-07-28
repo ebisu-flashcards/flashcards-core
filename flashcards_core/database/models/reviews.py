@@ -14,7 +14,7 @@ class Review(Base, CrudOperations):
     result = Column(String, nullable=False)
     algorithm = Column(
         String, nullable=False
-    )  # Note: to interpret the result if needed later
+    )  # to interpret the result if needed later
     datetime = Column(DateTime, default=lambda: datetime.datetime.now(), nullable=False)
 
     card_id = Column(Integer, ForeignKey("cards.id"))

@@ -72,7 +72,7 @@ class Card(Base, CrudOperations):
     # related_cards = relationship("Card", secondary="RelatedCard")
 
     reviews = relationship("Review", cascade="all,delete", back_populates="card")
-    tags = relationship("Tag", secondary="cardtags", backref="Card")
+    tags = relationship("Tag", secondary="cardtags")
 
     def __repr__(self):
         return f"<Card (ID: {self.id}, deck ID: {self.deck_id})>"

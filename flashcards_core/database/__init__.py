@@ -1,17 +1,32 @@
 from typing import Any, Mapping
 
 from pathlib import Path
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-Base = declarative_base()
 
-from flashcards_core.database.cards import Card, CardTag  # noqa: F401, E402
-from flashcards_core.database.decks import Deck, DeckTag  # noqa: F401, E402
-from flashcards_core.database.facts import Fact, FactTag  # noqa: F401, E402
-from flashcards_core.database.reviews import Review  # noqa: F401, E402
-from flashcards_core.database.tags import Tag  # noqa: F401, E402
+class SearchableBase(object):
+    @classmethod
+    def __table_cls__(cls, *args, **kwargs):
+        t = Table(*args, **kwargs)
+        t.declared_class = cls
+        return t
+
+
+Base = declarative_base(cls=SearchableBase)
+
+
+from flashcards_core.database.models.cards import Card, CardTag  # noqa: F401, E402
+from flashcards_core.database.models.decks import Deck, DeckTag  # noqa: F401, E402
+from flashcards_core.database.models.facts import Fact, FactTag  # noqa: F401, E402
+from flashcards_core.database.models.reviews import Review  # noqa: F401, E402
+from flashcards_core.database.models.tags import Tag  # noqa: F401, E402
+
+from flashcards_core.database.export import (  # noqa: F401, E402
+    export_to_dict,  # noqa: F401
+    export_to_json,  # noqa: F401
+)
 
 
 def init_db(
