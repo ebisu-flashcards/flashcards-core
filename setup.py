@@ -39,6 +39,7 @@ setup(
             "sphinx",
             "sphinx-rtd-theme",
             "m2r2",  # Render included Markdown in Sphinx
+            "docutils==0.15",  # Temporary fix for bullet points
         ]
     },
 )
