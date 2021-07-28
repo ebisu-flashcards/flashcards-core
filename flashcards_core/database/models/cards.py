@@ -5,10 +5,7 @@ from flashcards_core.database import Base
 from flashcards_core.database.crud import CrudOperations
 
 
-#
-# Many2Many with Tags
-#
-
+#: Associative table for Cards and Tags
 CardTag = Table(
     "cardtags",
     Base.metadata,
@@ -17,22 +14,7 @@ CardTag = Table(
     Column("tag_id", Integer, ForeignKey("tags.id")),
 )
 
-#
-# Many2Many with Cards
-#
-
-# RelatedCard = Table(
-#     "RelatedCard",
-#     Base.metadata,
-#     Column("original_card_id", Integer, ForeignKey("cards.id"), primary_key=True),
-#     Column("related_card_id", Integer, ForeignKey("cards.id"), primary_key=True),
-#     Column("relationship", String),
-# )
-
-#
-# Many2Many with Facts (Question & Answers Context)
-#
-
+#: Associative table for Cards and question context Facts
 CardQuestionContext = Table(
     "card_question_contextes",
     Base.metadata,
@@ -41,6 +23,7 @@ CardQuestionContext = Table(
     Column("fact_id", Integer, ForeignKey("facts.id")),
 )
 
+#: Associative table for Cards and answer context Facts
 CardAnswerContext = Table(
     "card_answer_contextes",
     Base.metadata,
@@ -49,29 +32,59 @@ CardAnswerContext = Table(
     Column("fact_id", Integer, ForeignKey("facts.id")),
 )
 
+# RelatedCard = Table(
+#     "related_cards",
+#     Base.metadata,
+#     Column("original_card_id", Integer, ForeignKey("cards.id"), primary_key=True),
+#     Column("related_card_id", Integer, ForeignKey("cards.id"), primary_key=True),
+#     Column("relationship", String),
+# )
+
 
 class Card(Base, CrudOperations):
     __tablename__ = "cards"
 
     id = Column(Integer, primary_key=True, index=True)
 
-    # Deck is 12M because it should be easy to copy cards.
-    # Cards hold no actual data: it's just an associative table
+    #: ID to the deck this card belongs to.
+    #: Note that this is a one-to-many repationship because it
+    #: should be easy to copy cards.
+    #: Cards hold no actual data: it's just an associative table
     deck_id = Column(Integer, ForeignKey("decks.id"), nullable=False)
+
+    #: The deck this card belongs to.
+    #: Note that this is a one-to-many repationship because it
+    #: should be easy to copy cards.
+    #: Cards hold no actual data: it's just an associative table
     deck = relationship("Deck", foreign_keys="Card.deck_id")
 
+    #: ID of the fact containing the question of this card.
     question_id = Column(Integer, ForeignKey("facts.id"), nullable=False)
+
+    #: The fact containing the question of this card.
     question = relationship("Fact", foreign_keys="Card.question_id")
+
+    #: All the facts containing some context for the question.
+    #: You can add as many facts as you wish for cards questions.
     question_context_facts = relationship("Fact", secondary="card_question_contextes")
 
+    #: ID of the fact containing the answer of this card.
     answer_id = Column(Integer, ForeignKey("facts.id"), nullable=False)
+
+    #: The fact containing the answer of this card.
     answer = relationship("Fact", foreign_keys="Card.answer_id")
+
+    #: All the facts containing some context for the answer.
+    #: You can add as many facts as you wish for cards answers.
     answer_context_facts = relationship("Fact", secondary="card_answer_contextes")
 
     # FIXME AmbiguousForeignKeysError!
     # related_cards = relationship("Card", secondary="RelatedCard")
 
+    #: All the reviews done on this card.
     reviews = relationship("Review", cascade="all,delete", back_populates="card")
+
+    #: All the tags assigned to this card
     tags = relationship("Tag", secondary="cardtags")
 
     def __repr__(self):

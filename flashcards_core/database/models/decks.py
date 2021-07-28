@@ -8,10 +8,7 @@ from flashcards_core.database import Base
 from flashcards_core.database.crud import CrudOperations
 
 
-#
-# Many2Many with Tags
-#
-
+#: Associative table for Decks and Tags
 DeckTag = Table(
     "decktags",
     Base.metadata,
@@ -25,17 +22,35 @@ class Deck(Base, CrudOperations):
     __tablename__ = "decks"
 
     id = Column(Integer, primary_key=True, index=True)
+
+    #: Name of the deck (short)
     name = Column(String, unique=True, nullable=False)
+
+    #: Description of the deck
     description = Column(String)
+
+    #: The SRS algorithm to use to review the cards in this deck.
+    #: See flashcards_core.schedulers.SCHEDULERS for valid keys.
     algorithm = Column(String, nullable=False)
+
+    #: A JSON field containing the SRS parameters of the deck.
+    #: Several SRS algorothms can be configured, and this field
+    #: is designed to store those configuration values.
     parameters = Column(
         mutable_json_type(dbtype=JSON, nested=True), nullable=False, default={}
     )
+
+    #: A JSON field containing the SRS state of the deck.
+    #: Some SRS algorithms are stateful, and this field
+    #: is designed to store that state.
     state = Column(
         mutable_json_type(dbtype=JSON, nested=True), nullable=False, default={}
     )
 
+    #: All the cards that belong to this deck
     cards = relationship("Card", cascade="all,delete", back_populates="deck")
+
+    #: All the tags assigned to this deck
     tags = relationship("Tag", secondary="decktags")
 
     def __repr__(self):
