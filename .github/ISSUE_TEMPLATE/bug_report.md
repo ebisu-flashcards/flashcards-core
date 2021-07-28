@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Describe the bug**
+**Shortly describe the bug**
 A clear and concise description of what the bug is.
 
 **To Reproduce**
@@ -20,8 +20,8 @@ Steps to reproduce the behavior, like:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Observed behavior**
+A clear and concise description of what you see happening instead.
 
 **Environment (please complete the following information):**
  - OS (name and version): 
@@ -31,4 +31,4 @@ If applicable, add screenshots to help explain your problem.
  - If cloned from GitHub, which branch:
 
 **Additional context**
-Add any other context about the problem here.
+Add any other context about the problem here, anything special the maintainers might want to know about.
