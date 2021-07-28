@@ -47,18 +47,20 @@ def export_to_dict(
 
         Note that this function will export hierarchies as follows:
 
-        - Exporting Decks will export all their Cards.
-        - Exporting Cards will export all their Facts and Reviews.
-        - Exporting any model with Tags will export all the involved Tags.
-        - Export any object involved in a many-to-many relationship with
-            another entity will export all the involved entities and the
-            relevant rows in the respective associative tables.
+        * Exporting Decks will export all their Cards.
+        * Exporting Cards will export all their Facts and Reviews.
+        * Exporting any model with Tags will export all the involved Tags.
+        * Export any object involved in a many-to-many relationship with
+          another entity will export all the involved entities and the
+          relevant rows in the respective associative tables.
 
         The list of given objects can be a mixture of several subclasses
         of SQLAlchemy's Base class. In the output they will be categorized
         by table name.
 
         Example output where only one Deck object was passed:
+
+        .. code-block:: json
 
             {
                 'decks': {
@@ -118,6 +120,7 @@ def export_to_dict(
                     }
                 }
             }
+
 
         If more Decks were passed, the overall structure would be the same,
         as well as if the list was made of mixed objects.
