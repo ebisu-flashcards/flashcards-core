@@ -2,5 +2,5 @@ class ObjectNotFoundException(Exception):
     pass
 
 
-class EmptyDeckException(Exception):
+class NoCardsToStudyException(Exception):
     pass

@@ -6,7 +6,7 @@ from datetime import datetime
 
 from sqlalchemy.orm import Session
 
-from flashcards_core.errors import EmptyDeckException
+from flashcards_core.errors import NoCardsToStudyException
 from flashcards_core.database import Deck, Card, Review
 from flashcards_core.schedulers.base import BaseScheduler
 
@@ -56,7 +56,7 @@ class RandomScheduler(BaseScheduler):
         logging.debug(f"Unseen cards: {self.deck.unseen_cards_number()}")
 
         if len(self.deck.cards) == 0:
-            raise EmptyDeckException("Cannot study on an empty deck.")
+            raise NoCardsToStudyException("Cannot study on an empty deck.")
 
         if len(self.deck.cards) == 1:
             return self.deck.cards[0]
