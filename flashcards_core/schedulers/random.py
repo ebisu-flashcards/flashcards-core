@@ -63,7 +63,8 @@ class RandomScheduler(BaseScheduler):
 
         # Give priority to unseen cards if configured to do so
         if (
-            self.deck.parameters.get(UNSEEN_FIRST)
+            self.deck.parameters is not None
+            and self.deck.parameters.get(UNSEEN_FIRST)
             and self.deck.unseen_cards_number() > 0
         ):
             logging.debug("Picking from the unseen cards")
@@ -74,11 +75,13 @@ class RandomScheduler(BaseScheduler):
         logging.debug(f"Picked card #{next_card.id}")
 
         # Avoid repeating cards if configured to do so
-        if self.deck.parameters.get(NEVER_REPEAT):
-            last_card_id = self.deck.state.get(LAST_REVIEWED_CARD)
-            while last_card_id == next_card.id:
-                logging.debug(f"It's the same card (#{last_card_id}), retrying")
-                next_card = random.choice(self.deck.cards)
+        if self.deck.parameters is not None and self.deck.parameters.get(NEVER_REPEAT):
+            if self.deck.state is not None:
+                last_card_id = self.deck.state.get(LAST_REVIEWED_CARD)
+
+                while last_card_id == next_card.id:
+                    logging.debug(f"It's the same card (#{last_card_id}), retrying")
+                    next_card = random.choice(self.deck.cards)
 
         return next_card
 
@@ -121,6 +124,8 @@ class RandomScheduler(BaseScheduler):
         )
 
         # Update the deck state
+        if not self.deck.state:
+            self.deck.state = {}
         self.deck.state[LAST_REVIEWED_CARD] = card.id
         self.deck = Deck.update(
             session=self.session, object_id=card.deck.id, state=self.deck.state
