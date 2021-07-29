@@ -20,7 +20,7 @@ jobs:
       run: |
         git clone "https://token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" .
         sudo chmod +x .github/workflows/build_docs.sh
-        pip install --user --editable .[dev]
+        pip install --editable .[dev]
       shell: bash
  
     - name: Build the docs and update pages
