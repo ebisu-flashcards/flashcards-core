@@ -2,6 +2,8 @@ from typing import List, Optional
 
 from sqlalchemy.orm import Session
 
+from flashcards_core.errors import ObjectNotFoundException
+
 
 class CrudOperations:
     @classmethod
@@ -53,11 +55,12 @@ class CrudOperations:
         :param object_id: the ID of the model object to update.
         :returns: the updated model object.
 
-        :raises: ValueError if no model object with the given ID was found in the database.
+        :raises: ObjectNotFoundException if no model object with the given
+            ID was found in the database.
         """
         db_object = cls.get_one(session=session, object_id=object_id)
         if not db_object:
-            raise ValueError(
+            raise ObjectNotFoundException(
                 "Model object not found. You must create it before updating it."
             )
         for key, value in kwargs.items():
@@ -75,10 +78,11 @@ class CrudOperations:
         :param object_id: the ID of the model object to delete.
         :returns: None.
 
-        :raises: ValueError if no algorithm_param with the given ID was found in the database.
+        :raises: ObjectNotFoundException if no object with the given
+            ID was found in the database.
         """
         db_object = cls.get_one(session=session, object_id=object_id)
         if not db_object:
-            raise ValueError("Model object not found. Cannot delete it.")
+            raise ObjectNotFoundException("Model object not found. Cannot delete it.")
         session.delete(db_object)
         session.commit()

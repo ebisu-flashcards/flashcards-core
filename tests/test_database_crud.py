@@ -1,5 +1,6 @@
 import pytest
 from conftest import StubCrud
+from flashcards_core.errors import ObjectNotFoundException
 
 
 def test_crud_get_all_empty(session):
@@ -42,7 +43,7 @@ def test_crud_create_update_and_get(session):
 
 
 def test_crud_update_not_created(session):
-    with pytest.raises(ValueError):
+    with pytest.raises(ObjectNotFoundException):
         StubCrud.update(session=session, object_id=1, value=2000)
 
 
@@ -53,5 +54,5 @@ def test_crud_create_delete_and_get(session):
 
 
 def test_crud_delete_not_created(session):
-    with pytest.raises(ValueError):
+    with pytest.raises(ObjectNotFoundException):
         StubCrud.delete(session=session, object_id=1)

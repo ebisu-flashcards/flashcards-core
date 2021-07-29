@@ -3,6 +3,7 @@ import random
 import datetime
 from freezegun import freeze_time
 
+from flashcards_core.errors import EmptyDeckException
 from flashcards_core.database import Deck, Card, Fact
 from flashcards_core.schedulers.random import (
     RandomScheduler,
@@ -55,7 +56,7 @@ def test_random_process_test_result_card_in_deck(session, deck, fact):
 
 def test_random_next_card_no_cards(session, deck):
     scheduler = RandomScheduler(session=session, deck=deck)
-    with pytest.raises(ValueError):
+    with pytest.raises(EmptyDeckException):
         scheduler.next_card()
 
 

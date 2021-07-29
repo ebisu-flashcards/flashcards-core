@@ -1,3 +1,4 @@
+from flashcards_core.errors import ObjectNotFoundException
 from flashcards_core.schedulers.random import RandomScheduler
 
 
@@ -20,7 +21,7 @@ def get_scheduler_class(algorithm_name: str):
     """
     scheduler = SCHEDULERS.get(algorithm_name, None)
     if not scheduler:
-        raise ValueError(
+        raise ObjectNotFoundException(
             f"No schedulers found for algorithm '{algorithm_name}' "
             f"(available schedulers: {list(SCHEDULERS.keys())})"
         )

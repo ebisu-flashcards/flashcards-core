@@ -1,6 +1,7 @@
 import pytest
 
 import flashcards_core
+from flashcards_core.errors import ObjectNotFoundException
 from flashcards_core.database import Deck
 from flashcards_core.schedulers import (
     get_available_schedulers,
@@ -30,7 +31,7 @@ def test_get_scheduler_class(fake_schedulers):
 
 
 def test_get_scheduler_class_non_existing_algorithm(fake_schedulers):
-    with pytest.raises(ValueError):
+    with pytest.raises(ObjectNotFoundException):
         get_scheduler_class("wrong")
 
 
@@ -41,7 +42,7 @@ def test_get_scheduler_for_deck(session, fake_schedulers):
 
 def test_get_scheduler_for_deck_non_existing_algorithm(session, fake_schedulers):
     deck = Deck.create(session=session, name="a", description="a", algorithm="wrong")
-    with pytest.raises(ValueError):
+    with pytest.raises(ObjectNotFoundException):
         get_scheduler_for_deck(session=session, deck=deck)
 
 

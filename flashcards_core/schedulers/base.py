@@ -16,13 +16,7 @@ class BaseScheduler:
 
     def next_card(self) -> Card:
         """
-        Creates a Review for the card, storing the test result.
-
-        :param card: the card that was reviewed
-        :param test_results: the results of the test
-        :return: None
-
-        :raise: ValueError if the card does not belong to the deck
+        :return: the next card to review
         """
         raise NotImplementedError("This is the base class, use an implementation.")
 

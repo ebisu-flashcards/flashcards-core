@@ -1,2 +1,6 @@
-class InvalidDefinitionError(Exception):
+class ObjectNotFoundException(Exception):
+    pass
+
+
+class EmptyDeckException(Exception):
     pass

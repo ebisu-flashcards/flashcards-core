@@ -64,8 +64,6 @@ class Fact(Base, CrudOperations):
         :param session: the session (see flashcards_core.database:init_db()).
 
         :returns: None.
-
-        :raises: ValueError if no FactTag object with the given ID was found in the database.
         """
         delete = FactTag.delete().where(FactTag.c.tag_id == tag_id)
         session.execute(delete)

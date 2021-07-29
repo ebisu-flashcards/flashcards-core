@@ -102,7 +102,6 @@ class Deck(Base, CrudOperations):
         :param tag_id: the ID of the tag to remove from this deck
         :param session: the session (see flashcards_core.database:init_db()).
         :returns: None.
-        :raises: ValueError if no tag object with the given ID was assigned to this deck.
         """
         delete = DeckTag.delete().where(DeckTag.c.tag_id == tag_id)
         session.execute(delete)
