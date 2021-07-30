@@ -20,7 +20,15 @@ CRUD Base class
 Export Utils
 ------------
 
-.. automodule:: flashcards_core.database.export
+.. automodule:: flashcards_core.database.exporter
    :members:
    :undoc-members:
    :show-inheritance:
+
+Import Utils
+------------
+   
+   .. automodule:: flashcards_core.database.importer
+      :members:
+      :undoc-members:
+      :show-inheritance:
