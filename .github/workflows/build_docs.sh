@@ -56,7 +56,7 @@ touch .nojekyll
 # Add README
 cat > README.md <<EOF
 
-# zanzocam-core - Internal Documentation Build Artifacts
+# flashcards-core - Internal Documentation Build Artifacts
 
 Nothing to see here. The content of this branch is essentially a cache for build artifacts.
 
