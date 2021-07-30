@@ -13,6 +13,16 @@ from flashcards_core.database import (
 )
 
 
+def test_export_to_dict_no_objects(session):
+    hierarchy = export_to_dict(session=session, objects_to_export=[])
+    assert hierarchy == {}
+
+
+def test_export_to_dict_objects_are_None(session):
+    hierarchy = export_to_dict(session=session, objects_to_export=[None, None])
+    assert hierarchy == {}
+
+
 def test_export_to_dict_broken_references(session):
     card = Card.create(session=session, deck_id=1, question_id=1, answer_id=2)
     hierarchy = export_to_dict(session=session, objects_to_export=[card])
