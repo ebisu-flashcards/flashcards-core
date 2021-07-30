@@ -10,6 +10,11 @@ from sqlalchemy.orm.relationships import RelationshipProperty
 from flashcards_core.database import Base
 
 
+#: Default fields not to follow for related objects discovery.
+#: See `export_to_json()` for more info
+DEFAULT_EXCLUDE_FIELDS = {"cards": ["deck"]}
+
+
 def export_to_json(
     session: Session, objects_to_export: List[Base], **json_kwargs
 ) -> str:
@@ -30,108 +35,125 @@ def export_to_json(
 def export_to_dict(
     session: Session,
     objects_to_export: List[Base],
+    exclude_fields: Mapping[str, List[str]] = None,
     _hierarchy: Mapping[str, Any] = None,
 ) -> Mapping[str, Any]:
     """
-    Exports the given objects to a dictionary, which then can be easily dumped
+    Exports the given objects to a dictionary, which can be easily dumped
     into a standard format like JSON or YAML.
+
+    Note that, by default, all relationships are followed, except for the
+    following ones:
+
+        * Exporting a Card won't export its Deck.
+        * Exporting a Fact will not export the Cards it's included in.
+
+    These default can be overridden by providing a value to the
+    `exclude_fields` attribute. It expect a mapping of a tablename (like 'cards')
+    and a list of string with the name of the columns that should not be checked
+    for potential related objects to export.
+    Its default value looks like ``{'cards': ['deck']}`` (facts don't have
+    references to the cards they're included in, so you need a query to find them).
+
+    Remember to pass an empty dictionary to `exclude_fields` to really exclude
+    no fields; passing None will instruct this function to apply the
+    default exclusion list.
+
+    The list of objects to export can be a mixture of several subclasses
+    of SQLAlchemy's Base class. In the output they will be categorized
+    by table name.
+
+    Example output where only one Deck object was passed:
+
+    .. code-block:: json
+
+        {
+            'decks': {
+                1: {
+                    'name': 'Test Deck',
+                    'description': 'A deck for tests',
+                    'algorithm': 'random',
+                    'parameters': {
+                        'unseen_first': true
+                    },
+                    'state': {
+                        'last_reviewed_card': 2
+                    }
+                }
+            },
+            'cards': {
+                1: {
+                    'deck_id': 1,
+                    'question_id': 1,
+                    'answer_id': 2
+                }
+            },
+            'facts': {
+                1: {
+                    'value': 'A question',
+                    'format': 'text'
+                },
+                2: {
+                    'value': 'An answer',
+                    'format': 'text'
+                }
+            },
+            'reviews': {
+                1: {
+                    'card_id': 1,
+                    'result': True,
+                    'algorithm': 'random',
+                    'datetime': '2021-01-01 12:00:00'
+                }
+            },
+            'tags': {
+                1: {
+                    'name': 'test-tag-1'
+                },
+                2: {
+                    'name': 'test-tag-2'
+                }
+            }
+            'decktags': [
+                1: {
+                    'deck_id': 1,
+                    'tag_id': 1
+                },
+                2: {
+                    'deck_id': 1,
+                    'tag_id': 2
+                }
+            }
+        }
+
+
+    If more Decks were passed, the overall structure would be the same,
+    as well as if the list was made of mixed objects.
 
     :param session: the session (see flashcards_core.database:init_session()).
     :param objects_to_export: a list of objects to export. They should be
         subclasses of any class defined in `flashcards_core.database.models`.
+    :param exclude_fields: If any of the model object columns should not be followed,
+        they should be added here. Note that these exclusions apply to all
+        the objects of this type discovered by following other relationships.
+        The default value is set to ``{'cards': ['deck']}`` (see above).
     :param _hierarchy: internal, used to pass the already built hierarchy through
         recursive calls.
-
     :returns: a definition of all the objects required to reconstruct the
         database hierarchy the objects were taken from.
 
-        Note that this function will export hierarchies as follows:
-
-         * Exporting Decks will export all their Cards.
-         * Exporting Cards will export all their Facts and Reviews.
-         * Exporting any model with Tags will export all the involved Tags.
-         * Export any object involved in a many-to-many relationship with
-           another entity will export all the involved entities and the
-           relevant rows in the respective associative tables.
-
-        The list of given objects can be a mixture of several subclasses
-        of SQLAlchemy's Base class. In the output they will be categorized
-        by table name.
-
-        Example output where only one Deck object was passed:
-
-        .. code-block:: json
-
-            {
-                'decks': {
-                    1: {
-                        'name': 'Test Deck',
-                        'description': 'A deck for tests',
-                        'algorithm': 'random',
-                        'parameters': {
-                            'unseen_first': true
-                        },
-                        'state': {
-                            'last_reviewed_card': 2
-                        }
-                    }
-                },
-                'cards': {
-                    1: {
-                        'deck_id': 1,
-                        'question_id': 1,
-                        'answer_id': 2
-                    }
-                },
-                'facts': {
-                    1: {
-                        'value': 'A question',
-                        'format': 'text'
-                    },
-                    2: {
-                        'value': 'An answer',
-                        'format': 'text'
-                    }
-                },
-                'reviews': {
-                    1: {
-                        'card_id': 1,
-                        'result': True,
-                        'algorithm': 'random',
-                        'datetime': '2021-01-01 12:00:00'
-                    }
-                },
-                'tags': {
-                    1: {
-                        'name': 'test-tag-1'
-                    },
-                    2: {
-                        'name': 'test-tag-2'
-                    }
-                }
-                'decktags': [
-                    1: {
-                        'deck_id': 1,
-                        'tag_id': 1
-                    },
-                    2: {
-                        'deck_id': 1,
-                        'tag_id': 2
-                    }
-                }
-            }
-
-
-        If more Decks were passed, the overall structure would be the same,
-        as well as if the list was made of mixed objects.
     """
-    logging.debug(f"'export_to_dict' starting. Objects to export: {objects_to_export}")
+    logging.debug("'export_to_dict' starting.")
+    logging.debug(f"Objects to export: {objects_to_export}.")
+    logging.debug(f"Fields to exclude: {exclude_fields}.")
 
+    if exclude_fields is None:
+        exclude_fields = DEFAULT_EXCLUDE_FIELDS
+
+    # In recursive calls, sometimes export_to_dict will receive single objects
+    # instead of lists. It's ok, just wrap them.
     if not isinstance(objects_to_export, list):
-        raise ValueError(
-            "You must provide a list of objects "
-            "even if you want to export a single one."
-        )
+        objects_to_export = [objects_to_export]
 
     # Init the hierarchy if needed
     if not _hierarchy:
@@ -139,6 +161,14 @@ def export_to_dict(
         _hierarchy = {}
 
     for item in objects_to_export:
+        logging.info(f"Exporting '{item}'")
+
+        # Broken references are represented by None objects.
+        # TODO make a setting to fail or not when these are encountered.
+        if item is None:
+            logging.info(" -> This item is probably a broken reference, skipping.")
+            continue
+
         entry = item.__class__.__tablename__
 
         # Init the hierarchy block if not found
@@ -148,11 +178,10 @@ def export_to_dict(
 
         # Check if the object is already in the hierarchy
         if item.id in _hierarchy[entry].keys():
-            logging.debug("Item already in the hierarchy, skipping.")
+            logging.info("Item already in the hierarchy, skipping.")
             continue
 
         # Add the scalar fields
-        logging.debug("Checking for related objects...")
         description = {
             field: value
             for field, value in vars(item).items()
@@ -163,10 +192,13 @@ def export_to_dict(
             f"Added entry in '{entry}'. " f"Current hierarchy:\n{_hierarchy}\n"
         )
 
-        # Discover the relationships
+        # Discover related objects
         logging.debug("Checking for related objects...")
         _hierarchy = _export_find_related_objects(
-            session=session, item=item, _hierarchy=_hierarchy
+            session=session,
+            item=item,
+            exclude_fields=exclude_fields,
+            _hierarchy=_hierarchy,
         )
 
         logging.debug(
@@ -179,7 +211,10 @@ def export_to_dict(
 
 
 def _export_find_related_objects(
-    session: Session, item: Base, _hierarchy: Mapping
+    session: Session,
+    item: Base,
+    exclude_fields: Mapping[Base, List[str]],
+    _hierarchy: Mapping,
 ) -> Mapping:
     """
     Scans the model class structure to look for related entities, namely
@@ -191,6 +226,10 @@ def _export_find_related_objects(
 
     :param session: the session (see flashcards_core.database:init_session()).
     :param item: the model object to inspect for related entities.
+    :param exclude_fields: If any of the model object columns should not be followed,
+        they should be added here. Note that these exclusions apply to all
+        the objects of this type discovered by following other relationships.
+        The default value is set to ``{'cards': ['deck']}`` (see `export_to_dict`).
     :param _hierarchy: the hierarchy to add the related entities to.
 
     :returns: the modified _hierarchy.
@@ -201,23 +240,34 @@ def _export_find_related_objects(
         ):
             logging.debug(f"'{field}' points to some related objects.")
 
-            # Get the values referenced by this relationship
-            related_objects = getattr(item, field)
-            logging.debug(f"Objects discovered: {related_objects}")
+            if item.__class__.__tablename__ in exclude_fields.keys():
+                if field in exclude_fields[item.__class__.__tablename__]:
+                    logging.debug(
+                        f"'{field}' excluded by 'exclude_fields': {exclude_fields}."
+                    )
+                    continue
 
-            # Recursive call to export the referenced objects
-            # Note that we ignore direct ForeignKey relationships
-            # (like card->deck) to avoid circular references.
-            # TODO check if this ever becomes and issue; maybe
-            #    for 1-to-1 relationships?
-            if isinstance(related_objects, list):
+            # Get the values referenced by this relationship
+            related = getattr(item, field)
+
+            # Don't send too many None and empty lists to the recursive call...
+            if related:
+                number_of_objects = len(related) if isinstance(related, list) else 1
+                logging.info(
+                    f"{number_of_objects} objects discovered in {field}. "
+                    "Adding them to the exports list."
+                )
+                logging.debug(f"Objects: {related}")
+
+                # Recursive call to export the referenced objects
+                # Note that we avoid circular references by checking if the object
+                # is already in the hierarchy (see export_to_dict()).
                 _hierarchy = export_to_dict(
                     session=session,
-                    objects_to_export=related_objects,
+                    objects_to_export=related,
+                    exclude_fields=exclude_fields,
                     _hierarchy=_hierarchy,
                 )
-            else:
-                logging.debug("Discovered objects are not in a list, skipping.")
 
             # If this is a many-to-many, export the associations too
             # FIXME is there a better way to go with this?
