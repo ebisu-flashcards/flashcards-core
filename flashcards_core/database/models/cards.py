@@ -1,6 +1,8 @@
-from sqlalchemy import Column, ForeignKey, Integer, Table
+from uuid import uuid4
+from sqlalchemy import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship, Session
 
+from flashcards_core.guid import GUID
 from flashcards_core.database import Base
 from flashcards_core.database.crud import CrudOperations
 
@@ -9,27 +11,27 @@ from flashcards_core.database.crud import CrudOperations
 CardTag = Table(
     "cardtags",
     Base.metadata,
-    Column("id", Integer, primary_key=True),
-    Column("card_id", Integer, ForeignKey("cards.id")),
-    Column("tag_id", Integer, ForeignKey("tags.id")),
+    Column("id", GUID(), primary_key=True, default=uuid4),
+    Column("card_id", GUID(), ForeignKey("cards.id")),
+    Column("tag_id", GUID(), ForeignKey("tags.id")),
 )
 
 #: Associative table for Cards and question context Facts
 CardQuestionContext = Table(
     "card_question_contextes",
     Base.metadata,
-    Column("id", Integer, primary_key=True),
-    Column("card_id", Integer, ForeignKey("cards.id")),
-    Column("fact_id", Integer, ForeignKey("facts.id")),
+    Column("id", GUID(), primary_key=True, default=uuid4),
+    Column("card_id", GUID(), ForeignKey("cards.id")),
+    Column("fact_id", GUID(), ForeignKey("facts.id")),
 )
 
 #: Associative table for Cards and answer context Facts
 CardAnswerContext = Table(
     "card_answer_contextes",
     Base.metadata,
-    Column("id", Integer, primary_key=True),
-    Column("card_id", Integer, ForeignKey("cards.id")),
-    Column("fact_id", Integer, ForeignKey("facts.id")),
+    Column("id", GUID(), primary_key=True, default=uuid4),
+    Column("card_id", GUID(), ForeignKey("cards.id")),
+    Column("fact_id", GUID(), ForeignKey("facts.id")),
 )
 
 # RelatedCard = Table(
@@ -45,13 +47,13 @@ class Card(Base, CrudOperations):
     __tablename__ = "cards"
 
     #: Primary key
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(GUID(), primary_key=True, index=True, default=uuid4)
 
     #: ID to the deck this card belongs to.
     #: Note that this is a one-to-many repationship because it
     #: should be easy to copy cards.
     #: Cards hold no actual data: it's just an associative table
-    deck_id = Column(Integer, ForeignKey("decks.id"), nullable=False)
+    deck_id = Column(GUID(), ForeignKey("decks.id"), nullable=False)
 
     #: The deck this card belongs to.
     #: Note that this is a one-to-many repationship because it
@@ -60,7 +62,7 @@ class Card(Base, CrudOperations):
     deck = relationship("Deck", foreign_keys="Card.deck_id")
 
     #: ID of the fact containing the question of this card.
-    question_id = Column(Integer, ForeignKey("facts.id"), nullable=False)
+    question_id = Column(GUID(), ForeignKey("facts.id"), nullable=False)
 
     #: The fact containing the question of this card.
     question = relationship("Fact", foreign_keys="Card.question_id")
@@ -70,7 +72,7 @@ class Card(Base, CrudOperations):
     question_context_facts = relationship("Fact", secondary="card_question_contextes")
 
     #: ID of the fact containing the answer of this card.
-    answer_id = Column(Integer, ForeignKey("facts.id"), nullable=False)
+    answer_id = Column(GUID(), ForeignKey("facts.id"), nullable=False)
 
     #: The fact containing the answer of this card.
     answer = relationship("Fact", foreign_keys="Card.answer_id")
@@ -99,8 +101,9 @@ class Card(Base, CrudOperations):
         :param session: the session (see flashcards_core.database:init_db())
         """
         insert = CardTag.insert().values(card_id=self.id, tag_id=tag_id)
-        session.execute(insert)
+        result = session.execute(insert)
         session.refresh(self)
+        return result
 
     def remove_tag(self, session: Session, tag_id: int) -> None:
         """
@@ -122,8 +125,9 @@ class Card(Base, CrudOperations):
         :param session: the session (see flashcards_core.database:init_db()).
         """
         insert = CardQuestionContext.insert().values(card_id=self.id, fact_id=fact_id)
-        session.execute(insert)
+        result = session.execute(insert)
         session.refresh(self)
+        return result
 
     def remove_question_context(self, session: Session, fact_id: int) -> None:
         """
@@ -147,8 +151,9 @@ class Card(Base, CrudOperations):
         :param session: the session (see flashcards_core.database:init_db()).
         """
         insert = CardAnswerContext.insert().values(card_id=self.id, fact_id=fact_id)
-        session.execute(insert)
+        result = session.execute(insert)
         session.refresh(self)
+        return result
 
     def remove_answer_context(self, session: Session, fact_id: int) -> None:
         """

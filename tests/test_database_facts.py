@@ -19,7 +19,7 @@ def test_long_fact_repr(session):
         "fact fact fact fact fact fact fact fact ",
         format="text",
     )
-    assert "<Fact 'fact fact fact fact ...' (ID: 1)>" == f"{fact}"
+    assert f"<Fact 'fact fact fact fact ...' (ID: {fact.id})>" == f"{fact}"
 
 
 def test_fact_assign_and_remove_tag(session):

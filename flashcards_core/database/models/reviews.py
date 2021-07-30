@@ -1,7 +1,9 @@
 import datetime
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
+from uuid import uuid4
+from sqlalchemy import Column, ForeignKey, String, DateTime
 from sqlalchemy.orm import relationship
 
+from flashcards_core.guid import GUID
 from flashcards_core.database import Base
 from flashcards_core.database.crud import CrudOperations
 
@@ -10,10 +12,10 @@ class Review(Base, CrudOperations):
     __tablename__ = "reviews"
 
     #: Primary key
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(GUID(), primary_key=True, index=True, default=uuid4)
 
     #: ID of the card that was reviewed
-    card_id = Column(Integer, ForeignKey("cards.id"))
+    card_id = Column(GUID(), ForeignKey("cards.id"))
 
     #: The card that was reviewed
     card = relationship("Card", foreign_keys="Review.card_id")

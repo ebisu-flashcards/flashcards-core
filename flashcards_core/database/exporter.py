@@ -2,6 +2,7 @@ from typing import Any, List, Mapping
 
 import json
 import logging
+from uuid import UUID
 
 from sqlalchemy import Table
 from sqlalchemy.orm import Session
@@ -28,8 +29,37 @@ def export_to_json(
     """
     hierarchy = export_to_dict(session=session, objects_to_export=objects_to_export)
 
+    # Convert all UUIDs to strings
+    new_hierarchy = serialize_uuids(hierarchy)
+
     logging.debug("Export procedure complete, dumping data to JSON string")
-    return json.dumps(hierarchy, **json_kwargs)
+    return json.dumps(new_hierarchy, **json_kwargs)
+
+
+def serialize_uuids(hierarchy: Mapping[str, Any]) -> Mapping[str, Any]:
+    """
+    Updates all keys to be strings. FIXME is this efficient?
+    """
+    new_hierarchy = {}
+    for key, values in hierarchy.items():
+
+        # Termination conditions
+        if not isinstance(values, dict):
+            if isinstance(values, UUID):
+                values = values.hex
+            else:
+                values = values
+        else:
+            # Recursive call
+            values = serialize_uuids(values)
+
+        # Key update
+        if isinstance(key, UUID):
+            new_hierarchy[key.hex] = values
+        else:
+            new_hierarchy[key] = values
+
+    return new_hierarchy
 
 
 def export_to_dict(

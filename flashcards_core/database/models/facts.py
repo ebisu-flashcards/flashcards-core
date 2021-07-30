@@ -1,6 +1,8 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Table
+from uuid import uuid4
+from sqlalchemy import Column, ForeignKey, String, Table
 from sqlalchemy.orm import relationship, Session
 
+from flashcards_core.guid import GUID
 from flashcards_core.database import Base
 from flashcards_core.database.crud import CrudOperations
 
@@ -12,9 +14,9 @@ from flashcards_core.database.crud import CrudOperations
 FactTag = Table(
     "facttags",
     Base.metadata,
-    Column("id", Integer, primary_key=True),
-    Column("fact_id", Integer, ForeignKey("facts.id")),
-    Column("tag_id", Integer, ForeignKey("tags.id")),
+    Column("id", GUID(), primary_key=True, default=uuid4),
+    Column("fact_id", GUID(), ForeignKey("facts.id")),
+    Column("tag_id", GUID(), ForeignKey("tags.id")),
 )
 
 
@@ -22,7 +24,7 @@ class Fact(Base, CrudOperations):
     __tablename__ = "facts"
 
     #: Primary key
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(GUID(), primary_key=True, index=True, default=uuid4)
 
     #: The content of this fact. Can be plaintext, html,
     #: markdown, a URL, a path to a file... Use the content
@@ -53,8 +55,9 @@ class Fact(Base, CrudOperations):
         :param session: the session (see flashcards_core.database:init_db()).
         """
         insert = FactTag.insert().values(fact_id=self.id, tag_id=tag_id)
-        session.execute(insert)
+        result = session.execute(insert)
         session.refresh(self)
+        return result
 
     def remove_tag(self, session: Session, tag_id: int) -> None:
         """

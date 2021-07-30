@@ -7,4 +7,4 @@ def test_tag_create(session):
 
 def test_tag_repr(session):
     tag = Tag.create(session=session, name="tag")
-    assert "<Tag 'tag' (ID: 1)>" == f"{tag}"
+    assert f"<Tag 'tag' (ID: {tag.id})>" == f"{tag}"

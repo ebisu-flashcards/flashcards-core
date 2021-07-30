@@ -1,9 +1,11 @@
 from typing import List, Optional
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Table, JSON
+from uuid import uuid4
+from sqlalchemy import Column, ForeignKey, String, Table, JSON
 from sqlalchemy.orm import relationship, Session
 from sqlalchemy_json import mutable_json_type
 
+from flashcards_core.guid import GUID
 from flashcards_core.database import Base
 from flashcards_core.database.crud import CrudOperations
 
@@ -12,9 +14,9 @@ from flashcards_core.database.crud import CrudOperations
 DeckTag = Table(
     "decktags",
     Base.metadata,
-    Column("id", Integer, primary_key=True),
-    Column("deck_id", Integer, ForeignKey("decks.id")),
-    Column("tag_id", Integer, ForeignKey("tags.id")),
+    Column("id", GUID(), primary_key=True, default=uuid4),
+    Column("deck_id", GUID(), ForeignKey("decks.id")),
+    Column("tag_id", GUID(), ForeignKey("tags.id")),
 )
 
 
@@ -22,7 +24,7 @@ class Deck(Base, CrudOperations):
     __tablename__ = "decks"
 
     #: Primary key
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(GUID(), primary_key=True, index=True, default=uuid4)
 
     #: Name of the deck (short)
     name = Column(String, unique=True, nullable=False)
@@ -92,8 +94,9 @@ class Deck(Base, CrudOperations):
         :param session: the session (see flashcards_core.database:init_db()).
         """
         insert = DeckTag.insert().values(deck_id=self.id, tag_id=tag_id)
-        session.execute(insert)
+        result = session.execute(insert)
         session.refresh(self)
+        return result
 
     def remove_tag(self, session: Session, tag_id: int) -> None:
         """

@@ -1,5 +1,7 @@
-from sqlalchemy import Column, Integer, String
+from uuid import uuid4
+from sqlalchemy import Column, String
 
+from flashcards_core.guid import GUID
 from flashcards_core.database import Base
 from flashcards_core.database.crud import CrudOperations
 
@@ -8,7 +10,7 @@ class Tag(Base, CrudOperations):
     __tablename__ = "tags"
 
     #: Primary key
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(GUID(), primary_key=True, index=True, default=uuid4)
 
     #: The name of the tag
     name = Column(String, unique=True, nullable=False)

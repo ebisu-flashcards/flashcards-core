@@ -31,10 +31,13 @@ def test_random_create_scheduler(session, deck):
 
 
 def test_random_process_test_result_card_not_in_deck(session, deck, fact):
-    card = Card.create(
-        session=session, deck_id=1000, question_id=fact.id, answer_id=fact.id
+    wrong_deck = Deck.create(
+        session=session, name="wrong-deck", description="test", algorithm="random"
     )
-    scheduler = RandomScheduler(session=session, deck=deck)
+    card = Card.create(
+        session=session, deck_id=deck.id, question_id=fact.id, answer_id=fact.id
+    )
+    scheduler = RandomScheduler(session=session, deck=wrong_deck)
     assert len(card.reviews) == 0
     with pytest.raises(ValueError):
         scheduler.process_test_result(card=card, result=True)
@@ -51,7 +54,7 @@ def test_random_process_test_result_card_in_deck(session, deck, fact):
     scheduler.process_test_result(card=card, result=True)
     assert len(card.reviews) == 1
     assert card.reviews[0].datetime == datetime.datetime.now()
-    assert deck.state[LAST_REVIEWED_CARD] == card.id
+    assert deck.state[LAST_REVIEWED_CARD] == card.id.hex
 
 
 def test_random_next_card_no_cards(session, deck):

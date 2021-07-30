@@ -15,11 +15,6 @@ from flashcards_core.database.models.facts import Fact, FactTag  # noqa: F401, E
 from flashcards_core.database.models.reviews import Review  # noqa: F401, E402
 from flashcards_core.database.models.tags import Tag  # noqa: F401, E402
 
-from flashcards_core.database.export import (  # noqa: F401, E402
-    export_to_dict,  # noqa: F401
-    export_to_json,  # noqa: F401
-)
-
 
 def init_db(
     database_path: str = f"sqlite:///{Path(__name__).parent.absolute()}/sqlite_dev.db",

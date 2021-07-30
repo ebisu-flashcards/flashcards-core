@@ -79,7 +79,7 @@ class RandomScheduler(BaseScheduler):
             if self.deck.state is not None:
                 last_card_id = self.deck.state.get(LAST_REVIEWED_CARD)
 
-                while last_card_id == next_card.id:
+                while last_card_id == next_card.id.hex:
                     logging.debug(f"It's the same card (#{last_card_id}), retrying")
                     next_card = random.choice(self.deck.cards)
 
@@ -126,7 +126,7 @@ class RandomScheduler(BaseScheduler):
         # Update the deck state
         if not self.deck.state:
             self.deck.state = {}
-        self.deck.state[LAST_REVIEWED_CARD] = card.id
+        self.deck.state[LAST_REVIEWED_CARD] = card.id.hex
         self.deck = Deck.update(
             session=self.session, object_id=card.deck.id, state=self.deck.state
         )

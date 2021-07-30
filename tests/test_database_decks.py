@@ -1,4 +1,4 @@
-from flashcards_core.database import Deck, Card, Review, Tag
+from flashcards_core.database import Deck, Card, Fact, Review, Tag
 
 
 def test_deck_create_minimum(session):
@@ -64,8 +64,15 @@ def test_deck_unseen_cards_number_no_cards_have_reviews(session):
         description="A long description for the deck",
         algorithm="random",
     )
+    question = Fact.create(session=session, value="A", format="a")
+    answer = Fact.create(session=session, value="B", format="b")
     for i in range(3):
-        Card.create(session=session, deck_id=deck.id, question_id=1, answer_id=2)
+        Card.create(
+            session=session,
+            deck_id=deck.id,
+            question_id=question.id,
+            answer_id=answer.id,
+        )
     assert deck.unseen_cards_number() == 3
 
 
@@ -76,8 +83,15 @@ def test_deck_unseen_cards_number_some_cards_have_reviews(session):
         description="A long description for the deck",
         algorithm="random",
     )
+    question = Fact.create(session=session, value="A", format="a")
+    answer = Fact.create(session=session, value="B", format="b")
     for i in range(5):
-        card = Card.create(session=session, deck_id=deck.id, question_id=1, answer_id=2)
+        card = Card.create(
+            session=session,
+            deck_id=deck.id,
+            question_id=question.id,
+            answer_id=answer.id,
+        )
         if i % 2 == 0:
             Review.create(session=session, result=True, card_id=card.id, algorithm="a")
     assert deck.unseen_cards_number() == 2
@@ -90,8 +104,15 @@ def test_deck_unseen_cards_number_all_cards_have_reviews(session):
         description="A long description for the deck",
         algorithm="random",
     )
+    question = Fact.create(session=session, value="A", format="a")
+    answer = Fact.create(session=session, value="B", format="b")
     for i in range(3):
-        card = Card.create(session=session, deck_id=deck.id, question_id=1, answer_id=2)
+        card = Card.create(
+            session=session,
+            deck_id=deck.id,
+            question_id=question.id,
+            answer_id=answer.id,
+        )
         Review.create(session=session, result=True, card_id=card.id, algorithm="a")
     assert deck.unseen_cards_number() == 0
 
@@ -103,10 +124,17 @@ def test_deck_unseen_cards_list_no_cards_have_reviews(session):
         description="A long description for the deck",
         algorithm="random",
     )
+    question = Fact.create(session=session, value="A", format="a")
+    answer = Fact.create(session=session, value="B", format="b")
     cards = []
     for i in range(3):
         cards.append(
-            Card.create(session=session, deck_id=deck.id, question_id=1, answer_id=2)
+            Card.create(
+                session=session,
+                deck_id=deck.id,
+                question_id=question.id,
+                answer_id=answer.id,
+            )
         )
     assert deck.unseen_cards_list() == cards
 
@@ -118,9 +146,16 @@ def test_deck_unseen_cards_list_some_cards_have_reviews(session):
         description="A long description for the deck",
         algorithm="random",
     )
+    question = Fact.create(session=session, value="A", format="a")
+    answer = Fact.create(session=session, value="B", format="b")
     cards = []
     for i in range(5):
-        card = Card.create(session=session, deck_id=deck.id, question_id=1, answer_id=2)
+        card = Card.create(
+            session=session,
+            deck_id=deck.id,
+            question_id=question.id,
+            answer_id=answer.id,
+        )
         if i % 2 == 0:
             Review.create(session=session, result=True, card_id=card.id, algorithm="a")
         else:
@@ -135,8 +170,15 @@ def test_deck_unseen_cards_list_all_cards_have_reviews(session):
         description="A long description for the deck",
         algorithm="random",
     )
+    question = Fact.create(session=session, value="A", format="a")
+    answer = Fact.create(session=session, value="B", format="b")
     for i in range(3):
-        card = Card.create(session=session, deck_id=deck.id, question_id=1, answer_id=2)
+        card = Card.create(
+            session=session,
+            deck_id=deck.id,
+            question_id=question.id,
+            answer_id=answer.id,
+        )
         Review.create(session=session, result=True, card_id=card.id, algorithm="a")
     assert deck.unseen_cards_list() == []
 

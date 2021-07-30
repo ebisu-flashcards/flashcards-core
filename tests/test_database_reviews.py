@@ -1,7 +1,7 @@
 import datetime
 from freezegun import freeze_time
 
-from flashcards_core.database import Card, Review
+from flashcards_core.database import Card, Review, Deck, Fact
 
 
 @freeze_time("2021-01-01 12:00:00")
@@ -13,7 +13,14 @@ def test_review_create_review_no_card(session):
 
 @freeze_time("2021-01-01 12:00:00")
 def test_review_create(session):
-    card = Card.create(session=session, deck_id=1, question_id=1, answer_id=1)
+    deck = Deck.create(
+        session=session, name="test", description="test", algorithm="test"
+    )
+    question = Fact.create(session=session, value="question", format="plaintext")
+    answer = Fact.create(session=session, value="answer", format="plaintext")
+    card = Card.create(
+        session=session, deck_id=deck.id, question_id=question.id, answer_id=answer.id
+    )
     review = Review.create(
         session=session, result="review", algorithm="a", card_id=card.id
     )
@@ -23,8 +30,18 @@ def test_review_create(session):
 
 @freeze_time("2021-01-01 12:00:00")
 def test_review_repr(session):
-    card = Card.create(session=session, deck_id=1, question_id=1, answer_id=1)
+    deck = Deck.create(
+        session=session, name="test", description="test", algorithm="test"
+    )
+    question = Fact.create(session=session, value="question", format="plaintext")
+    answer = Fact.create(session=session, value="answer", format="plaintext")
+    card = Card.create(
+        session=session, deck_id=deck.id, question_id=question.id, answer_id=answer.id
+    )
     review = Review.create(
         session=session, result="review", algorithm="a", card_id=card.id
     )
-    assert "<Review of card #1: 'review' at 2021-01-01 12:00:00 (ID: 1)>" == f"{review}"
+    assert (
+        f"<Review of card #{card.id}: 'review' at 2021-01-01 12:00:00 (ID: {review.id})>"
+        == f"{review}"
+    )
