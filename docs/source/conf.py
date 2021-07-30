@@ -57,10 +57,7 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
-html_logo = (
-    "https://avatars.githubusercontent.com/u/"
-    "87441437?s=400&u=a9ddea0444d2223df21ec024010e0049a5ac9cc3&v=4"
-)
+html_logo = "images/logo.png"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
