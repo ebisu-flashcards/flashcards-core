@@ -102,6 +102,7 @@ class Card(Base, CrudOperations):
         """
         insert = CardTag.insert().values(card_id=self.id, tag_id=tag_id)
         result = session.execute(insert)
+        session.commit()
         session.refresh(self)
         return result
 
@@ -114,6 +115,7 @@ class Card(Base, CrudOperations):
         """
         delete = CardTag.delete().where(CardTag.c.tag_id == tag_id)
         session.execute(delete)
+        session.commit()
         session.refresh(self)
 
     def assign_question_context(self, session: Session, fact_id: int) -> None:
@@ -126,6 +128,7 @@ class Card(Base, CrudOperations):
         """
         insert = CardQuestionContext.insert().values(card_id=self.id, fact_id=fact_id)
         result = session.execute(insert)
+        session.commit()
         session.refresh(self)
         return result
 
@@ -140,6 +143,7 @@ class Card(Base, CrudOperations):
             CardQuestionContext.c.fact_id == fact_id
         )
         session.execute(delete)
+        session.commit()
         session.refresh(self)
 
     def assign_answer_context(self, session: Session, fact_id: int) -> None:
@@ -152,6 +156,7 @@ class Card(Base, CrudOperations):
         """
         insert = CardAnswerContext.insert().values(card_id=self.id, fact_id=fact_id)
         result = session.execute(insert)
+        session.commit()
         session.refresh(self)
         return result
 
@@ -166,4 +171,5 @@ class Card(Base, CrudOperations):
             CardAnswerContext.c.fact_id == fact_id
         )
         session.execute(delete)
+        session.commit()
         session.refresh(self)

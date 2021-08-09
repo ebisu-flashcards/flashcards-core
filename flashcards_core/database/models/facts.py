@@ -56,6 +56,7 @@ class Fact(Base, CrudOperations):
         """
         insert = FactTag.insert().values(fact_id=self.id, tag_id=tag_id)
         result = session.execute(insert)
+        session.commit()
         session.refresh(self)
         return result
 
@@ -70,4 +71,5 @@ class Fact(Base, CrudOperations):
         """
         delete = FactTag.delete().where(FactTag.c.tag_id == tag_id)
         session.execute(delete)
+        session.commit()
         session.refresh(self)

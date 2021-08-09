@@ -3,7 +3,7 @@
 
 sqlite_dev.db
 test.py
-.vscode/*
+**/.vscode/*
 
 ### Python ###
 # Byte-compiled / optimized / DLL files

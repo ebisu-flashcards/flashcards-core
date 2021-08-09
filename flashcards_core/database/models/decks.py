@@ -96,6 +96,7 @@ class Deck(Base, CrudOperations):
         insert = DeckTag.insert().values(deck_id=self.id, tag_id=tag_id)
         result = session.execute(insert)
         session.refresh(self)
+        session.commit()
         return result
 
     def remove_tag(self, session: Session, tag_id: int) -> None:
@@ -108,4 +109,5 @@ class Deck(Base, CrudOperations):
         """
         delete = DeckTag.delete().where(DeckTag.c.tag_id == tag_id)
         session.execute(delete)
+        session.commit()
         session.refresh(self)
