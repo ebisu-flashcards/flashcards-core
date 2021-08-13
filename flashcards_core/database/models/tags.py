@@ -1,5 +1,8 @@
+from typing import Optional
+
 from uuid import uuid4
 from sqlalchemy import Column, String
+from sqlalchemy.orm import Session
 
 from flashcards_core.guid import GUID
 from flashcards_core.database import Base
@@ -17,3 +20,14 @@ class Tag(Base, CrudOperations):
 
     def __repr__(self):
         return f"<Tag '{self.name}' (ID: {self.id})>"
+
+    @classmethod
+    def get_by_name(cls, session: Session, name: str) -> Optional["Tag"]:
+        """
+        Returns the tag corresponding to the given name.
+
+        :param session: the session (see flashcards_core.database:init_db()).
+        :param name: the name of the tag to return.
+        :returns: the matching tag object.
+        """
+        return session.query(Tag).filter(Tag.name == name).first()

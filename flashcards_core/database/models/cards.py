@@ -1,4 +1,4 @@
-from uuid import uuid4
+from uuid import uuid4, UUID
 from sqlalchemy import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship, Session
 
@@ -93,7 +93,7 @@ class Card(Base, CrudOperations):
     def __repr__(self):
         return f"<Card (ID: {self.id}, deck ID: {self.deck_id})>"
 
-    def assign_tag(self, session: Session, tag_id: int) -> None:
+    def assign_tag(self, session: Session, tag_id: UUID) -> None:
         """
         Assign the given Tag to this Card.
 
@@ -106,7 +106,7 @@ class Card(Base, CrudOperations):
         session.refresh(self)
         return result
 
-    def remove_tag(self, session: Session, tag_id: int) -> None:
+    def remove_tag(self, session: Session, tag_id: UUID) -> None:
         """
         Remove the given Tag from this Card.
 
@@ -118,7 +118,7 @@ class Card(Base, CrudOperations):
         session.commit()
         session.refresh(self)
 
-    def assign_question_context(self, session: Session, fact_id: int) -> None:
+    def assign_question_context(self, session: Session, fact_id: UUID) -> None:
         """
         Assign the given Fact as context to the Question to this Card.
 
@@ -132,7 +132,7 @@ class Card(Base, CrudOperations):
         session.refresh(self)
         return result
 
-    def remove_question_context(self, session: Session, fact_id: int) -> None:
+    def remove_question_context(self, session: Session, fact_id: UUID) -> None:
         """
         Remove the given Fact as a context for the Question from this Card.
 
@@ -146,7 +146,7 @@ class Card(Base, CrudOperations):
         session.commit()
         session.refresh(self)
 
-    def assign_answer_context(self, session: Session, fact_id: int) -> None:
+    def assign_answer_context(self, session: Session, fact_id: UUID) -> None:
         """
         Assign the given Fact as context to the Answer to this Card.
 
@@ -160,7 +160,7 @@ class Card(Base, CrudOperations):
         session.refresh(self)
         return result
 
-    def remove_answer_context(self, session: Session, fact_id: int) -> None:
+    def remove_answer_context(self, session: Session, fact_id: UUID) -> None:
         """
         Remove the given Fact as a context for the Answer from this Card.
 

@@ -1,4 +1,4 @@
-from uuid import uuid4
+from uuid import uuid4, UUID
 from sqlalchemy import Column, ForeignKey, String, Table
 from sqlalchemy.orm import relationship, Session
 
@@ -14,9 +14,8 @@ from flashcards_core.database.crud import CrudOperations
 FactTag = Table(
     "facttags",
     Base.metadata,
-    Column("id", GUID(), primary_key=True, default=uuid4),
-    Column("fact_id", GUID(), ForeignKey("facts.id")),
-    Column("tag_id", GUID(), ForeignKey("tags.id")),
+    Column("fact_id", GUID(), ForeignKey("facts.id"), primary_key=True),
+    Column("tag_id", GUID(), ForeignKey("tags.id"), primary_key=True),
 )
 
 
@@ -47,7 +46,7 @@ class Fact(Base, CrudOperations):
             f" (ID: {self.id})>"
         )
 
-    def assign_tag(self, session: Session, tag_id: int) -> FactTag:
+    def assign_tag(self, session: Session, tag_id: UUID) -> FactTag:
         """
         Assign the given Tag to this Fact.
 
@@ -60,7 +59,7 @@ class Fact(Base, CrudOperations):
         session.refresh(self)
         return result
 
-    def remove_tag(self, session: Session, tag_id: int) -> None:
+    def remove_tag(self, session: Session, tag_id: UUID) -> None:
         """
         Remove the given Tag from this Fact.
 

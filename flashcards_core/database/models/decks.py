@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from uuid import uuid4
+from uuid import uuid4, UUID
 from sqlalchemy import Column, ForeignKey, String, Table, JSON
 from sqlalchemy.orm import relationship, Session
 from sqlalchemy_json import mutable_json_type
@@ -86,7 +86,7 @@ class Deck(Base, CrudOperations):
         # FIXME Redo as a proper SQL query!!!
         return len([card for card in self.cards if len(card.reviews) == 0])
 
-    def assign_tag(self, session: Session, tag_id: int) -> None:
+    def assign_tag(self, session: Session, tag_id: UUID) -> None:
         """
         Assign the given Tag to this Deck and refreshes the Deck object.
 
@@ -99,7 +99,7 @@ class Deck(Base, CrudOperations):
         session.commit()
         return result
 
-    def remove_tag(self, session: Session, tag_id: int) -> None:
+    def remove_tag(self, session: Session, tag_id: UUID) -> None:
         """
         Remove the given Tag from this Deck.
 
