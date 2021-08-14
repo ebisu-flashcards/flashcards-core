@@ -43,7 +43,7 @@ docroot=`mktemp -d`
 rsync -av "docs/build/html/" "${docroot}/"
 
 # Publish the wheels too
-rsync -av "wheels/" "${docroot}/"
+rsync -av "wheels/" "${docroot}/wheels/"
  
 pushd "${docroot}"
  
