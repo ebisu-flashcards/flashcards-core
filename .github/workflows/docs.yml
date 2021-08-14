@@ -1,4 +1,4 @@
-name: Docs
+name: Docs & Wheel
  
 on:
   push:
@@ -21,6 +21,7 @@ jobs:
         git clone "https://token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" .
         sudo chmod +x .github/workflows/build_docs.sh
         pip install --editable .[dev]
+        pip wheel --no-deps --wheel-dir wheels .
       shell: bash
  
     - name: Build the docs and update pages
