@@ -128,7 +128,7 @@ def import_from_dict(  # noqa: C901
                         "in this database, or it's malformed."
                     )
 
-        elif isinstance(entities, list):
+        elif isinstance(entities, list) or isinstance(entities, set):
             for values in entities:
                 try:
                     logging.debug(f"Importing {values}")
