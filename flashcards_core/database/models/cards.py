@@ -11,24 +11,27 @@ from flashcards_core.database.crud import CrudOperations
 CardTag = Table(
     "cardtags",
     Base.metadata,
-    Column("card_id", GUID(), ForeignKey("cards.id"), primary_key=True),
-    Column("tag_id", GUID(), ForeignKey("tags.id"), primary_key=True),
+    Column("id", GUID(), primary_key=True, default=uuid4),
+    Column("card_id", GUID(), ForeignKey("cards.id")),
+    Column("tag_id", GUID(), ForeignKey("tags.id")),
 )
 
 #: Associative table for Cards and question context Facts
 CardQuestionContext = Table(
     "card_question_contextes",
     Base.metadata,
-    Column("card_id", GUID(), ForeignKey("cards.id"), primary_key=True),
-    Column("fact_id", GUID(), ForeignKey("facts.id"), primary_key=True),
+    Column("id", GUID(), primary_key=True, default=uuid4),
+    Column("card_id", GUID(), ForeignKey("cards.id")),
+    Column("fact_id", GUID(), ForeignKey("facts.id")),
 )
 
 #: Associative table for Cards and answer context Facts
 CardAnswerContext = Table(
     "card_answer_contextes",
     Base.metadata,
-    Column("card_id", GUID(), ForeignKey("cards.id"), primary_key=True),
-    Column("fact_id", GUID(), ForeignKey("facts.id"), primary_key=True),
+    Column("id", GUID(), primary_key=True, default=uuid4),
+    Column("card_id", GUID(), ForeignKey("cards.id")),
+    Column("fact_id", GUID(), ForeignKey("facts.id")),
 )
 
 # RelatedCard = Table(

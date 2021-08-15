@@ -14,8 +14,9 @@ from flashcards_core.database.crud import CrudOperations
 DeckTag = Table(
     "decktags",
     Base.metadata,
-    Column("deck_id", GUID(), ForeignKey("decks.id"), primary_key=True),
-    Column("tag_id", GUID(), ForeignKey("tags.id"), primary_key=True),
+    Column("id", GUID(), primary_key=True, default=uuid4),
+    Column("deck_id", GUID(), ForeignKey("decks.id")),
+    Column("tag_id", GUID(), ForeignKey("tags.id")),
 )
 
 
