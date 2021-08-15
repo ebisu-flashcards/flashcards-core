@@ -3,6 +3,7 @@ from typing import Any, List, Mapping
 import json
 import logging
 from uuid import UUID
+from datetime import datetime, date
 
 from sqlalchemy import Table
 from sqlalchemy.orm import Session
@@ -16,40 +17,32 @@ from flashcards_core.database import Base
 DEFAULT_EXCLUDE_FIELDS = {"cards": ["deck"]}
 
 
-def export_to_json(
-    session: Session, objects_to_export: List[Base], **json_kwargs
-) -> str:
+def hierarchy_to_json(obj):
     """
-    Exports the given objects into a JSON string. Simple wrapper around `export_to_dict()`.
+    JSON serializer for objects not serializable by default, like dates, sets, UUIDs.
 
-    :param session: the session (see flashcards_core.database:init_session()).
-    :param objects_to_export: a list of objects to export. They should be
-        subclasses of any class defined in `flashcards_core.database.models`.
-    :param json_kwargs: any parameter you may wish to pass to `json.dumps()`
+    This is the 'default' method of the JSON encoder, see `export_to_json`.
     """
-    hierarchy = export_to_dict(session=session, objects_to_export=objects_to_export)
-
-    # Convert all UUIDs to strings
-    new_hierarchy = serialize_uuids(hierarchy)
-
-    logging.debug("Export procedure complete, dumping data to JSON string")
-    return json.dumps(new_hierarchy, **json_kwargs)
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    if isinstance(obj, UUID):
+        return str(obj.hex)
+    if isinstance(obj, set):
+        return list(obj)
+    raise TypeError(f"Type {type(obj)} not serializable")
 
 
 def serialize_uuids(hierarchy: Mapping[str, Any]) -> Mapping[str, Any]:
     """
-    Updates all keys to be strings. FIXME is this efficient?
+    Updates all UUID keys to be strings.
+
+    :param hierarchy: the hierarchy to normalize
+    :returns: the normalized hierarchy
     """
     new_hierarchy = {}
     for key, values in hierarchy.items():
 
-        # Termination conditions
-        if not isinstance(values, dict):
-            if isinstance(values, UUID):
-                values = values.hex
-            else:
-                values = values
-        else:
+        if isinstance(values, dict):
             # Recursive call
             values = serialize_uuids(values)
 
@@ -60,6 +53,36 @@ def serialize_uuids(hierarchy: Mapping[str, Any]) -> Mapping[str, Any]:
             new_hierarchy[key] = values
 
     return new_hierarchy
+
+
+def export_to_json(
+    session: Session,
+    objects_to_export: List[Base],
+    exclude_fields: Mapping[str, List[str]] = None,
+    **json_kwargs,
+) -> str:
+    """
+    Exports the given objects into a JSON string.
+    Simple wrapper around `export_to_dict()` that performs some normalization
+    (like UUIDs to string, set to list, etc...)
+
+    :param session: the session (see flashcards_core.database:init_session()).
+    :param objects_to_export: a list of objects to export. They should be
+        subclasses of any class defined in `flashcards_core.database.models`.
+    :param json_kwargs: any parameter you may wish to pass to `json.dumps()`
+    """
+    hierarchy = export_to_dict(
+        session=session,
+        objects_to_export=objects_to_export,
+        exclude_fields=exclude_fields,
+    )
+
+    # Convert all UUID keys to strings
+    logging.debug("Normalizing UUID keys into strings...")
+    new_hierarchy = serialize_uuids(hierarchy)
+
+    logging.debug("Export procedure complete, dumping data to JSON string")
+    return json.dumps(new_hierarchy, default=hierarchy_to_json, **json_kwargs)
 
 
 def export_to_dict(
@@ -144,15 +167,9 @@ def export_to_dict(
                     'name': 'test-tag-2'
                 }
             }
-            'decktags': [
-                1: {
-                    'deck_id': 1,
-                    'tag_id': 1
-                },
-                2: {
-                    'deck_id': 1,
-                    'tag_id': 2
-                }
+            'decktags': {
+                (1, 1),
+                (1, 2)
             }
         }
 
@@ -207,7 +224,7 @@ def export_to_dict(
             _hierarchy[entry] = {}
 
         # Check if the object is already in the hierarchy
-        if item.id in _hierarchy[entry].keys():
+        if item.id.hex in _hierarchy[entry].keys():
             logging.info("Item already in the hierarchy, skipping.")
             continue
 
@@ -217,7 +234,7 @@ def export_to_dict(
             for field, value in vars(item).items()
             if not field.startswith("_") and field != "id"
         }
-        _hierarchy[entry][item.id] = description
+        _hierarchy[entry][item.id.hex] = description
         logging.debug(
             f"Added entry in '{entry}'. " f"Current hierarchy:\n{_hierarchy}\n"
         )
@@ -349,17 +366,11 @@ def _export_find_related_associative_tables(
                         logging.debug(
                             f"Creating key {associative_table.fullname} in hierarchy."
                         )
-                        _hierarchy[associative_table.fullname] = {}
+                        _hierarchy[str(associative_table.fullname)] = set()
 
-                    column_names = [
-                        column.name
-                        for column in associative_table.columns
-                        if column.name != "id"
-                    ]
-                    description = dict(zip(column_names, association[1:]))
-                    _hierarchy[associative_table.fullname][association[0]] = description
+                    _hierarchy[str(associative_table.fullname)].add(tuple(association))
                     logging.debug(
-                        f"New description to add:\n{description}\n"
+                        f"New row to add:\n{association}\n"
                         f"Current hierarchy:\n{_hierarchy}\n"
                     )
     return _hierarchy

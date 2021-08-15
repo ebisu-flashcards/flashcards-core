@@ -14,9 +14,8 @@ from flashcards_core.database.crud import CrudOperations
 DeckTag = Table(
     "decktags",
     Base.metadata,
-    Column("id", GUID(), primary_key=True, default=uuid4),
-    Column("deck_id", GUID(), ForeignKey("decks.id")),
-    Column("tag_id", GUID(), ForeignKey("tags.id")),
+    Column("deck_id", GUID(), ForeignKey("decks.id"), primary_key=True),
+    Column("tag_id", GUID(), ForeignKey("tags.id"), primary_key=True),
 )
 
 
@@ -94,10 +93,9 @@ class Deck(Base, CrudOperations):
         :param session: the session (see flashcards_core.database:init_db()).
         """
         insert = DeckTag.insert().values(deck_id=self.id, tag_id=tag_id)
-        result = session.execute(insert)
+        session.execute(insert)
         session.refresh(self)
         session.commit()
-        return result
 
     def remove_tag(self, session: Session, tag_id: UUID) -> None:
         """

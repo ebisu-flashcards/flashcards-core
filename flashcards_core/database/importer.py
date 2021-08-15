@@ -80,15 +80,9 @@ def import_from_dict(session: Session, hierarchy: Mapping[str, Any]) -> None:
                     'name': 'test-tag-2'
                 }
             }
-            'decktags': [
-                1: {
-                    'deck_id': 1,
-                    'tag_id': 1
-                },
-                2: {
-                    'deck_id': 1,
-                    'tag_id': 2
-                }
+            'decktags': {
+                (1, 1),
+                (1, 2)
             }
         }
 

@@ -7,7 +7,7 @@ from flashcards_core.database import Deck, Card, Fact, Review, Tag
 from flashcards_core.database.exporter import (
     export_to_dict,
     export_to_json,
-    serialize_uuids,
+    hierarchy_to_json,
 )
 
 
@@ -394,10 +394,10 @@ def test_export_to_dict_full_hierarchy(session):
     tag1 = Tag.create(session=session, name="test-tag-1")
     tag2 = Tag.create(session=session, name="test-tag-2")
 
-    decktag = deck.assign_tag(session=session, tag_id=tag1.id)
-    decktag_id = decktag.inserted_primary_key[0]
-    cardtag = card.assign_tag(session=session, tag_id=tag2.id)
-    cardtag_id = cardtag.inserted_primary_key[0]
+    deck.assign_tag(session=session, tag_id=tag1.id)
+    deck.assign_tag(session=session, tag_id=tag2.id)
+    card.assign_tag(session=session, tag_id=tag2.id)
+    question.assign_tag(session=session, tag_id=tag1.id)
 
     hierarchy = export_to_dict(session=session, objects_to_export=[card, deck])
 
@@ -436,35 +436,92 @@ def test_export_to_dict_full_hierarchy(session):
                 "result": "0",
             },
         },
-        "tags": {tag2.id: {"name": "test-tag-2"}, tag1.id: {"name": "test-tag-1"}},
-        "cardtags": {cardtag_id: {"card_id": card.id, "tag_id": tag2.id}},
-        "decktags": {decktag_id: {"deck_id": deck.id, "tag_id": tag1.id}},
+        "tags": {tag1.id: {"name": "test-tag-1"}, tag2.id: {"name": "test-tag-2"}},
+        "facttags": {(question.id, tag1.id)},
+        "cardtags": {(card.id, tag2.id)},
+        "decktags": {(deck.id, tag1.id), (deck.id, tag2.id)},
     }
 
 
-def test_export_to_json(session):
+@freeze_time("2021-01-01 12:00:00")
+def test_export_to_json_full_hierarchy(session):
     deck = Deck.create(
         session=session,
         name="Test",
         description="A long description for deck",
         algorithm="random",
     )
+    question = Fact.create(session=session, value="question", format="text")
+    answer = Fact.create(session=session, value="answer", format="text")
+    card = Card.create(
+        session=session, deck_id=deck.id, question_id=question.id, answer_id=answer.id
+    )
+    review1 = Review.create(
+        session=session, result=True, algorithm="random", card_id=card.id
+    )
+    review2 = Review.create(
+        session=session, result=False, algorithm="random", card_id=card.id
+    )
+    tag1 = Tag.create(session=session, name="test-tag-1")
+    tag2 = Tag.create(session=session, name="test-tag-2")
+
+    deck.assign_tag(session=session, tag_id=tag1.id)
+    card.assign_tag(session=session, tag_id=tag2.id)
+    question.assign_tag(session=session, tag_id=tag1.id)
+
     hierarchy = export_to_json(
-        session=session, objects_to_export=[deck], sort_keys=True
+        session=session, objects_to_export=[deck], sort_keys=True, indent=4
     )
-    assert hierarchy == json.dumps(
-        serialize_uuids(
-            {
-                "decks": {
-                    deck.id: {
-                        "name": "Test",
-                        "description": "A long description for deck",
-                        "algorithm": "random",
-                        "state": {},
-                        "parameters": {},
-                    }
+    test_hierarchy = json.dumps(
+        {
+            "decks": {
+                deck.id.hex: {
+                    "name": "Test",
+                    "description": "A long description for deck",
+                    "algorithm": "random",
+                    "state": {},
+                    "parameters": {},
                 }
-            }
-        ),
+            },
+            "cards": {
+                card.id.hex: {
+                    "deck_id": deck.id.hex,
+                    "question_id": question.id.hex,
+                    "answer_id": answer.id.hex,
+                }
+            },
+            "facts": {
+                question.id.hex: {"format": "text", "value": "question"},
+                answer.id.hex: {"format": "text", "value": "answer"},
+            },
+            "reviews": {
+                review1.id.hex: {
+                    "algorithm": "random",
+                    "card_id": card.id.hex,
+                    "datetime": datetime.datetime(2021, 1, 1, 12, 00, 00, 000000),
+                    "result": "1",
+                },
+                review2.id.hex: {
+                    "algorithm": "random",
+                    "card_id": card.id.hex,
+                    "datetime": datetime.datetime(2021, 1, 1, 12, 00, 00, 000000),
+                    "result": "0",
+                },
+            },
+            "tags": {
+                tag1.id.hex: {"name": "test-tag-1"},
+                tag2.id.hex: {"name": "test-tag-2"},
+            },
+            "facttags": [(question.id.hex, tag1.id.hex)],
+            "cardtags": [(card.id.hex, tag2.id.hex)],
+            "decktags": [(deck.id.hex, tag1.id.hex)],
+        },
         sort_keys=True,
+        indent=4,
+        default=hierarchy_to_json,
     )
+
+    print(hierarchy)
+    print(test_hierarchy)
+
+    assert hierarchy == test_hierarchy

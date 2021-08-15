@@ -93,7 +93,7 @@ class RandomScheduler(BaseScheduler):
         except storing a pointer to the last card in case the
         deck is configured to never show the same card twice in
         a row. In addition, storing Reviews is useful to keep track
-        of Unseen cards, if so requested, and for later statistics.
+        of unseen cards, if so requested, and for later statistics.
 
         A Random deck will probably store boolean results, but in
         practice this is not mandatory and the frontend can choose
