@@ -32,29 +32,6 @@ def hierarchy_to_json(obj):
     raise TypeError(f"Type {type(obj)} not serializable")
 
 
-def serialize_uuids(hierarchy: Mapping[str, Any]) -> Mapping[str, Any]:
-    """
-    Updates all UUID keys to be strings.
-
-    :param hierarchy: the hierarchy to normalize
-    :returns: the normalized hierarchy
-    """
-    new_hierarchy = {}
-    for key, values in hierarchy.items():
-
-        if isinstance(values, dict):
-            # Recursive call
-            values = serialize_uuids(values)
-
-        # Key update
-        if isinstance(key, UUID):
-            new_hierarchy[key.hex] = values
-        else:
-            new_hierarchy[key] = values
-
-    return new_hierarchy
-
-
 def export_to_json(
     session: Session,
     objects_to_export: List[Base],
@@ -76,13 +53,8 @@ def export_to_json(
         objects_to_export=objects_to_export,
         exclude_fields=exclude_fields,
     )
-
-    # Convert all UUID keys to strings
-    logging.debug("Normalizing UUID keys into strings...")
-    new_hierarchy = serialize_uuids(hierarchy)
-
     logging.debug("Export procedure complete, dumping data to JSON string")
-    return json.dumps(new_hierarchy, default=hierarchy_to_json, **json_kwargs)
+    return json.dumps(hierarchy, default=hierarchy_to_json, **json_kwargs)
 
 
 def export_to_dict(
