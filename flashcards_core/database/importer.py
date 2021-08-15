@@ -3,13 +3,26 @@ from typing import Any, Mapping
 import json
 import logging
 from uuid import UUID
+from datetime import datetime
 
+from sqlalchemy import Table
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from flashcards_core.database import Base
 
 
-def import_from_json(session: Session, json_string: str, **json_kwargs) -> None:
+def datetime_hook(json_dict):
+    for (key, value) in json_dict.items():
+        try:
+            json_dict[key] = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
+        except (ValueError, TypeError):
+            pass
+    return json_dict
+
+
+def import_from_json(
+    session: Session, json_string: str, stop_on_error=False, **json_kwargs
+) -> None:
     """
     Import the objects from their JSON representation.
     Simple wrapper around `import_from_dict()`.
@@ -20,11 +33,11 @@ def import_from_json(session: Session, json_string: str, **json_kwargs) -> None:
         or match the same schema.
     :param json_kwargs: any parameter you may wish to pass to `json.loads()`
     """
-    hierarchy = json.loads(json_string, **json_kwargs)
-    return import_from_dict(session=session, hierarchy=hierarchy)
+    hierarchy = json.loads(json_string, object_hook=datetime_hook, **json_kwargs)
+    return import_from_dict(session=session, hierarchy=hierarchy, stop_on_error=False)
 
 
-def import_from_dict(  # noqa: C901
+def import_from_dict(
     session: Session, hierarchy: Mapping[str, Any], stop_on_error=False
 ) -> None:
     """
@@ -113,35 +126,23 @@ def import_from_dict(  # noqa: C901
         logging.debug(f"Importing into {tablename}...")
 
         if isinstance(entities, dict):
-            for index, values in entities.items():
-                try:
-                    logging.debug(f"Importing {index}: {values}")
-                    uuid = UUID(index)
-                    insert = table.insert().values(id=uuid, **values)
-                    session.execute(insert)
-                except IntegrityError as e:
-                    if stop_on_error:
-                        raise e
-                    logging.error(
-                        f"Cannot import object with id {index} in table "
-                        f"{tablename}: the object either exists already "
-                        "in this database, or it's malformed."
-                    )
+            import_to_table(
+                session=session,
+                table=table,
+                tablename=tablename,
+                entities=entities,
+                stop_on_error=stop_on_error,
+            )
 
         elif isinstance(entities, list) or isinstance(entities, set):
-            for values in entities:
-                try:
-                    logging.debug(f"Importing {values}")
-                    insert = table.insert().values(values)
-                    session.execute(insert)
-                except IntegrityError as e:
-                    if stop_on_error:
-                        raise e
-                    logging.error(
-                        f"Cannot import row '{values}' in table "
-                        f"{tablename}: the object either exists already "
-                        "in this database, or it's malformed."
-                    )
+            import_to_associative_table(
+                session=session,
+                table=table,
+                tablename=tablename,
+                entities=entities,
+                stop_on_error=stop_on_error,
+            )
+
         else:
             if stop_on_error:
                 raise ValueError(
@@ -149,3 +150,42 @@ def import_from_dict(  # noqa: C901
                     "it's neither a dict nor a list."
                 )
             logging.error(f"Table '{tablename}' is malformed. Skipping")
+
+
+def import_to_table(
+    session: Session, table: Table, tablename: str, entities: dict, stop_on_error: bool
+) -> None:
+    for index, values in entities.items():
+        try:
+
+            logging.debug(f"Importing {index}: {values}")
+            uuid = UUID(index)
+            insert = table.insert().values(id=uuid, **values)
+            session.execute(insert)
+
+        except IntegrityError as e:
+            if stop_on_error:
+                raise e
+            logging.error(
+                f"Cannot import object with id {index} in table "
+                f"{tablename}: the object either exists already "
+                "in this database, or it's malformed."
+            )
+
+
+def import_to_associative_table(
+    session: Session, table: Table, tablename: str, entities: dict, stop_on_error: bool
+) -> None:
+    for values in entities:
+        try:
+            logging.debug(f"Importing {values}")
+            insert = table.insert().values(values)
+            session.execute(insert)
+        except IntegrityError as e:
+            if stop_on_error:
+                raise e
+            logging.error(
+                f"Cannot import row '{values}' in table "
+                f"{tablename}: the object either exists already "
+                "in this database, or it's malformed."
+            )
