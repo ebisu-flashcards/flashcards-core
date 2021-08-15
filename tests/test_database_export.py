@@ -28,7 +28,7 @@ def test_export_to_dict_broken_references(session):
     card = Card.create(session=session, deck_id=id1, question_id=id2, answer_id=id3)
     hierarchy = export_to_dict(session=session, objects_to_export=[card])
     assert hierarchy == {
-        "cards": {card.id: {"deck_id": id1, "question_id": id2, "answer_id": id3}}
+        "cards": {card.id.hex: {"deck_id": id1, "question_id": id2, "answer_id": id3}}
     }
 
 
@@ -42,7 +42,7 @@ def test_export_to_dict_one_object_no_list(session):
     hierarchy = export_to_dict(session=session, objects_to_export=[deck])
     assert hierarchy == {
         "decks": {
-            deck.id: {
+            deck.id.hex: {
                 "name": "Test",
                 "description": "A long description for deck",
                 "algorithm": "random",
@@ -63,7 +63,7 @@ def test_export_to_dict_one_object_in_list(session):
     hierarchy = export_to_dict(session=session, objects_to_export=[deck])
     assert hierarchy == {
         "decks": {
-            deck.id: {
+            deck.id.hex: {
                 "name": "Test",
                 "description": "A long description for deck",
                 "algorithm": "random",
@@ -84,7 +84,7 @@ def test_export_to_dict_same_object_twice(session):
     hierarchy = export_to_dict(session=session, objects_to_export=[deck, deck])
     assert hierarchy == {
         "decks": {
-            deck.id: {
+            deck.id.hex: {
                 "name": "Test",
                 "description": "A long description for deck",
                 "algorithm": "random",
@@ -111,14 +111,14 @@ def test_export_to_dict_two_objects_of_same_type(session):
     hierarchy = export_to_dict(session=session, objects_to_export=[deck1, deck2])
     assert hierarchy == {
         "decks": {
-            deck1.id: {
+            deck1.id.hex: {
                 "name": "Test-1",
                 "description": "A long description for deck",
                 "algorithm": "random",
                 "state": {},
                 "parameters": {},
             },
-            deck2.id: {
+            deck2.id.hex: {
                 "name": "Test-2",
                 "description": "A long description for deck",
                 "algorithm": "random",
@@ -144,7 +144,7 @@ def test_export_to_dict_two_different_unrelated_objects(session):
     hierarchy = export_to_dict(session=session, objects_to_export=[deck, fact])
     assert hierarchy == {
         "decks": {
-            deck.id: {
+            deck.id.hex: {
                 "name": "Test-1",
                 "description": "A long description for deck",
                 "algorithm": "random",
@@ -152,7 +152,7 @@ def test_export_to_dict_two_different_unrelated_objects(session):
                 "parameters": {},
             }
         },
-        "facts": {fact.id: {"value": "a fact", "format": "plaintext"}},
+        "facts": {fact.id.hex: {"value": "a fact", "format": "plaintext"}},
     }
 
 
@@ -182,7 +182,7 @@ def test_export_to_dict_two_related_objects_deck_first(session):
     hierarchy = export_to_dict(session=session, objects_to_export=[deck, card])
     assert hierarchy == {
         "decks": {
-            deck.id: {
+            deck.id.hex: {
                 "name": "Test-1",
                 "description": "A long description for deck",
                 "algorithm": "random",
@@ -191,15 +191,15 @@ def test_export_to_dict_two_related_objects_deck_first(session):
             }
         },
         "cards": {
-            card.id: {
+            card.id.hex: {
                 "deck_id": deck.id,
                 "question_id": question.id,
                 "answer_id": answer.id,
             }
         },
         "facts": {
-            answer.id: {"format": "plaintext", "value": "an answer"},
-            question.id: {"format": "plaintext", "value": "a question"},
+            answer.id.hex: {"format": "plaintext", "value": "an answer"},
+            question.id.hex: {"format": "plaintext", "value": "a question"},
         },
     }
 
@@ -223,14 +223,14 @@ def test_export_to_dict_two_related_objects_card_first(session):
     )
     card = Card.create(
         session=session,
-        deck_id=deck.id,
-        question_id=question.id,
-        answer_id=answer.id,
+        deck_id=deck.id.hex,
+        question_id=question.id.hex,
+        answer_id=answer.id.hex,
     )
     hierarchy = export_to_dict(session=session, objects_to_export=[card, deck])
     assert hierarchy == {
         "decks": {
-            deck.id: {
+            deck.id.hex: {
                 "name": "Test-1",
                 "description": "A long description for deck",
                 "algorithm": "random",
@@ -239,15 +239,15 @@ def test_export_to_dict_two_related_objects_card_first(session):
             }
         },
         "cards": {
-            card.id: {
+            card.id.hex: {
                 "deck_id": deck.id,
                 "question_id": question.id,
                 "answer_id": answer.id,
             }
         },
         "facts": {
-            question.id: {"format": "plaintext", "value": "a question"},
-            answer.id: {"format": "plaintext", "value": "an answer"},
+            question.id.hex: {"format": "plaintext", "value": "a question"},
+            answer.id.hex: {"format": "plaintext", "value": "an answer"},
         },
     }
 
@@ -271,22 +271,22 @@ def test_export_to_dict_card_dont_pull_deck(session):
     )
     card = Card.create(
         session=session,
-        deck_id=deck.id,
-        question_id=question.id,
-        answer_id=answer.id,
+        deck_id=deck.id.hex,
+        question_id=question.id.hex,
+        answer_id=answer.id.hex,
     )
     hierarchy = export_to_dict(session=session, objects_to_export=[card])
     assert hierarchy == {
         "cards": {
-            card.id: {
+            card.id.hex: {
                 "deck_id": deck.id,
                 "question_id": question.id,
                 "answer_id": answer.id,
             }
         },
         "facts": {
-            question.id: {"format": "plaintext", "value": "a question"},
-            answer.id: {"format": "plaintext", "value": "an answer"},
+            question.id.hex: {"format": "plaintext", "value": "a question"},
+            answer.id.hex: {"format": "plaintext", "value": "an answer"},
         },
     }
 
@@ -310,16 +310,16 @@ def test_export_to_dict_card_pull_deck(session):
     )
     card = Card.create(
         session=session,
-        deck_id=deck.id,
-        question_id=question.id,
-        answer_id=answer.id,
+        deck_id=deck.id.hex,
+        question_id=question.id.hex,
+        answer_id=answer.id.hex,
     )
     hierarchy = export_to_dict(
         session=session, objects_to_export=[card], exclude_fields={}
     )
     assert hierarchy == {
         "decks": {
-            deck.id: {
+            deck.id.hex: {
                 "name": "Test-1",
                 "description": "A long description for deck",
                 "algorithm": "random",
@@ -328,15 +328,15 @@ def test_export_to_dict_card_pull_deck(session):
             }
         },
         "cards": {
-            card.id: {
+            card.id.hex: {
                 "deck_id": deck.id,
                 "question_id": question.id,
                 "answer_id": answer.id,
             }
         },
         "facts": {
-            question.id: {"format": "plaintext", "value": "a question"},
-            answer.id: {"format": "plaintext", "value": "an answer"},
+            question.id.hex: {"format": "plaintext", "value": "a question"},
+            answer.id.hex: {"format": "plaintext", "value": "an answer"},
         },
     }
 
@@ -352,9 +352,9 @@ def test_export_to_dict_card_pull_nothing(session):
     answer = Fact.create(session=session, value="answer", format="text")
     card = Card.create(
         session=session,
-        deck_id=deck.id,
-        question_id=question.id,
-        answer_id=answer.id,
+        deck_id=deck.id.hex,
+        question_id=question.id.hex,
+        answer_id=answer.id.hex,
     )
     hierarchy = export_to_dict(
         session=session,
@@ -363,7 +363,7 @@ def test_export_to_dict_card_pull_nothing(session):
     )
     assert hierarchy == {
         "cards": {
-            card.id: {
+            card.id.hex: {
                 "deck_id": deck.id,
                 "question_id": question.id,
                 "answer_id": answer.id,
@@ -383,27 +383,30 @@ def test_export_to_dict_full_hierarchy(session):
     question = Fact.create(session=session, value="question", format="text")
     answer = Fact.create(session=session, value="answer", format="text")
     card = Card.create(
-        session=session, deck_id=deck.id, question_id=question.id, answer_id=answer.id
+        session=session,
+        deck_id=deck.id.hex,
+        question_id=question.id.hex,
+        answer_id=answer.id.hex,
     )
     review1 = Review.create(
-        session=session, result=True, algorithm="random", card_id=card.id
+        session=session, result=True, algorithm="random", card_id=card.id.hex
     )
     review2 = Review.create(
-        session=session, result=False, algorithm="random", card_id=card.id
+        session=session, result=False, algorithm="random", card_id=card.id.hex
     )
     tag1 = Tag.create(session=session, name="test-tag-1")
     tag2 = Tag.create(session=session, name="test-tag-2")
 
-    deck.assign_tag(session=session, tag_id=tag1.id)
-    deck.assign_tag(session=session, tag_id=tag2.id)
-    card.assign_tag(session=session, tag_id=tag2.id)
-    question.assign_tag(session=session, tag_id=tag1.id)
+    deck.assign_tag(session=session, tag_id=tag1.id.hex)
+    deck.assign_tag(session=session, tag_id=tag2.id.hex)
+    card.assign_tag(session=session, tag_id=tag2.id.hex)
+    question.assign_tag(session=session, tag_id=tag1.id.hex)
 
     hierarchy = export_to_dict(session=session, objects_to_export=[card, deck])
 
     assert hierarchy == {
         "decks": {
-            deck.id: {
+            deck.id.hex: {
                 "name": "Test",
                 "description": "A long description for deck",
                 "algorithm": "random",
@@ -412,31 +415,34 @@ def test_export_to_dict_full_hierarchy(session):
             }
         },
         "cards": {
-            card.id: {
+            card.id.hex: {
                 "deck_id": deck.id,
                 "question_id": question.id,
                 "answer_id": answer.id,
             }
         },
         "facts": {
-            question.id: {"format": "text", "value": "question"},
-            answer.id: {"format": "text", "value": "answer"},
+            question.id.hex: {"format": "text", "value": "question"},
+            answer.id.hex: {"format": "text", "value": "answer"},
         },
         "reviews": {
-            review1.id: {
+            review1.id.hex: {
                 "algorithm": "random",
                 "card_id": card.id,
                 "datetime": datetime.datetime(2021, 1, 1, 12, 00, 00, 000000),
                 "result": "1",
             },
-            review2.id: {
+            review2.id.hex: {
                 "algorithm": "random",
                 "card_id": card.id,
                 "datetime": datetime.datetime(2021, 1, 1, 12, 00, 00, 000000),
                 "result": "0",
             },
         },
-        "tags": {tag1.id: {"name": "test-tag-1"}, tag2.id: {"name": "test-tag-2"}},
+        "tags": {
+            tag1.id.hex: {"name": "test-tag-1"},
+            tag2.id.hex: {"name": "test-tag-2"},
+        },
         "facttags": {(question.id, tag1.id)},
         "cardtags": {(card.id, tag2.id)},
         "decktags": {(deck.id, tag1.id), (deck.id, tag2.id)},
@@ -454,20 +460,23 @@ def test_export_to_json_full_hierarchy(session):
     question = Fact.create(session=session, value="question", format="text")
     answer = Fact.create(session=session, value="answer", format="text")
     card = Card.create(
-        session=session, deck_id=deck.id, question_id=question.id, answer_id=answer.id
+        session=session,
+        deck_id=deck.id.hex,
+        question_id=question.id.hex,
+        answer_id=answer.id.hex,
     )
     review1 = Review.create(
-        session=session, result=True, algorithm="random", card_id=card.id
+        session=session, result=True, algorithm="random", card_id=card.id.hex
     )
     review2 = Review.create(
-        session=session, result=False, algorithm="random", card_id=card.id
+        session=session, result=False, algorithm="random", card_id=card.id.hex
     )
     tag1 = Tag.create(session=session, name="test-tag-1")
     tag2 = Tag.create(session=session, name="test-tag-2")
 
-    deck.assign_tag(session=session, tag_id=tag1.id)
-    card.assign_tag(session=session, tag_id=tag2.id)
-    question.assign_tag(session=session, tag_id=tag1.id)
+    deck.assign_tag(session=session, tag_id=tag1.id.hex)
+    card.assign_tag(session=session, tag_id=tag2.id.hex)
+    question.assign_tag(session=session, tag_id=tag1.id.hex)
 
     hierarchy = export_to_json(
         session=session, objects_to_export=[deck], sort_keys=True, indent=4
@@ -485,9 +494,9 @@ def test_export_to_json_full_hierarchy(session):
             },
             "cards": {
                 card.id.hex: {
-                    "deck_id": deck.id.hex,
-                    "question_id": question.id.hex,
-                    "answer_id": answer.id.hex,
+                    "deck_id": deck.id,
+                    "question_id": question.id,
+                    "answer_id": answer.id,
                 }
             },
             "facts": {
@@ -497,13 +506,13 @@ def test_export_to_json_full_hierarchy(session):
             "reviews": {
                 review1.id.hex: {
                     "algorithm": "random",
-                    "card_id": card.id.hex,
+                    "card_id": card.id,
                     "datetime": datetime.datetime(2021, 1, 1, 12, 00, 00, 000000),
                     "result": "1",
                 },
                 review2.id.hex: {
                     "algorithm": "random",
-                    "card_id": card.id.hex,
+                    "card_id": card.id,
                     "datetime": datetime.datetime(2021, 1, 1, 12, 00, 00, 000000),
                     "result": "0",
                 },
@@ -512,16 +521,12 @@ def test_export_to_json_full_hierarchy(session):
                 tag1.id.hex: {"name": "test-tag-1"},
                 tag2.id.hex: {"name": "test-tag-2"},
             },
-            "facttags": [(question.id.hex, tag1.id.hex)],
-            "cardtags": [(card.id.hex, tag2.id.hex)],
-            "decktags": [(deck.id.hex, tag1.id.hex)],
+            "facttags": [(question.id, tag1.id)],
+            "cardtags": [(card.id, tag2.id)],
+            "decktags": [(deck.id, tag1.id)],
         },
         sort_keys=True,
         indent=4,
         default=hierarchy_to_json,
     )
-
-    print(hierarchy)
-    print(test_hierarchy)
-
     assert hierarchy == test_hierarchy
