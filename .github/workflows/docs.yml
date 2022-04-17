@@ -34,9 +34,9 @@ jobs:
         make html
         cd ../
         mv docs/build/html/* .
-        rm -rf docs/
+        rm -rf !(_static/|README.md|*.html|*.js)
 
         git checkout gh-pages
         git add .
-        git commit -m "Update docs"
+        git commit -m "Update docs for commit ${GITHUB_SHA}"
         git push
