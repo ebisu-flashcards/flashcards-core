@@ -25,6 +25,7 @@ jobs:
       run: pip install -e .[dev]
       
     - name: Build & Deploy Docs
+      shell: bash
       run: |
         git status
         git config --local user.email "github-actions-bot@users.noreply.github.com"
