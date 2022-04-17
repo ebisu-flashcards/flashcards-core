@@ -38,7 +38,9 @@ jobs:
         shopt -s extglob
         rm -rf !(_static/|README.md|*.html|*.js)
 
+        git stash
         git checkout gh-pages
+        git stash apply
         git add .
         git commit -m "Update docs for commit ${GITHUB_SHA}"
         git push
