@@ -44,5 +44,5 @@ jobs:
         mv .static/ _static/
 
         git add .
-        git commit -m "Update docs for commit ${GITHUB_SHA}"
+        git commit -m "Update docs for commit ${GITHUB_SHA}" -a || echo "Nothing to commit"
         git push
