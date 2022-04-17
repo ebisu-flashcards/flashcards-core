@@ -24,17 +24,17 @@ jobs:
     - name: Install prerequisites
       run: sudo apt install git
       
-    - name: Build Docs
-      uses: ammaraskar/sphinx-action@master
-      with:
-        docs-folder: "docs/"
-
-    - name: Commit files
+    - name: Build & Deploy Docs
       run: |
         git status
         git config --local user.email "github-actions-bot@users.noreply.github.com"
         git config --local user.name "Github Actions Bot"
+        
+        cd docs/
+        make html
+        mv build/html/* .
+
         git checkout gh-pages
         git add .
-        git commit -m "Update docs" -a || echo "No changes to commit"
+        git commit -m "Update docs"
         git push
