@@ -36,7 +36,7 @@ jobs:
 
         git checkout gh-pages
         cd ../
-        mv docs/build/html/* 
+        mv docs/build/html/* .
         mv _static/ ._static/
         shopt -s extglob
         rm -rf !(README.md|*.html|*.js)
