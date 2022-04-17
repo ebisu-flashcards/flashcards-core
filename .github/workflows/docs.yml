@@ -32,7 +32,9 @@ jobs:
         
         cd docs/
         make html
-        mv build/html/* .
+        cd ../
+        mv docs/build/html/* 
+        rm -rf docs/
 
         git checkout gh-pages
         git add .
