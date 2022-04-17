@@ -54,15 +54,11 @@ def test_get_scheduler_for_deck_non_existing_algorithm(session, fake_schedulers)
         get_scheduler_for_deck(session=session, deck=deck)
 
 
-def test_base_scheduler(session, monkeypatch):
+def test_base_scheduler_is_abstract(session, monkeypatch):
     fake_schedulers = {"base": BaseScheduler}
     monkeypatch.setattr(flashcards_core.schedulers, "SCHEDULERS", fake_schedulers)
 
     deck = Deck.create(session=session, name="a", description="a", algorithm="base")
-    scheduler = get_scheduler_for_deck(session=session, deck=deck)
+    with pytest.raises(TypeError, match="anstract class BaseScheduler")
+        get_scheduler_for_deck(session=session, deck=deck)
 
-    assert scheduler.__class__ == BaseScheduler
-    with pytest.raises(NotImplementedError):
-        scheduler.next_card()
-    with pytest.raises(NotImplementedError):
-        scheduler.process_test_result(card=None, result=None)
