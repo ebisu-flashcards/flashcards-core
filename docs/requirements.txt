@@ -1,0 +1,1 @@
+flashcards-core@git+https://github.com/ebisu-flashcards/flashcards-core.git
