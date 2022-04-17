@@ -19,7 +19,7 @@ class FakeScheduler(BaseScheduler):
     def next_card(self):
         pass
 
-    def process_test_result(self, card: Card, result: Any):
+    def process_test_result(self, card, result):
         pass
 
 
