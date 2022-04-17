@@ -12,7 +12,15 @@ from flashcards_core.schedulers.base import BaseScheduler
 
 
 class FakeScheduler(BaseScheduler):
-    pass
+
+    def __init__(self, session: Session, deck: Deck):
+        pass
+
+    def next_card(self):
+        pass
+
+    def process_test_result(self, card: Card, result: Any):
+        pass
 
 
 @pytest.fixture()
