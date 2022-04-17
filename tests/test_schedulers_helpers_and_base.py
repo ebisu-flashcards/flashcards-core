@@ -13,7 +13,7 @@ from flashcards_core.schedulers.base import BaseScheduler
 
 class FakeScheduler(BaseScheduler):
 
-    def __init__(self, session: Session, deck: Deck):
+    def __init__(self, *args, **kwargs):
         pass
 
     def next_card(self):
