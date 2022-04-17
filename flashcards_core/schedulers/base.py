@@ -1,11 +1,12 @@
 from typing import Any
+from abc import ABC, abstractmethod
 
 from sqlalchemy.orm import Session
 
 from flashcards_core.database import Deck, Card
 
 
-class BaseScheduler:
+class BaseScheduler(ABC):
     def __init__(self, session: Session, deck: Deck):
 
         #: The session to use to interact with the database
@@ -14,12 +15,14 @@ class BaseScheduler:
         #: The deck we're studying
         self.deck = deck
 
+    @abstractmethod
     def next_card(self) -> Card:
         """
         :return: the next card to review
         """
         raise NotImplementedError("This is the base class, use an implementation.")
 
+    @abstractmethod
     def process_test_result(self, card: Card, result: Any):
         """
         Creates a Review for the card, storing the test result.
