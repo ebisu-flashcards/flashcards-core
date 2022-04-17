@@ -1,4 +1,5 @@
 from flashcards_core.errors import ObjectNotFoundException
+from flashcards_core.schedulers.base import BaseScheduler
 from flashcards_core.schedulers.random import RandomScheduler
 
 
