@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flashcards Core &mdash; flashcards-core 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Study API" href="study.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> flashcards-core
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="study.html">Study API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="schedulers.html">Schedulers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Database Model Classes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">flashcards-core</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Flashcards Core</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flashcards-core">
+<h1>Flashcards Core<a class="headerlink" href="#flashcards-core" title="Permalink to this headline"></a></h1>
+<p>Python library for flashcards and spaced repetition applications.</p>
+<a class="reference external image-reference" href="https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/codeql.yml/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/tests.yml"><img alt="Unit Tests" src="https://github.com/ebisu-flashcards/flashcards-core/actions/workflows/tests.yml/badge.svg" /></a>
+<a class="reference external image-reference" href="https://coveralls.io/github/ebisu-flashcards/flashcards-core?branch=main"><img alt="Coverage Status" src="https://coveralls.io/repos/github/ebisu-flashcards/flashcards-core/badge.svg?branch=main" /></a>
+<a class="reference external image-reference" href="https://www.gnu.org/licenses/agpl-3.0"><img alt="License: AGPL v3" src="https://img.shields.io/badge/License-AGPLv3-blue.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/ebisu-flashcards/flashcards-core"><img alt="Code on: GitHub" src="https://img.shields.io/badge/Code%20on-GitHub-blueviolet" /></a>
+<a class="reference external image-reference" href="https://github.com/psf/black"><img alt="Code style: Black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
+<hr class="docutils" />
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+<section id="flashcards-srs-spaced-repetition-software">
+<h3>Flashcards &amp; SRS (Spaced Repetition Software)<a class="headerlink" href="#flashcards-srs-spaced-repetition-software" title="Permalink to this headline"></a></h3>
+<p>Flashcards are a great way to memorize large amount of facts, for example a foreign language vocabulary, the world’s flags, some trivia, bird songs, your new colleagues names, or any other long list of item pairs, be that text, images, or sounds.</p>
+<p>What makes flashcards so powerful is the possibility to review them as soon as they start to get forgotten thanks to spaced repetition algorithms (SRS), which are designed to propose you study session of optimal lenght and timing, so that you can study the least while achieving the most. Some popular algorithms include Anki’s SM2, SuperMemo’s algorithms, Duolingo’s algorithm, and other simpler ones. Flashcards supports also very trivial schedulers like “random order” or “last seen first”, etc. If you know how to write Python, you can also write your own scheduler and send it to us to add it to the library! See the “Contribute” section below to understand how to do it.</p>
+<p>SRS algorithms have a noticeable impact on the short term learning rate, but their greatest benefits are seen on the long term.</p>
+<section id="references">
+<h4>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h4>
+<ul class="simple">
+<li><p>Wikipedia links: <a class="reference external" href="https://en.wikipedia.org/wiki/Spaced_repetition">Spaced Repetition</a> and <a class="reference external" href="https://www.semanticscholar.org/paper/Spaced-retrieval%3A-absolute-spacing-enhances-of-Karpicke-Bauernschmidt/23c01da059b9eb8be667930bddddc2033e719e31">Forgetting Curve</a></p></li>
+<li><p>A great summary of <a class="reference external" href="https://www.sinosplice.com/life/archives/2021/02/07/srs-flashcards-pros-and-cons">pros and cons of SRS</a></p></li>
+<li><p>Many <a class="reference external" href="https://scholar.google.com/scholar?hl=it&amp;as_sdt=0%2C5&amp;q=spaced+repetition&amp;btnG=">scientific articles on Google Scholar</a> Remember that, like anything in science, these are not absolute truths and articles with opposite findings also exist, like <a class="reference external" href="https://www.semanticscholar.org/paper/Spaced-retrieval%3A-absolute-spacing-enhances-of-Karpicke-Bauernschmidt/23c01da059b9eb8be667930bddddc2033e719e31">this</a> and others.</p></li>
+</ul>
+</section>
+</section>
+<section id="library-structure">
+<h3>Library Structure<a class="headerlink" href="#library-structure" title="Permalink to this headline"></a></h3>
+<p>Flashcards is made of two main components:</p>
+<ul class="simple">
+<li><p><strong>Database model</strong>, of a collection of flashcards decks. It includes extra features like tags and context for questions and answers.</p></li>
+<li><p><strong>Schedulers</strong>, algorithms that can be used to decide in which order the flashcards should be studied</p></li>
+</ul>
+<p>In addition, it provides a simple <strong>Study API</strong>, an object that can be initialized and used to study existing collections through a single function call (see <a class="reference external" href="https://ebisu-flashcards.github.io/flashcards-core/study.html">the docs</a>).</p>
+<p>Note that this is a library, not a complete application! This package provides no interface whatsoever and can be used only through the Python REPL or other Python scripts. If you’re looking for a flashcards application, check out <a class="reference external" href="https://github.com/ebisu-flashcards/flashcards-web">Flashcards Web</a>, <a class="reference external" href="https://github.com/ebisu-flashcards/flashcards-cli">Flashcards CLI</a>, or make your own frontend.</p>
+</section>
+<section id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline"></a></h3>
+<p>You can find some documentation and autogenerated API docs <a class="reference external" href="https://ebisu-flashcards.github.io/flashcards-core/">here</a>.</p>
+</section>
+<section id="versioning">
+<h3>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline"></a></h3>
+<p>This library is in development and might still experience radical changes from version to version. Do not assume backwards compatibility between minor versions until we hit version 1.0.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>This is just an example of how to create decks, cards and facts and how to use
+the library for studying. For a more detailed explanation of the API, check
+out the <a class="reference external" href="https://ebisu-flashcards.github.io/flashcards-core/">documentation</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flashcards_core.database</span> <span class="kn">import</span> <span class="n">Deck</span><span class="p">,</span> <span class="n">Card</span><span class="p">,</span> <span class="n">Fact</span><span class="p">,</span> <span class="n">init_db</span>
+<span class="kn">from</span> <span class="nn">flashcards_core.study</span> <span class="kn">import</span> <span class="n">Study</span>
+
+<span class="c1"># Initialize the database connection</span>
+<span class="n">sessionmaker</span> <span class="o">=</span> <span class="n">init_db</span><span class="p">()</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">()</span>
+
+<span class="c1"># Create a deck</span>
+<span class="n">deck</span> <span class="o">=</span> <span class="n">Deck</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;My New Deck&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;An example deck&quot;</span><span class="p">,</span>
+    <span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;random&quot;</span>  <span class="c1"># Available keys are in flashcards_core.schedulers.SCHEDULERS</span>
+<span class="p">)</span>
+
+<span class="c1"># Create a card for the above deck</span>
+<span class="n">question</span> <span class="o">=</span> <span class="n">Fact</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;A question&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="n">answer</span> <span class="o">=</span> <span class="n">Fact</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;An answer&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="n">Card</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
+    <span class="n">deck_id</span><span class="o">=</span><span class="n">deck</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">question_id</span><span class="o">=</span><span class="n">question</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">answer_id</span><span class="o">=</span><span class="n">answer</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+
+<span class="c1"># Study your deck</span>
+<span class="n">study</span> <span class="o">=</span> <span class="n">Study</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span> <span class="n">deck</span><span class="o">=</span><span class="n">deck</span><span class="p">)</span>
+<span class="n">card_to_study</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="n">cards_studied</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">cards_studied</span> <span class="o">=</span> <span class="n">cards_studied</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Question #</span><span class="si">{</span><span class="n">cards_studied</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">card_to_study</span><span class="o">.</span><span class="n">question</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Answer:  &quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="n">card_to_study</span><span class="o">.</span><span class="n">answer</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Correct!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrong: the correct answer was: </span><span class="si">{</span><span class="n">card_to_study</span><span class="o">.</span><span class="n">answer</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Study session is over. Bye!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline"></a></h2>
+<p>Flashcards can be installed from this repo as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; git clone git+https://github.com/ebisu-flashcards/flashcards-core.git
+&gt; <span class="nb">cd</span> flashcards-core/
+&gt; python3 -m venv venv
+&gt; <span class="nb">source</span> venv/bin/activate
+&gt; pip install .
+</pre></div>
+</div>
+<p>Or from PyPi (<strong>not yet, soon!</strong>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; python3 -m venv venv
+&gt; <span class="nb">source</span> venv/bin/activate
+&gt; pip install flashcards
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="contribute">
+<h2>Contribute<a class="headerlink" href="#contribute" title="Permalink to this headline"></a></h2>
+<p>Contributions are welcome here! To get started, install an editable version of this package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; git clone git+https://github.com/ebisu-flashcards/flashcards-core.git
+&gt; <span class="nb">cd</span> flashcards-core/
+&gt; python3 -m venv venv
+&gt; <span class="nb">source</span> venv/bin/activate
+&gt; pip install --editable .
+&gt; pre-commit install
+
+... <span class="k">do</span> your changes ...
+
+&gt; pytest
+</pre></div>
+</div>
+<p>The pre-commit hook runs <a class="reference external" href="https://black.readthedocs.io/en/stable/">Black</a> and
+<a class="reference external" href="https://flake8.pycqa.org/en/latest/">Flake8</a> with fairly standard setups.
+Do not send a PR if these checks, or the tests, are failing, but rather
+<a class="reference external" href="https://github.com/ebisu-flashcards/flashcards-core/issues/new">ask for help</a>.</p>
+</section>
+<hr class="docutils" />
+<section id="contacts">
+<h2>Contacts<a class="headerlink" href="#contacts" title="Permalink to this headline"></a></h2>
+<p>Soon…</p>
+</section>
+<section id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline"></a></h2>
+<a class="reference external image-reference" href="https://contrib.rocks/image?repo=ebisu-flashcards/flashcards-core"><img alt="GitHub Contributors Image" src="https://contrib.rocks/image?repo=ebisu-flashcards/flashcards-core" /></a>
+<hr class="docutils" />
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="study.html" class="btn btn-neutral float-right" title="Study API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Sara Zanzottera.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
