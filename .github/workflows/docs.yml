@@ -33,14 +33,15 @@ jobs:
         
         cd docs/
         make html
-
-        git checkout gh-pages
         cd ../
+        
+        git checkout gh-pages
+
+        mv docs/build/html/_static .static
         mv docs/build/html/* .
-        mv _static/ ._static/
         shopt -s extglob
         rm -rf !(README.md|*.html|*.js)
-        mv ._static/ _static/
+        mv .static/ _static/
 
         git add .
         git commit -m "Update docs for commit ${GITHUB_SHA}"
