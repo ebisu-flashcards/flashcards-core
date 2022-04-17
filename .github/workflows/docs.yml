@@ -33,12 +33,13 @@ jobs:
         
         cd docs/
         make html
+
+        git checkout gh-pages
         cd ../
         mv docs/build/html/* .
         shopt -s extglob
         rm -rf !(_static/*|README.md|*.html|*.js)
 
-        git checkout gh-pages
         git add .
         git commit -m "Update docs for commit ${GITHUB_SHA}"
         git push
