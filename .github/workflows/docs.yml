@@ -1,4 +1,4 @@
-name: Docs & Wheel
+name: Docs
  
 on:
   push:
@@ -9,23 +9,10 @@ on:
       - main
  
 jobs:
- 
-  build_docs:
+  docs:
     runs-on: ubuntu-latest
- 
     steps:
-    - name: Prerequisites
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        git clone "https://token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" .
-        sudo chmod +x .github/workflows/build_docs.sh
-        pip install --editable .[dev]
-        pip wheel --no-deps --wheel-dir wheels .
-      shell: bash
- 
-    - name: Build the docs and update pages
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: ".github/workflows/build_docs.sh"
-      shell: bash
+    - uses: actions/checkout@v1
+    - uses: ammaraskar/sphinx-action@master
+      with:
+        docs-folder: "docs/"
