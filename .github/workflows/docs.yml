@@ -22,7 +22,7 @@ jobs:
       uses: actions/setup-python@v2
 
     - name: Install prerequisites
-      run: sudo apt install git
+      run: pip install -e .[dev]
       
     - name: Build & Deploy Docs
       run: |
