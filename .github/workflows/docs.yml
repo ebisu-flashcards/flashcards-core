@@ -12,14 +12,29 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
 
+    - name: Checkout files
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+      
     - name: Install Python
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
 
     - name: Install 
       run: pip install -e .[dev]
       
-    - uses: ammaraskar/sphinx-action@master
+    - name: Build Docs
+      uses: ammaraskar/sphinx-action@master
       with:
         docs-folder: "docs/"
+
+    - name: Commit files
+      run: |
+        git status
+        git config --local user.email "github-actions-bot@users.noreply.github.com"
+        git config --local user.name "Github Actions Bot"
+        git checkout gh-pages
+        git add .
+        git commit -m "Update docs" -a || echo "No changes to commit"
+        git push

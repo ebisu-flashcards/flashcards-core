@@ -59,6 +59,6 @@ def test_base_scheduler_is_abstract(session, monkeypatch):
     monkeypatch.setattr(flashcards_core.schedulers, "SCHEDULERS", fake_schedulers)
 
     deck = Deck.create(session=session, name="a", description="a", algorithm="base")
-    with pytest.raises(TypeError, match="anstract class BaseScheduler"):
+    with pytest.raises(TypeError, match="abstract class BaseScheduler"):
         get_scheduler_for_deck(session=session, deck=deck)
 
