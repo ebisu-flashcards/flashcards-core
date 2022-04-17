@@ -35,10 +35,7 @@ jobs:
         make html
         cd ../
         mv docs/build/html/* .
-<<<<<<< Updated upstream
-=======
         shopt -s extglob
->>>>>>> Stashed changes
         rm -rf !(_static/|README.md|*.html|*.js)
 
         git checkout gh-pages
