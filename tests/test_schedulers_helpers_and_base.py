@@ -12,7 +12,6 @@ from flashcards_core.schedulers.base import BaseScheduler
 
 
 class FakeScheduler(BaseScheduler):
-
     def __init__(self, *args, **kwargs):
         pass
 
@@ -61,4 +60,3 @@ def test_base_scheduler_is_abstract(session, monkeypatch):
     deck = Deck.create(session=session, name="a", description="a", algorithm="base")
     with pytest.raises(TypeError, match="abstract class BaseScheduler"):
         get_scheduler_for_deck(session=session, deck=deck)
-

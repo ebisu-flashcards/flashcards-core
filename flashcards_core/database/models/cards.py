@@ -181,5 +181,6 @@ class _Card(Base):
 class Card(_Card, CrudOperations):
     pass
 
+
 class ACard(_Card, AsyncCrudOperations):
     pass
