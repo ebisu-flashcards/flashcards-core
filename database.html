@@ -43,7 +43,7 @@
 <li class="toctree-l1"><a class="reference internal" href="schedulers.html">Schedulers</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Database</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#helpers">Helpers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-flashcards_core.database.crud">CRUD Base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#crud-base-class">CRUD Base class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-utils">Export Utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#import-utils">Import Utils</a></li>
 </ul>
@@ -80,108 +80,8 @@
 <section id="helpers">
 <h2>Helpers<a class="headerlink" href="#helpers" title="Permalink to this headline"></a></h2>
 </section>
-<section id="module-flashcards_core.database.crud">
-<span id="crud-base-class"></span><h2>CRUD Base class<a class="headerlink" href="#module-flashcards_core.database.crud" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="flashcards_core.database.crud.CrudOperations">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.crud.</span></span><span class="sig-name descname"><span class="pre">CrudOperations</span></span><a class="headerlink" href="#flashcards_core.database.crud.CrudOperations" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="flashcards_core.database.crud.CrudOperations.create">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.crud.CrudOperations.create" title="Permalink to this definition"></a></dt>
-<dd><p>Create a new model object with the given kwargs.
-Check the model to understand what you can give as <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>session</strong> – the session (see flashcards_core.database:init_session()).</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the new model object.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="flashcards_core.database.crud.CrudOperations.delete">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.crud.CrudOperations.delete" title="Permalink to this definition"></a></dt>
-<dd><p>Delete a model object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>session</strong> – the session (see flashcards_core.database:init_session()).</p></li>
-<li><p><strong>object_id</strong> – the ID of the model object to delete.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None.</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p>ObjectNotFoundException if no object with the given
-ID was found in the database.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="flashcards_core.database.crud.CrudOperations.get_all">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="headerlink" href="#flashcards_core.database.crud.CrudOperations.get_all" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a list of all the model objects available in the DB, or a
-subset of them.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>session</strong> – the session (see flashcards_core.database:init_session()).</p></li>
-<li><p><strong>offset</strong> – for pagination, index at which to start returning values.</p></li>
-<li><p><strong>limit</strong> – for pagination, maximum number of elements to return.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of model objects.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="flashcards_core.database.crud.CrudOperations.get_one">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_one</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span></span></span><a class="headerlink" href="#flashcards_core.database.crud.CrudOperations.get_one" title="Permalink to this definition"></a></dt>
-<dd><p>Returns the model object corresponding to the given ID.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>session</strong> – the session (see flashcards_core.database:init_session()).</p></li>
-<li><p><strong>object_id</strong> – the ID of the model object to return.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the matching model object.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="flashcards_core.database.crud.CrudOperations.update">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.crud.CrudOperations.update" title="Permalink to this definition"></a></dt>
-<dd><p>Modify the model object with the given values.
-Check the model to understand what you can give as <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>session</strong> – the session (see flashcards_core.database:init_session()).</p></li>
-<li><p><strong>object_id</strong> – the ID of the model object to update.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the updated model object.</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p>ObjectNotFoundException if no model object with the given
-ID was found in the database.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<section id="crud-base-class">
+<h2>CRUD Base class<a class="headerlink" href="#crud-base-class" title="Permalink to this headline"></a></h2>
 </section>
 <section id="export-utils">
 <h2>Export Utils<a class="headerlink" href="#export-utils" title="Permalink to this headline"></a></h2>
