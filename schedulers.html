@@ -41,9 +41,9 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="study.html">Study API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Schedulers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#helpers">Helpers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#basescheduler-base-class">BaseScheduler (base class)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#randomscheduler-random-order">RandomScheduler (random order)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashcards_core.schedulers">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashcards_core.schedulers.base">BaseScheduler (base class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashcards_core.schedulers.random">RandomScheduler (random order)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
@@ -76,14 +76,166 @@
              
   <section id="schedulers">
 <h1>Schedulers<a class="headerlink" href="#schedulers" title="Permalink to this headline"></a></h1>
-<section id="helpers">
-<h2>Helpers<a class="headerlink" href="#helpers" title="Permalink to this headline"></a></h2>
+<section id="module-flashcards_core.schedulers">
+<span id="helpers"></span><h2>Helpers<a class="headerlink" href="#module-flashcards_core.schedulers" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.get_available_schedulers">
+<span class="sig-prename descclassname"><span class="pre">flashcards_core.schedulers.</span></span><span class="sig-name descname"><span class="pre">get_available_schedulers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.schedulers.get_available_schedulers" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of the known algorithm (scheduler) names.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.get_scheduler_class">
+<span class="sig-prename descclassname"><span class="pre">flashcards_core.schedulers.</span></span><span class="sig-name descname"><span class="pre">get_scheduler_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algorithm_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.schedulers.get_scheduler_class" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the scheduler class corresponding to the given name.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.get_scheduler_for_deck">
+<span class="sig-prename descclassname"><span class="pre">flashcards_core.schedulers.</span></span><span class="sig-name descname"><span class="pre">get_scheduler_for_deck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deck</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.schedulers.get_scheduler_for_deck" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a ready-to-use scheduler for the algorithm assigned to this deck.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+<li><p><strong>deck</strong> – the deck this scheduler is generated for</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a subclass of BaseScheduler</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="basescheduler-base-class">
-<h2>BaseScheduler (base class)<a class="headerlink" href="#basescheduler-base-class" title="Permalink to this headline"></a></h2>
+<section id="module-flashcards_core.schedulers.base">
+<span id="basescheduler-base-class"></span><h2>BaseScheduler (base class)<a class="headerlink" href="#module-flashcards_core.schedulers.base" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.base.BaseScheduler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.schedulers.base.</span></span><span class="sig-name descname"><span class="pre">BaseScheduler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#flashcards_core.database.models.decks.Deck" title="flashcards_core.database.models.decks.Deck"><span class="pre">flashcards_core.database.models.decks.Deck</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.schedulers.base.BaseScheduler" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.base.BaseScheduler.deck">
+<span class="sig-name descname"><span class="pre">deck</span></span><a class="headerlink" href="#flashcards_core.schedulers.base.BaseScheduler.deck" title="Permalink to this definition"></a></dt>
+<dd><p>The deck we’re studying</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.base.BaseScheduler.next_card">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">next_card</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="models.html#flashcards_core.database.models.cards.Card" title="flashcards_core.database.models.cards.Card"><span class="pre">flashcards_core.database.models.cards.Card</span></a></span></span><a class="headerlink" href="#flashcards_core.schedulers.base.BaseScheduler.next_card" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the next card to review</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.base.BaseScheduler.process_test_result">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">process_test_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#flashcards_core.database.models.cards.Card" title="flashcards_core.database.models.cards.Card"><span class="pre">flashcards_core.database.models.cards.Card</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.schedulers.base.BaseScheduler.process_test_result" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a Review for the card, storing the test result.</p>
+<p>Different implementations might use a different type for the results,
+therefore this parameter is not typed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card</strong> – the card that was reviewed</p></li>
+<li><p><strong>result</strong> – the results of the test</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.base.BaseScheduler.session">
+<span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#flashcards_core.schedulers.base.BaseScheduler.session" title="Permalink to this definition"></a></dt>
+<dd><p>The session to use to interact with the database</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="randomscheduler-random-order">
-<h2>RandomScheduler (random order)<a class="headerlink" href="#randomscheduler-random-order" title="Permalink to this headline"></a></h2>
+<section id="module-flashcards_core.schedulers.random">
+<span id="randomscheduler-random-order"></span><h2>RandomScheduler (random order)<a class="headerlink" href="#module-flashcards_core.schedulers.random" title="Permalink to this headline"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.random.LAST_REVIEWED_CARD">
+<span class="sig-prename descclassname"><span class="pre">flashcards_core.schedulers.random.</span></span><span class="sig-name descname"><span class="pre">LAST_REVIEWED_CARD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'last_reviewed_card'</span></em><a class="headerlink" href="#flashcards_core.schedulers.random.LAST_REVIEWED_CARD" title="Permalink to this definition"></a></dt>
+<dd><p>ID of the last card reviewed</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.random.NEVER_REPEAT">
+<span class="sig-prename descclassname"><span class="pre">flashcards_core.schedulers.random.</span></span><span class="sig-name descname"><span class="pre">NEVER_REPEAT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'never_repeat'</span></em><a class="headerlink" href="#flashcards_core.schedulers.random.NEVER_REPEAT" title="Permalink to this definition"></a></dt>
+<dd><p>Never pick the same card twice in a row,
+if there is more than one card in the deck</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.random.RandomScheduler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.schedulers.random.</span></span><span class="sig-name descname"><span class="pre">RandomScheduler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#flashcards_core.database.models.decks.Deck" title="flashcards_core.database.models.decks.Deck"><span class="pre">flashcards_core.database.models.decks.Deck</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.schedulers.random.RandomScheduler" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flashcards_core.schedulers.base.BaseScheduler" title="flashcards_core.schedulers.base.BaseScheduler"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.schedulers.base.BaseScheduler</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.random.RandomScheduler.next_card">
+<span class="sig-name descname"><span class="pre">next_card</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="models.html#flashcards_core.database.models.cards.Card" title="flashcards_core.database.models.cards.Card"><span class="pre">flashcards_core.database.models.cards.Card</span></a></span></span><a class="headerlink" href="#flashcards_core.schedulers.random.RandomScheduler.next_card" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the next card to review.</p>
+<p>In a Random deck, this is any random card.
+If the deck is configured to give priority to unseen
+cards (<cite>unseen_first: true</cite>) then the new card is chosen
+among the new ones, if any.
+If the deck is configured to never show the same card twice
+in a row (<cite>never_repeat: true</cite>), and the deck has more than
+one card, then this method makes sure this constraints is
+respected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>deck</strong> – the deck to pick the next card from</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the next Card to study</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.random.RandomScheduler.process_test_result">
+<span class="sig-name descname"><span class="pre">process_test_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="models.html#flashcards_core.database.models.cards.Card" title="flashcards_core.database.models.cards.Card"><span class="pre">flashcards_core.database.models.cards.Card</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.schedulers.random.RandomScheduler.process_test_result" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a Review for the card, storing the test result.</p>
+<p>In a Random deck there is no further processing to do,
+except storing a pointer to the last card in case the
+deck is configured to never show the same card twice in
+a row. In addition, storing Reviews is useful to keep track
+of unseen cards, if so requested, and for later statistics.</p>
+<p>A Random deck will probably store boolean results, but in
+practice this is not mandatory and the frontend can choose
+to send any value here. Therefore, the results field is not
+typed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card</strong> – the card that was reviewed</p></li>
+<li><p><strong>result</strong> – the results of the test</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raise</dt>
+<dd class="field-odd"><p>ValueError if the card does not belong to the deck</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="flashcards_core.schedulers.random.UNSEEN_FIRST">
+<span class="sig-prename descclassname"><span class="pre">flashcards_core.schedulers.random.</span></span><span class="sig-name descname"><span class="pre">UNSEEN_FIRST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unseen_first'</span></em><a class="headerlink" href="#flashcards_core.schedulers.random.UNSEEN_FIRST" title="Permalink to this definition"></a></dt>
+<dd><p>Pick the next card from the unseen ones, if any</p>
+</dd></dl>
+
 </section>
 </section>
 
