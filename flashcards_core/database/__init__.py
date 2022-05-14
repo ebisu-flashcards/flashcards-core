@@ -5,6 +5,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from flashcards_core.database.models.cards import ACard  # noqa: F401, E402
+from flashcards_core.database.models.decks import ADeck  # noqa: F401, E402
+from flashcards_core.database.models.facts import AFact  # noqa: F401, E402
+from flashcards_core.database.models.reviews import AReview  # noqa: F401, E402
+from flashcards_core.database.models.tags import ATag  # noqa: F401, E402
+
 
 Base = declarative_base()
 
