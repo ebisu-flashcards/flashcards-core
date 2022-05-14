@@ -7,7 +7,7 @@ from sqlalchemy_json import mutable_json_type
 
 from flashcards_core.guid import GUID
 from flashcards_core.database import Base
-from flashcards_core.database.crud import CrudOperations, AsyncCrudOperations
+from flashcards_core.database.crud import CrudOperations
 
 
 #: Associative table for Decks and Tags
@@ -19,7 +19,7 @@ DeckTag = Table(
 )
 
 
-class _Deck(Base):
+class Deck(Base, CrudOperations):
     __tablename__ = "decks"
 
     #: Primary key
@@ -50,10 +50,10 @@ class _Deck(Base):
     )
 
     #: All the cards that belong to this deck
-    cards = relationship("_Card", cascade="all,delete", back_populates="deck")
+    cards = relationship("Card", cascade="all,delete", back_populates="deck")
 
     #: All the tags assigned to this deck
-    tags = relationship("_Tag", secondary="decktags")
+    tags = relationship("Tag", secondary="decktags")
 
     def __repr__(self):
         return f"<Deck '{self.name}' (ID: {self.id})>"
@@ -109,11 +109,3 @@ class _Deck(Base):
         session.execute(delete)
         session.commit()
         session.refresh(self)
-
-
-class Deck(_Deck, CrudOperations):
-    pass
-
-
-class ADeck(_Deck, AsyncCrudOperations):
-    pass

@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship, Session, backref
 
 from flashcards_core.guid import GUID
 from flashcards_core.database import Base
-from flashcards_core.database.crud import CrudOperations, AsyncCrudOperations
+from flashcards_core.database.crud import CrudOperations
 
 
 #: Associative table for Cards and Tags
@@ -41,7 +41,7 @@ RelatedCard = Table(
 )
 
 
-class _Card(Base):
+class Card(Base, CrudOperations):
     __tablename__ = "cards"
 
     #: Primary key
@@ -176,11 +176,3 @@ class _Card(Base):
         session.execute(delete)
         session.commit()
         session.refresh(self)
-
-
-class Card(_Card, CrudOperations):
-    pass
-
-
-class ACard(_Card, AsyncCrudOperations):
-    pass

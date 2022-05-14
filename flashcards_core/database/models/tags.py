@@ -6,10 +6,10 @@ from sqlalchemy.orm import Session
 
 from flashcards_core.guid import GUID
 from flashcards_core.database import Base
-from flashcards_core.database.crud import CrudOperations, AsyncCrudOperations
+from flashcards_core.database.crud import CrudOperations
 
 
-class _Tag(Base, CrudOperations):
+class Tag(Base, CrudOperations):
     __tablename__ = "tags"
 
     #: Primary key
@@ -31,11 +31,3 @@ class _Tag(Base, CrudOperations):
         :returns: the matching tag object.
         """
         return session.query(cls).filter(cls.name == name).first()
-
-
-class Tag(_Tag, CrudOperations):
-    pass
-
-
-class ATag(_Tag, AsyncCrudOperations):
-    pass

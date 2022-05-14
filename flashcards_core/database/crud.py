@@ -90,17 +90,11 @@ class CrudOperations:
 
 
 
-
-class AsyncCrudOperations:
-    """
-    Async version of flashcards_core's CrudOperations
-    """
-
     @classmethod
-    async def get_all(cls, session: Session, offset: int = 0, limit: int = 100) -> List[Any]:
+    async def get_all_async(cls, session: Session, offset: int = 0, limit: int = 100) -> List[Any]:
         """
         Returns a list of all the model objects available in the DB, or a
-        subset of them.
+        subset of them (asyncio-friendly).
 
         :param session: the session (see flashcards_core.database:init_session()).
         :param offset: for pagination, index at which to start returning values.
@@ -114,9 +108,9 @@ class AsyncCrudOperations:
         
 
     @classmethod
-    async def get_one(cls, session: Session, object_id: int) -> Optional[Any]:
+    async def get_one_async(cls, session: Session, object_id: int) -> Optional[Any]:
         """
-        Returns the model object corresponding to the given ID.
+        Returns the model object corresponding to the given ID (asyncio-friendly).
 
         :param session: the session (see flashcards_core.database:init_session()).
         :param object_id: the ID of the model object to return.
@@ -128,10 +122,10 @@ class AsyncCrudOperations:
         
 
     @classmethod
-    async def create(cls, session: Session, **kwargs):
+    async def create_async(cls, session: Session, **kwargs):
         """
         Create a new model object with the given kwargs.
-        Check the model to understand what you can give as **kwargs.
+        Check the model to understand what you can give as **kwargs (asyncio-friendly).
 
         :param session: the session (see flashcards_core.database:init_session()).
         :returns: the new model object.
@@ -143,10 +137,10 @@ class AsyncCrudOperations:
         return db_object
 
     @classmethod
-    async def update(cls, session: Session, object_id: int, **kwargs):
+    async def update_async(cls, session: Session, object_id: int, **kwargs):
         """
         Modify the model object with the given values.
-        Check the model to understand what you can give as **kwargs.
+        Check the model to understand what you can give as **kwargs (asyncio-friendly).
 
         :param session: the session (see flashcards_core.database:init_session()).
         :param object_id: the ID of the model object to update.
@@ -155,7 +149,7 @@ class AsyncCrudOperations:
         :raises: ObjectNotFoundException if no model object with the given
             ID was found in the database.
         """
-        db_object = cls.get_one(session=session, object_id=object_id)
+        db_object = cls.get_one_async(session=session, object_id=object_id)
         if not db_object:
             raise ObjectNotFoundException(
                 "Model object not found. You must create it before updating it."
@@ -167,9 +161,9 @@ class AsyncCrudOperations:
         return db_object
 
     @classmethod
-    async def delete(cls, session: Session, object_id: int) -> None:
+    async def delete_async(cls, session: Session, object_id: int) -> None:
         """
-        Delete a model object.
+        Delete a model object (asyncio-friendly).
 
         :param session: the session (see flashcards_core.database:init_session()).
         :param object_id: the ID of the model object to delete.
@@ -178,7 +172,7 @@ class AsyncCrudOperations:
         :raises: ObjectNotFoundException if no object with the given
             ID was found in the database.
         """
-        db_object = cls.get_one(session=session, object_id=object_id)
+        db_object = cls.get_one_async(session=session, object_id=object_id)
         if not db_object:
             raise ObjectNotFoundException("Model object not found. Cannot delete it.")
         session.delete(db_object)
