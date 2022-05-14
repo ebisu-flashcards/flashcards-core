@@ -5,10 +5,10 @@ from sqlalchemy.orm import relationship
 
 from flashcards_core.guid import GUID
 from flashcards_core.database import Base
-from flashcards_core.database.crud import CrudOperations
+from flashcards_core.database.crud import AsyncCrudOperations, CrudOperations
 
 
-class Review(Base, CrudOperations):
+class _Review(Base, CrudOperations):
     __tablename__ = "reviews"
 
     #: Primary key
@@ -18,7 +18,7 @@ class Review(Base, CrudOperations):
     card_id = Column(GUID(), ForeignKey("cards.id"))
 
     #: The card that was reviewed
-    card = relationship("Card", foreign_keys="Review.card_id")
+    card = relationship("_Card", foreign_keys="Review.card_id")
 
     #: The result of the review. It depends a lot on the
     #: SRS algorithm used for the review, so use the content of
@@ -40,3 +40,11 @@ class Review(Base, CrudOperations):
             f"<Review of card #{self.card_id}: '{self.result}'"
             f" at {self.datetime} (ID: {self.id})>"
         )
+
+
+class Review(_Review, CrudOperations):
+    pass
+
+
+class AReview(_Review, AsyncCrudOperations):
+    pass

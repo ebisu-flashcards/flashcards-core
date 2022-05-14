@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from uuid import uuid4, UUID
 from sqlalchemy import Column, ForeignKey, String, Table, JSON
@@ -7,7 +7,7 @@ from sqlalchemy_json import mutable_json_type
 
 from flashcards_core.guid import GUID
 from flashcards_core.database import Base
-from flashcards_core.database.crud import CrudOperations
+from flashcards_core.database.crud import CrudOperations, AsyncCrudOperations
 
 
 #: Associative table for Decks and Tags
@@ -19,7 +19,7 @@ DeckTag = Table(
 )
 
 
-class Deck(Base, CrudOperations):
+class _Deck(Base):
     __tablename__ = "decks"
 
     #: Primary key
@@ -50,16 +50,16 @@ class Deck(Base, CrudOperations):
     )
 
     #: All the cards that belong to this deck
-    cards = relationship("Card", cascade="all,delete", back_populates="deck")
+    cards = relationship("_Card", cascade="all,delete", back_populates="deck")
 
     #: All the tags assigned to this deck
-    tags = relationship("Tag", secondary="decktags")
+    tags = relationship("_Tag", secondary="decktags")
 
     def __repr__(self):
         return f"<Deck '{self.name}' (ID: {self.id})>"
 
     @classmethod
-    def get_by_name(cls, session: Session, name: str) -> Optional:
+    def get_by_name(cls, session: Session, name: str) -> Optional[Any]:
         """
         Returns the deck corresponding to the given name.
 
@@ -69,7 +69,7 @@ class Deck(Base, CrudOperations):
         """
         return session.query(Deck).filter(Deck.name == name).first()
 
-    def unseen_cards_list(self) -> List:
+    def unseen_cards_list(self) -> List[Any]:
         """
         Return a list of all the cards belonging to this deck that have no Reviews,
         which means they have never been seen/reviewed.
@@ -109,3 +109,11 @@ class Deck(Base, CrudOperations):
         session.execute(delete)
         session.commit()
         session.refresh(self)
+
+
+class Deck(_Deck, CrudOperations):
+    pass
+
+
+class ADeck(_Deck, AsyncCrudOperations):
+    pass

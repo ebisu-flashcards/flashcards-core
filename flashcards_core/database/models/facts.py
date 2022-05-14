@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship, Session, backref
 
 from flashcards_core.guid import GUID
 from flashcards_core.database import Base
-from flashcards_core.database.crud import CrudOperations
+from flashcards_core.database.crud import CrudOperations, AsyncCrudOperations
 
 
 #
@@ -28,7 +28,7 @@ RelatedFact = Table(
 )
 
 
-class Fact(Base, CrudOperations):
+class _Fact(Base):
     __tablename__ = "facts"
 
     #: Primary key
@@ -49,7 +49,7 @@ class Fact(Base, CrudOperations):
     #: All the facts that are somehow related to the current one
     #: Relationships are named (to help discoverability), see RelatedFacts
     related_facts = relationship(
-        "Fact",
+        "_Fact",
         secondary=RelatedFact,
         primaryjoin=(RelatedFact.c.original_fact_id == id),
         secondaryjoin=(RelatedFact.c.related_fact_id == id),
@@ -89,3 +89,11 @@ class Fact(Base, CrudOperations):
         session.execute(delete)
         session.commit()
         session.refresh(self)
+
+
+class Fact(_Fact, CrudOperations):
+    pass
+
+
+class AFact(_Fact, AsyncCrudOperations):
+    pass

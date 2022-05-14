@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 from uuid import uuid4
 from sqlalchemy import Column, String
@@ -6,10 +6,10 @@ from sqlalchemy.orm import Session
 
 from flashcards_core.guid import GUID
 from flashcards_core.database import Base
-from flashcards_core.database.crud import CrudOperations
+from flashcards_core.database.crud import CrudOperations, AsyncCrudOperations
 
 
-class Tag(Base, CrudOperations):
+class _Tag(Base, CrudOperations):
     __tablename__ = "tags"
 
     #: Primary key
@@ -22,7 +22,7 @@ class Tag(Base, CrudOperations):
         return f"<Tag '{self.name}' (ID: {self.id})>"
 
     @classmethod
-    def get_by_name(cls, session: Session, name: str) -> Optional["Tag"]:
+    def get_by_name(cls, session: Session, name: str) -> Optional[Any]:
         """
         Returns the tag corresponding to the given name.
 
@@ -30,4 +30,12 @@ class Tag(Base, CrudOperations):
         :param name: the name of the tag to return.
         :returns: the matching tag object.
         """
-        return session.query(Tag).filter(Tag.name == name).first()
+        return session.query(cls).filter(cls.name == name).first()
+
+
+class Tag(_Tag, CrudOperations):
+    pass
+
+
+class ATag(_Tag, AsyncCrudOperations):
+    pass
