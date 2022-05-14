@@ -45,8 +45,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-flashcards_core.database.models.decks">Decks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flashcards_core.database.models.cards">Cards</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flashcards_core.database.models.facts">Facts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-flashcards_core.database.models.reviews">Reviews</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-flashcards_core.database.models.tags">Tags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reviews">Reviews</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tags">Tags</a></li>
 </ul>
 </li>
 </ul>
@@ -80,73 +80,28 @@
 <section id="module-flashcards_core.database.models.decks">
 <span id="decks"></span><h2>Decks<a class="headerlink" href="#module-flashcards_core.database.models.decks" title="Permalink to this headline"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="flashcards_core.database.models.decks.ADeck">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.decks.</span></span><span class="sig-name descname"><span class="pre">ADeck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.decks.ADeck" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.models.decks._Deck</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.AsyncCrudOperations" title="flashcards_core.database.crud.AsyncCrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.AsyncCrudOperations</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.decks.ADeck.algorithm">
-<span class="sig-name descname"><span class="pre">algorithm</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.ADeck.algorithm" title="Permalink to this definition"></a></dt>
-<dd><p>The SRS algorithm to use to review the cards in this deck.
-See flashcards_core.schedulers.SCHEDULERS for valid keys.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.decks.ADeck.cards">
-<span class="sig-name descname"><span class="pre">cards</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.ADeck.cards" title="Permalink to this definition"></a></dt>
-<dd><p>All the cards that belong to this deck</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.decks.ADeck.description">
-<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.ADeck.description" title="Permalink to this definition"></a></dt>
-<dd><p>Description of the deck</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.decks.ADeck.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.ADeck.id" title="Permalink to this definition"></a></dt>
-<dd><p>Primary key</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.decks.ADeck.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.ADeck.name" title="Permalink to this definition"></a></dt>
-<dd><p>Name of the deck (short)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.decks.ADeck.parameters">
-<span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.ADeck.parameters" title="Permalink to this definition"></a></dt>
-<dd><p>A JSON field containing the SRS parameters of the deck.
-Several SRS algorothms can be configured, and this field
-is designed to store those configuration values.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.decks.ADeck.state">
-<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.ADeck.state" title="Permalink to this definition"></a></dt>
-<dd><p>A JSON field containing the SRS state of the deck.
-Some SRS algorithms are stateful, and this field
-is designed to store that state.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.decks.ADeck.tags">
-<span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.ADeck.tags" title="Permalink to this definition"></a></dt>
-<dd><p>All the tags assigned to this deck</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.decks.</span></span><span class="sig-name descname"><span class="pre">Deck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.models.decks._Deck</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.CrudOperations" title="flashcards_core.database.crud.CrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.CrudOperations</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.orm.decl_api.Base</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.CrudOperations" title="flashcards_core.database.crud.CrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.CrudOperations</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck.algorithm">
 <span class="sig-name descname"><span class="pre">algorithm</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.algorithm" title="Permalink to this definition"></a></dt>
 <dd><p>The SRS algorithm to use to review the cards in this deck.
 See flashcards_core.schedulers.SCHEDULERS for valid keys.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck.assign_tag">
+<span class="sig-name descname"><span class="pre">assign_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.assign_tag" title="Permalink to this definition"></a></dt>
+<dd><p>Assign the given Tag to this Deck and refreshes the Deck object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag_id</strong> – the name of the Tag to assign to the Deck.</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -159,6 +114,23 @@ See flashcards_core.schedulers.SCHEDULERS for valid keys.</p>
 <dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck.description">
 <span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.description" title="Permalink to this definition"></a></dt>
 <dd><p>Description of the deck</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck.get_by_name">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.get_by_name" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the deck corresponding to the given name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+<li><p><strong>name</strong> – the name of the model object to return.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the matching model object.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -181,6 +153,23 @@ Several SRS algorothms can be configured, and this field
 is designed to store those configuration values.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck.remove_tag">
+<span class="sig-name descname"><span class="pre">remove_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.remove_tag" title="Permalink to this definition"></a></dt>
+<dd><p>Remove the given Tag from this Deck.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag_id</strong> – the ID of the tag to remove from this deck</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck.state">
 <span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.state" title="Permalink to this definition"></a></dt>
@@ -195,6 +184,20 @@ is designed to store that state.</p>
 <dd><p>All the tags assigned to this deck</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck.unseen_cards_list">
+<span class="sig-name descname"><span class="pre">unseen_cards_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.unseen_cards_list" title="Permalink to this definition"></a></dt>
+<dd><p>Return a list of all the cards belonging to this deck that have no Reviews,
+which means they have never been seen/reviewed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck.unseen_cards_number">
+<span class="sig-name descname"><span class="pre">unseen_cards_number</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.unseen_cards_number" title="Permalink to this definition"></a></dt>
+<dd><p>Return the number of cards belonging to this deck that have no Reviews,
+which means they have never been seen/reviewed.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py data">
@@ -207,96 +210,9 @@ is designed to store that state.</p>
 <section id="module-flashcards_core.database.models.cards">
 <span id="cards"></span><h2>Cards<a class="headerlink" href="#module-flashcards_core.database.models.cards" title="Permalink to this headline"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.cards.</span></span><span class="sig-name descname"><span class="pre">ACard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.models.cards._Card</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.AsyncCrudOperations" title="flashcards_core.database.crud.AsyncCrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.AsyncCrudOperations</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.answer">
-<span class="sig-name descname"><span class="pre">answer</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.answer" title="Permalink to this definition"></a></dt>
-<dd><p>The fact containing the answer of this card.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.answer_context_facts">
-<span class="sig-name descname"><span class="pre">answer_context_facts</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.answer_context_facts" title="Permalink to this definition"></a></dt>
-<dd><p>All the facts containing some context for the answer.
-You can add as many facts as you wish for cards answers.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.answer_id">
-<span class="sig-name descname"><span class="pre">answer_id</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.answer_id" title="Permalink to this definition"></a></dt>
-<dd><p>ID of the fact containing the answer of this card.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.deck">
-<span class="sig-name descname"><span class="pre">deck</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.deck" title="Permalink to this definition"></a></dt>
-<dd><p>The deck this card belongs to.
-Note that this is a one-to-many repationship because it
-should be easy to copy cards.
-Cards hold no actual data: it’s just an associative table</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.deck_id">
-<span class="sig-name descname"><span class="pre">deck_id</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.deck_id" title="Permalink to this definition"></a></dt>
-<dd><p>ID to the deck this card belongs to.
-Note that this is a one-to-many repationship because it
-should be easy to copy cards.
-Cards hold no actual data: it’s just an associative table</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.id" title="Permalink to this definition"></a></dt>
-<dd><p>Primary key</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.question">
-<span class="sig-name descname"><span class="pre">question</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.question" title="Permalink to this definition"></a></dt>
-<dd><p>The fact containing the question of this card.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.question_context_facts">
-<span class="sig-name descname"><span class="pre">question_context_facts</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.question_context_facts" title="Permalink to this definition"></a></dt>
-<dd><p>All the facts containing some context for the question.
-You can add as many facts as you wish for cards questions.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.question_id">
-<span class="sig-name descname"><span class="pre">question_id</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.question_id" title="Permalink to this definition"></a></dt>
-<dd><p>ID of the fact containing the question of this card.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.related_cards">
-<span class="sig-name descname"><span class="pre">related_cards</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.related_cards" title="Permalink to this definition"></a></dt>
-<dd><p>All the cards that are somehow related to the current one
-Relationships are named (to help discoverability), see RelatedCards</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.reviews">
-<span class="sig-name descname"><span class="pre">reviews</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.reviews" title="Permalink to this definition"></a></dt>
-<dd><p>All the reviews done on this card.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.cards.ACard.tags">
-<span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.ACard.tags" title="Permalink to this definition"></a></dt>
-<dd><p>All the tags assigned to this card</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.cards.</span></span><span class="sig-name descname"><span class="pre">Card</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.cards.Card" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.models.cards._Card</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.CrudOperations" title="flashcards_core.database.crud.CrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.CrudOperations</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.orm.decl_api.Base</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.CrudOperations" title="flashcards_core.database.crud.CrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.CrudOperations</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.answer">
 <span class="sig-name descname"><span class="pre">answer</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.answer" title="Permalink to this definition"></a></dt>
@@ -314,6 +230,50 @@ You can add as many facts as you wish for cards answers.</p>
 <dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.answer_id">
 <span class="sig-name descname"><span class="pre">answer_id</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.answer_id" title="Permalink to this definition"></a></dt>
 <dd><p>ID of the fact containing the answer of this card.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.assign_answer_context">
+<span class="sig-name descname"><span class="pre">assign_answer_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fact_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.assign_answer_context" title="Permalink to this definition"></a></dt>
+<dd><p>Assign the given Fact as context to the Answer to this Card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fact_id</strong> – the name of the Fact to assign as context to the answer
+of this card.</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.assign_question_context">
+<span class="sig-name descname"><span class="pre">assign_question_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fact_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.assign_question_context" title="Permalink to this definition"></a></dt>
+<dd><p>Assign the given Fact as context to the Question to this Card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fact_id</strong> – the name of the Fact to assign as context to the question
+of this card.</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.assign_tag">
+<span class="sig-name descname"><span class="pre">assign_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.assign_tag" title="Permalink to this definition"></a></dt>
+<dd><p>Assign the given Tag to this Card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag_id</strong> – the name of the Tag to assign to the Card.</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db())</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -366,6 +326,48 @@ You can add as many facts as you wish for cards questions.</p>
 Relationships are named (to help discoverability), see RelatedCards</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.remove_answer_context">
+<span class="sig-name descname"><span class="pre">remove_answer_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fact_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.remove_answer_context" title="Permalink to this definition"></a></dt>
+<dd><p>Remove the given Fact as a context for the Answer from this Card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fact_id</strong> – the ID of the fact to remove from the answer’s context</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.remove_question_context">
+<span class="sig-name descname"><span class="pre">remove_question_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fact_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.remove_question_context" title="Permalink to this definition"></a></dt>
+<dd><p>Remove the given Fact as a context for the Question from this Card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fact_id</strong> – the ID of the fact to remove from the answer’s context</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.remove_tag">
+<span class="sig-name descname"><span class="pre">remove_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.remove_tag" title="Permalink to this definition"></a></dt>
+<dd><p>Remove the given Tag from this Card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag_id</strong> – the ID of the connection between a tag and a card.</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.reviews">
 <span class="sig-name descname"><span class="pre">reviews</span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.reviews" title="Permalink to this definition"></a></dt>
@@ -407,92 +409,6 @@ Relationships are named (to help discoverability), see RelatedCards</p>
 </section>
 <section id="module-flashcards_core.database.models.facts">
 <span id="facts"></span><h2>Facts<a class="headerlink" href="#module-flashcards_core.database.models.facts" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.AFact">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.facts.</span></span><span class="sig-name descname"><span class="pre">AFact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.facts.AFact" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.models.facts._Fact</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.AsyncCrudOperations" title="flashcards_core.database.crud.AsyncCrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.AsyncCrudOperations</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.AFact.format">
-<span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.AFact.format" title="Permalink to this definition"></a></dt>
-<dd><p>How to interpret the content of <cite>Fact.value</cite>.
-It’s up to the frontend application to decide how to
-represent the card, but this field should give a good
-hint. For example, it can have values like ‘plaintext’,
-‘markdown’, ‘image’, ‘url’, etc.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.AFact.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.AFact.id" title="Permalink to this definition"></a></dt>
-<dd><p>Primary key</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.AFact.related_facts">
-<span class="sig-name descname"><span class="pre">related_facts</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.AFact.related_facts" title="Permalink to this definition"></a></dt>
-<dd><p>All the facts that are somehow related to the current one
-Relationships are named (to help discoverability), see RelatedFacts</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.AFact.tags">
-<span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.AFact.tags" title="Permalink to this definition"></a></dt>
-<dd><p>All the tags assigned to this fact</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.AFact.value">
-<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.AFact.value" title="Permalink to this definition"></a></dt>
-<dd><p>The content of this fact. Can be plaintext, html,
-markdown, a URL, a path to a file… Use the content
-of <cite>Fact.format</cite> to understando how to decode this field.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.facts.</span></span><span class="sig-name descname"><span class="pre">Fact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.models.facts._Fact</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.CrudOperations" title="flashcards_core.database.crud.CrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.CrudOperations</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.format">
-<span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.format" title="Permalink to this definition"></a></dt>
-<dd><p>How to interpret the content of <cite>Fact.value</cite>.
-It’s up to the frontend application to decide how to
-represent the card, but this field should give a good
-hint. For example, it can have values like ‘plaintext’,
-‘markdown’, ‘image’, ‘url’, etc.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.id" title="Permalink to this definition"></a></dt>
-<dd><p>Primary key</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.related_facts">
-<span class="sig-name descname"><span class="pre">related_facts</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.related_facts" title="Permalink to this definition"></a></dt>
-<dd><p>All the facts that are somehow related to the current one
-Relationships are named (to help discoverability), see RelatedFacts</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.tags">
-<span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.tags" title="Permalink to this definition"></a></dt>
-<dd><p>All the tags assigned to this fact</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.value">
-<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.value" title="Permalink to this definition"></a></dt>
-<dd><p>The content of this fact. Can be plaintext, html,
-markdown, a URL, a path to a file… Use the content
-of <cite>Fact.format</cite> to understando how to decode this field.</p>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py data">
 <dt class="sig sig-object py" id="flashcards_core.database.models.facts.RelatedFact">
 <span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.facts.</span></span><span class="sig-name descname"><span class="pre">RelatedFact</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Table('related_facts',</span> <span class="pre">MetaData(),</span> <span class="pre">Column('original_fact_id',</span> <span class="pre">GUID(),</span> <span class="pre">ForeignKey('facts.id'),</span> <span class="pre">table=&lt;related_facts&gt;,</span> <span class="pre">primary_key=True,</span> <span class="pre">nullable=False),</span> <span class="pre">Column('related_fact_id',</span> <span class="pre">GUID(),</span> <span class="pre">ForeignKey('facts.id'),</span> <span class="pre">table=&lt;related_facts&gt;,</span> <span class="pre">primary_key=True,</span> <span class="pre">nullable=False),</span> <span class="pre">Column('relationship',</span> <span class="pre">String(),</span> <span class="pre">table=&lt;related_facts&gt;),</span> <span class="pre">schema=None)</span></em><a class="headerlink" href="#flashcards_core.database.models.facts.RelatedFact" title="Permalink to this definition"></a></dt>
@@ -500,143 +416,11 @@ of <cite>Fact.format</cite> to understando how to decode this field.</p>
 </dd></dl>
 
 </section>
-<section id="module-flashcards_core.database.models.reviews">
-<span id="reviews"></span><h2>Reviews<a class="headerlink" href="#module-flashcards_core.database.models.reviews" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.AReview">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.reviews.</span></span><span class="sig-name descname"><span class="pre">AReview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.reviews.AReview" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.models.reviews._Review</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.AsyncCrudOperations" title="flashcards_core.database.crud.AsyncCrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.AsyncCrudOperations</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.AReview.algorithm">
-<span class="sig-name descname"><span class="pre">algorithm</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.AReview.algorithm" title="Permalink to this definition"></a></dt>
-<dd><p>The algorithm used to do this review.
-See flashcards_core.schedulers.SCHEDULERS for valid keys.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.AReview.card">
-<span class="sig-name descname"><span class="pre">card</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.AReview.card" title="Permalink to this definition"></a></dt>
-<dd><p>The card that was reviewed</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.AReview.card_id">
-<span class="sig-name descname"><span class="pre">card_id</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.AReview.card_id" title="Permalink to this definition"></a></dt>
-<dd><p>ID of the card that was reviewed</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.AReview.datetime">
-<span class="sig-name descname"><span class="pre">datetime</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.AReview.datetime" title="Permalink to this definition"></a></dt>
-<dd><p>Date and time of the review.
-Note: using the lambda for compatibility with freezegun (see the tests),
-but might drop in favour of func.now() if I observe serious performance
-issues (unlikely for now)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.AReview.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.AReview.id" title="Permalink to this definition"></a></dt>
-<dd><p>Primary key</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.AReview.result">
-<span class="sig-name descname"><span class="pre">result</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.AReview.result" title="Permalink to this definition"></a></dt>
-<dd><p>The result of the review. It depends a lot on the
-SRS algorithm used for the review, so use the content of
-<cite>Review.algorithm</cite> to understand what this field contains.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.Review">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.reviews.</span></span><span class="sig-name descname"><span class="pre">Review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.reviews.Review" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.models.reviews._Review</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.CrudOperations" title="flashcards_core.database.crud.CrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.CrudOperations</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.Review.algorithm">
-<span class="sig-name descname"><span class="pre">algorithm</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.Review.algorithm" title="Permalink to this definition"></a></dt>
-<dd><p>The algorithm used to do this review.
-See flashcards_core.schedulers.SCHEDULERS for valid keys.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.Review.card">
-<span class="sig-name descname"><span class="pre">card</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.Review.card" title="Permalink to this definition"></a></dt>
-<dd><p>The card that was reviewed</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.Review.card_id">
-<span class="sig-name descname"><span class="pre">card_id</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.Review.card_id" title="Permalink to this definition"></a></dt>
-<dd><p>ID of the card that was reviewed</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.Review.datetime">
-<span class="sig-name descname"><span class="pre">datetime</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.Review.datetime" title="Permalink to this definition"></a></dt>
-<dd><p>Date and time of the review.
-Note: using the lambda for compatibility with freezegun (see the tests),
-but might drop in favour of func.now() if I observe serious performance
-issues (unlikely for now)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.Review.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.Review.id" title="Permalink to this definition"></a></dt>
-<dd><p>Primary key</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.reviews.Review.result">
-<span class="sig-name descname"><span class="pre">result</span></span><a class="headerlink" href="#flashcards_core.database.models.reviews.Review.result" title="Permalink to this definition"></a></dt>
-<dd><p>The result of the review. It depends a lot on the
-SRS algorithm used for the review, so use the content of
-<cite>Review.algorithm</cite> to understand what this field contains.</p>
-</dd></dl>
-
-</dd></dl>
-
+<section id="reviews">
+<h2>Reviews<a class="headerlink" href="#reviews" title="Permalink to this headline"></a></h2>
 </section>
-<section id="module-flashcards_core.database.models.tags">
-<span id="tags"></span><h2>Tags<a class="headerlink" href="#module-flashcards_core.database.models.tags" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="flashcards_core.database.models.tags.ATag">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.tags.</span></span><span class="sig-name descname"><span class="pre">ATag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.tags.ATag" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.models.tags._Tag</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.AsyncCrudOperations" title="flashcards_core.database.crud.AsyncCrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.AsyncCrudOperations</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.tags.ATag.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#flashcards_core.database.models.tags.ATag.id" title="Permalink to this definition"></a></dt>
-<dd><p>Primary key</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.tags.ATag.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#flashcards_core.database.models.tags.ATag.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the tag</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="flashcards_core.database.models.tags.Tag">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.tags.</span></span><span class="sig-name descname"><span class="pre">Tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.tags.Tag" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.models.tags._Tag</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.CrudOperations" title="flashcards_core.database.crud.CrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.CrudOperations</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.tags.Tag.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#flashcards_core.database.models.tags.Tag.id" title="Permalink to this definition"></a></dt>
-<dd><p>Primary key</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashcards_core.database.models.tags.Tag.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#flashcards_core.database.models.tags.Tag.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the tag</p>
-</dd></dl>
-
-</dd></dl>
-
+<section id="tags">
+<h2>Tags<a class="headerlink" href="#tags" title="Permalink to this headline"></a></h2>
 </section>
 </section>
 
