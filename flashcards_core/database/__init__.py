@@ -5,21 +5,15 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from flashcards_core.database.models.cards import ACard  # noqa: F401, E402
-from flashcards_core.database.models.decks import ADeck  # noqa: F401, E402
-from flashcards_core.database.models.facts import AFact  # noqa: F401, E402
-from flashcards_core.database.models.reviews import AReview  # noqa: F401, E402
-from flashcards_core.database.models.tags import ATag  # noqa: F401, E402
-
 
 Base = declarative_base()
 
 
-from flashcards_core.database.models.cards import Card, CardTag  # noqa: F401, E402
-from flashcards_core.database.models.decks import Deck, DeckTag  # noqa: F401, E402
-from flashcards_core.database.models.facts import Fact, FactTag  # noqa: F401, E402
-from flashcards_core.database.models.reviews import Review  # noqa: F401, E402
-from flashcards_core.database.models.tags import Tag  # noqa: F401, E402
+from flashcards_core.database.models.cards import Card, ACard, CardTag  # noqa: F401, E402
+from flashcards_core.database.models.decks import Deck, ADeck, DeckTag  # noqa: F401, E402
+from flashcards_core.database.models.facts import Fact, AFact, FactTag  # noqa: F401, E402
+from flashcards_core.database.models.reviews import Review, AReview # noqa: F401, E402
+from flashcards_core.database.models.tags import Tag, ATag  # noqa: F401, E402
 
 
 def init_db(
