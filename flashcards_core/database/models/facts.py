@@ -28,7 +28,7 @@ RelatedFact = Table(
 )
 
 
-class _Fact(Base, CrudOperations):
+class Fact(Base, CrudOperations):
     __tablename__ = "facts"
 
     #: Primary key
