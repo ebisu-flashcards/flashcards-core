@@ -92,7 +92,21 @@ See flashcards_core.schedulers.SCHEDULERS for valid keys.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck.assign_tag">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">assign_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.assign_tag" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">assign_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.assign_tag" title="Permalink to this definition"></a></dt>
+<dd><p>Assign the given Tag to this Deck and refreshes the Deck object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag_id</strong> – the name of the Tag to assign to the Deck.</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.decks.Deck.assign_tag_async">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">assign_tag_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.decks.Deck.assign_tag_async" title="Permalink to this definition"></a></dt>
 <dd><p>Assign the given Tag to this Deck and refreshes the Deck object (asyncio friendly).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
