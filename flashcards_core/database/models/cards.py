@@ -57,27 +57,27 @@ class Card(Base, CrudOperations):
     #: Note that this is a one-to-many repationship because it
     #: should be easy to copy cards.
     #: Cards hold no actual data: it's just an associative table
-    deck = relationship("Deck", foreign_keys="Card.deck_id")
+    deck = relationship("Deck", foreign_keys="Card.deck_id", lazy='selectin')
 
     #: ID of the fact containing the question of this card.
     question_id = Column(GUID(), ForeignKey("facts.id"), nullable=False)
 
     #: The fact containing the question of this card.
-    question = relationship("Fact", foreign_keys="Card.question_id")
+    question = relationship("Fact", foreign_keys="Card.question_id", lazy='selectin')
 
     #: All the facts containing some context for the question.
     #: You can add as many facts as you wish for cards questions.
-    question_context_facts = relationship("Fact", secondary="card_question_contextes")
+    question_context_facts = relationship("Fact", secondary="card_question_contextes", lazy='selectin')
 
     #: ID of the fact containing the answer of this card.
     answer_id = Column(GUID(), ForeignKey("facts.id"), nullable=False)
 
     #: The fact containing the answer of this card.
-    answer = relationship("Fact", foreign_keys="Card.answer_id")
+    answer = relationship("Fact", foreign_keys="Card.answer_id", lazy='selectin')
 
     #: All the facts containing some context for the answer.
     #: You can add as many facts as you wish for cards answers.
-    answer_context_facts = relationship("Fact", secondary="card_answer_contextes")
+    answer_context_facts = relationship("Fact", secondary="card_answer_contextes", lazy='selectin')
 
     #: All the cards that are somehow related to the current one
     #: Relationships are named (to help discoverability), see RelatedCards
@@ -86,14 +86,14 @@ class Card(Base, CrudOperations):
         secondary=RelatedCard,
         primaryjoin=(RelatedCard.c.original_card_id == id),
         secondaryjoin=(RelatedCard.c.related_card_id == id),
-        backref=backref("original_card_id"),
-            )
+        backref=backref("original_card_id"), 
+        lazy='selectin')
 
     #: All the reviews done on this card.
-    reviews = relationship("Review", cascade="all,delete", back_populates="card")
+    reviews = relationship("Review", cascade="all,delete", back_populates="card", lazy='selectin')
 
     #: All the tags assigned to this card
-    tags = relationship("Tag", secondary="cardtags")
+    tags = relationship("Tag", secondary="cardtags", lazy='selectin')
 
     def __repr__(self):
         return f"<Card (ID: {self.id}, deck ID: {self.deck_id})>"

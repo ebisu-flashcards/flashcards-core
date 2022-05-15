@@ -53,11 +53,11 @@ class Fact(Base, CrudOperations):
         secondary=RelatedFact,
         primaryjoin=(RelatedFact.c.original_fact_id == id),
         secondaryjoin=(RelatedFact.c.related_fact_id == id),
-        backref=backref("original_fact_id"),
-            )
+        backref=backref("original_fact_id"), 
+        lazy='selectin')
 
     #: All the tags assigned to this fact
-    tags = relationship("Tag", secondary="facttags")
+    tags = relationship("Tag", secondary="facttags", lazy='selectin')
 
     def __repr__(self):
         return (

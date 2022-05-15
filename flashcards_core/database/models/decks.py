@@ -51,10 +51,10 @@ class Deck(Base, CrudOperations):
     )
 
     #: All the cards that belong to this deck
-    cards = relationship("Card", cascade="all,delete", back_populates="deck")
+    cards = relationship("Card", cascade="all,delete", back_populates="deck", lazy='selectin')
 
     #: All the tags assigned to this deck
-    tags = relationship("Tag", secondary="decktags")
+    tags = relationship("Tag", secondary="decktags", lazy='selectin')
 
     def __repr__(self):
         return f"<Deck '{self.name}' (ID: {self.id})>"

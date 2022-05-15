@@ -5,8 +5,8 @@ import logging
 from uuid import UUID
 from datetime import datetime, date
 
-from sqlalchemy import Table
-from sqlalchemy.orm import Session
+from sqlalchemy import Table, select
+from sqlalchemy.orm import Session, lazyload, noload
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 from sqlalchemy.orm.relationships import RelationshipProperty
 from flashcards_core.database import Base
@@ -329,9 +329,8 @@ def _export_find_related_associative_tables(
     for column in associative_table.columns:
         for key in column.foreign_keys:
             if key.column.table.fullname == item.__class__.__tablename__:
-                associations = (
-                    session.query(associative_table).filter(key.column == item.id).all()
-                )
+                stmt = select(associative_table).where(key.column == item.id)
+                associations = session.execute(stmt).all()
                 for association in associations:
 
                     if associative_table.fullname not in _hierarchy.keys():
