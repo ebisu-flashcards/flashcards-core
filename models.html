@@ -355,6 +355,36 @@ of this card.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.assign_related_card">
+<span class="sig-name descname"><span class="pre">assign_related_card</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">card_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relationship</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.assign_related_card" title="Permalink to this definition"></a></dt>
+<dd><p>Create a relationship between these two Cards.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card_id</strong> – the name of the other Card.</p></li>
+<li><p><strong>relationship</strong> – the type of relationship between these Cards</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.assign_related_card_async">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">assign_related_card_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">card_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relationship</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.assign_related_card_async" title="Permalink to this definition"></a></dt>
+<dd><p>Create a relationship between these two Cards (asyncio friendly).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card_id</strong> – the name of the other Card.</p></li>
+<li><p><strong>relationship</strong> – the type of relationship between these Cards</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.assign_tag">
 <span class="sig-name descname"><span class="pre">assign_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.assign_tag" title="Permalink to this definition"></a></dt>
 <dd><p>Assign the given Tag to this Card.</p>
@@ -502,6 +532,34 @@ associative table</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.remove_related_card">
+<span class="sig-name descname"><span class="pre">remove_related_card</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">card_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.remove_related_card" title="Permalink to this definition"></a></dt>
+<dd><p>Remove the relationship between these two Cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card_id</strong> – the ID of the relationship between these two Cards</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.remove_related_card_async">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_related_card_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">card_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.remove_related_card_async" title="Permalink to this definition"></a></dt>
+<dd><p>Remove the relationship between these two Cards (asyncio friendly)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card_id</strong> – the ID of the relationship between these two Cards</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.remove_tag">
 <span class="sig-name descname"><span class="pre">remove_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.remove_tag" title="Permalink to this definition"></a></dt>
 <dd><p>Remove the given Tag from this Card.</p>
@@ -575,6 +633,36 @@ associative table</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.facts.</span></span><span class="sig-name descname"><span class="pre">Fact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.orm.decl_api.Base</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.CrudOperations" title="flashcards_core.database.crud.CrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.CrudOperations</span></code></a></p>
 <dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.assign_related_fact">
+<span class="sig-name descname"><span class="pre">assign_related_fact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fact_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relationship</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.assign_related_fact" title="Permalink to this definition"></a></dt>
+<dd><p>Create a relationship between these two Facts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fact_id</strong> – the name of the other Fact.</p></li>
+<li><p><strong>relationship</strong> – the type of relationship between these facts</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.assign_related_fact_async">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">assign_related_fact_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fact_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relationship</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.assign_related_fact_async" title="Permalink to this definition"></a></dt>
+<dd><p>Create a relationship between these two Facts (asyncio friendly).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fact_id</strong> – the name of the other Fact.</p></li>
+<li><p><strong>relationship</strong> – the type of relationship between these facts</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.assign_tag">
 <span class="sig-name descname"><span class="pre">assign_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.assign_tag" title="Permalink to this definition"></a></dt>
 <dd><p>Assign the given Tag to this Fact.</p>
@@ -636,6 +724,34 @@ Relationships are named (to help discoverability), see RelatedFacts</p>
 </dl>
 <p>contains the name of the relationship as it was stored in the RelatedFacts
 associative table</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.remove_related_fact">
+<span class="sig-name descname"><span class="pre">remove_related_fact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fact_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.remove_related_fact" title="Permalink to this definition"></a></dt>
+<dd><p>Remove the relationship between these two Facts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fact_id</strong> – the ID of the relationship between these two Facts</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.remove_related_fact_async">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_related_fact_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fact_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.remove_related_fact_async" title="Permalink to this definition"></a></dt>
+<dd><p>Remove the relationship between these two Facts (asyncio friendly)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fact_id</strong> – the ID of the relationship between these two Facts</p></li>
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
