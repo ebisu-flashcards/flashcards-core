@@ -1,4 +1,5 @@
 from typing import Any, List, Optional
+from unittest import result
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -102,7 +103,8 @@ class CrudOperations:
         :returns: List of model objects.
         """
         stmt = select(cls).limit(limit).offset(offset)
-        return await session.scalars(stmt)
+        results = await session.scalars(stmt)
+        return result.all()
         
 
     @classmethod
@@ -115,8 +117,9 @@ class CrudOperations:
         :returns: the matching model object.
         """
         stmt = select(cls).where(cls.id == object_id)
-        return await session.scalars(stmt).first()
-        
+        results = await session.scalars(stmt)
+        return result.first()
+
 
     @classmethod
     async def create_async(cls, session: Session, **kwargs):
