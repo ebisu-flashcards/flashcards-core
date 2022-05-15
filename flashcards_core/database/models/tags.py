@@ -16,7 +16,7 @@ class Tag(Base, CrudOperations):
     id = Column(GUID(), primary_key=True, index=True, default=uuid4)
 
     #: The name of the tag
-    name = Column(String,  primary_key=True, index=True, nullable=False)
+    name = Column(String,  unique=True, nullable=False)
 
     def __repr__(self):
         return f"<Tag '{self.name}' (ID: {self.id})>"
