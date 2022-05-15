@@ -1,3 +1,5 @@
+from typing import List
+
 from uuid import uuid4, UUID
 from sqlalchemy import Column, ForeignKey, Table, String
 from sqlalchemy.orm import relationship, Session, backref
@@ -253,3 +255,23 @@ class Card(Base, CrudOperations):
         await session.execute(delete)
         await session.commit()
         await session.refresh(self)
+
+
+    async def related_cards_async(self, session: Session) -> List["Card"]:
+        """
+        Returns all the related cards pairs in an asyncio friendly way.
+
+        :returns: a list of Card with a "relationship" attribute, which
+        contains the name of the relationship as it was stored in the RelatedCard
+        associative table
+        """
+        stmt = RelatedCard.select().where(RelatedCard.c.original_card_id == self.id)
+        pairs = await session.scalars(stmt)
+
+        related_cards = []
+        for pair in pairs:
+            card = await Card.get_one_async(session=session, object_id=pair.related_card_id)
+            card.relationship = pair.relationship
+            related_cards.append(card)
+
+        return related_cards

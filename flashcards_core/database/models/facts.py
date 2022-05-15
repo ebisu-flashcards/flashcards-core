@@ -1,3 +1,5 @@
+from typing import List
+
 from uuid import uuid4, UUID
 from sqlalchemy import Column, ForeignKey, String, Table
 from sqlalchemy.orm import relationship, Session, backref
@@ -112,3 +114,23 @@ class Fact(Base, CrudOperations):
         await session.execute(delete)
         await session.commit()
         await session.refresh(self)
+
+    async def related_facts_async(self, session: Session) -> List["Fact"]:
+        """
+        Returns all the related facts pairs in an asyncio friently way.
+
+        :returns: a list of Fact with a "relationship" attribute, which
+        contains the name of the relationship as it was stored in the RelatedFacts
+        associative table
+        """
+        stmt = RelatedFact.select().where(RelatedFact.c.original_fact_id == self.id)
+        pairs = await session.scalars(stmt)
+
+        related_facts = []
+        for pair in pairs:
+            fact = await Fact.get_one_async(session=session, object_id=pair.related_fact_id)
+            fact.relationship = pair.relationship
+            related_facts.append(fact)
+
+        return related_facts
+
