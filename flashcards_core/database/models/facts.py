@@ -1,7 +1,7 @@
 from typing import List
 
 from uuid import uuid4, UUID
-from sqlalchemy import Column, ForeignKey, String, Table
+from sqlalchemy import Column, ForeignKey, String, Table, and_
 from sqlalchemy.orm import relationship, Session, backref
 
 from flashcards_core.guid import GUID
@@ -26,7 +26,7 @@ RelatedFact = Table(
     Base.metadata,
     Column("original_fact_id", GUID(), ForeignKey("facts.id"), primary_key=True),
     Column("related_fact_id", GUID(), ForeignKey("facts.id"), primary_key=True),
-    Column("relationship", String),
+    Column("relationship", String, primary_key=True),
 )
 
 
@@ -160,26 +160,26 @@ class Fact(Base, CrudOperations):
         await session.commit()
         await session.refresh(self)
 
-    def remove_related_fact(self, session: Session, fact_id: UUID) -> None:
+    def remove_related_fact(self, session: Session, fact_id: UUID, relationship: str) -> None:
         """
         Remove the relationship between these two Facts
 
         :param fact_id: the ID of the relationship between these two Facts
         :param session: the session (see flashcards_core.database:init_db()).
         """
-        delete = RelatedFact.delete().where(FactTag.c.related_fact_id == fact_id)
+        delete = RelatedFact.delete().where(and_(RelatedFact.c.related_fact_id == fact_id, RelatedFact.c.relationship == relationship))
         session.execute(delete)
         session.commit()
         session.refresh(self)
 
-    async def remove_related_fact_async(self, session: Session, fact_id: UUID) -> None:
+    async def remove_related_fact_async(self, session: Session, fact_id: UUID, relationship: str) -> None:
         """
         Remove the relationship between these two Facts (asyncio friendly)
 
         :param fact_id: the ID of the relationship between these two Facts
         :param session: the session (see flashcards_core.database:init_db()).
         """
-        delete = RelatedFact.delete().where(FactTag.c.related_fact_id == fact_id)
+        delete = RelatedFact.delete().where(and_(RelatedFact.c.related_fact_id == fact_id, RelatedFact.c.relationship == relationship))
         await session.execute(delete)
         await session.commit()
         await session.refresh(self)

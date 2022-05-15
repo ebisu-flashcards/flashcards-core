@@ -1,7 +1,7 @@
 from typing import List
 
 from uuid import uuid4, UUID
-from sqlalchemy import Column, ForeignKey, Table, String
+from sqlalchemy import Column, ForeignKey, Table, String, and_
 from sqlalchemy.orm import relationship, Session, backref
 
 from flashcards_core.guid import GUID
@@ -39,7 +39,7 @@ RelatedCard = Table(
     Base.metadata,
     Column("original_card_id", GUID(), ForeignKey("cards.id"), primary_key=True),
     Column("related_card_id", GUID(), ForeignKey("cards.id"), primary_key=True),
-    Column("relationship", String),
+    Column("relationship", String, primary_key=True),
 )
 
 
@@ -309,7 +309,7 @@ class Card(Base, CrudOperations):
         :param card_id: the ID of the relationship between these two Cards
         :param session: the session (see flashcards_core.database:init_db()).
         """
-        delete = RelatedCard.delete().where(RelatedCard.c.related_card_id == card_id)
+        delete = RelatedCard.delete().where(and_(RelatedCard.c.related_card_id == card_id, RelatedCard.c.relationship == relationship))
         session.execute(delete)
         session.commit()
         session.refresh(self)
@@ -321,7 +321,7 @@ class Card(Base, CrudOperations):
         :param card_id: the ID of the relationship between these two Cards
         :param session: the session (see flashcards_core.database:init_db()).
         """
-        delete = RelatedCard.delete().where(RelatedCard.c.related_card_id == card_id)
+        delete = RelatedCard.delete().where(and_(RelatedCard.c.related_card_id == card_id, RelatedCard.c.relationship == relationship))
         await session.execute(delete)
         await session.commit()
         await session.refresh(self)
