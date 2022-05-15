@@ -134,3 +134,52 @@ class Fact(Base, CrudOperations):
 
         return related_facts
 
+    def assign_related_fact(self, session: Session, fact_id: UUID, relationship: str) -> None:
+        """
+        Create a relationship between these two Facts.
+
+        :param fact_id: the name of the other Fact.
+        :param relationship: the type of relationship between these facts
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        insert = RelatedFact.insert().values(original_fact_id=self.id, related_fact_id=fact_id, relationship=relationship)
+        session.execute(insert)
+        session.commit()
+        session.refresh(self)
+
+    async def assign_related_fact_async(self, session: Session, fact_id: UUID, relationship: str) -> None:
+        """
+        Create a relationship between these two Facts (asyncio friendly).
+
+        :param fact_id: the name of the other Fact.
+        :param relationship: the type of relationship between these facts
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        insert = RelatedFact.insert().values(original_fact_id=self.id, related_fact_id=fact_id, relationship=relationship)
+        await session.execute(insert)
+        await session.commit()
+        await session.refresh(self)
+
+    def remove_related_fact(self, session: Session, fact_id: UUID) -> None:
+        """
+        Remove the relationship between these two Facts
+
+        :param fact_id: the ID of the relationship between these two Facts
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        delete = RelatedFact.delete().where(FactTag.c.related_fact_id == fact_id)
+        session.execute(delete)
+        session.commit()
+        session.refresh(self)
+
+    async def remove_related_fact_async(self, session: Session, fact_id: UUID) -> None:
+        """
+        Remove the relationship between these two Facts (asyncio friendly)
+
+        :param fact_id: the ID of the relationship between these two Facts
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        delete = RelatedFact.delete().where(FactTag.c.related_fact_id == fact_id)
+        await session.execute(delete)
+        await session.commit()
+        await session.refresh(self)

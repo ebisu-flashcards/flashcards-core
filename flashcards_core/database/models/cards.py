@@ -275,3 +275,53 @@ class Card(Base, CrudOperations):
             related_cards.append(card)
 
         return related_cards
+
+    def assign_related_card(self, session: Session, card_id: UUID, relationship: str) -> None:
+        """
+        Create a relationship between these two Cards.
+
+        :param card_id: the name of the other Card.
+        :param relationship: the type of relationship between these Cards
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        insert = RelatedCard.insert().values(original_card_id=self.id, related_card_id=card_id, relationship=relationship)
+        session.execute(insert)
+        session.commit()
+        session.refresh(self)
+
+    async def assign_related_card_async(self, session: Session, card_id: UUID, relationship: str) -> None:
+        """
+        Create a relationship between these two Cards (asyncio friendly).
+
+        :param card_id: the name of the other Card.
+        :param relationship: the type of relationship between these Cards
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        insert = RelatedCard.insert().values(original_card_id=self.id, related_card_id=card_id, relationship=relationship)
+        await session.execute(insert)
+        await session.commit()
+        await session.refresh(self)
+
+    def remove_related_card(self, session: Session, card_id: UUID) -> None:
+        """
+        Remove the relationship between these two Cards
+
+        :param card_id: the ID of the relationship between these two Cards
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        delete = RelatedCard.delete().where(RelatedCard.c.related_card_id == card_id)
+        session.execute(delete)
+        session.commit()
+        session.refresh(self)
+
+    async def remove_related_card_async(self, session: Session, card_id: UUID) -> None:
+        """
+        Remove the relationship between these two Cards (asyncio friendly)
+
+        :param card_id: the ID of the relationship between these two Cards
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        delete = RelatedCard.delete().where(RelatedCard.c.related_card_id == card_id)
+        await session.execute(delete)
+        await session.commit()
+        await session.refresh(self)

@@ -101,9 +101,7 @@ class CrudOperations:
         :param limit: for pagination, maximum number of elements to return.
         :returns: List of model objects.
         """
-        #session.query(cls).offset(offset).limit(limit).all()
-
-        stmt = select(cls).limit(limit).offset(offset)#.options(selectinload(cls.<attribute>))
+        stmt = select(cls).limit(limit).offset(offset)
         return await session.scalars(stmt)
         
 
@@ -116,8 +114,7 @@ class CrudOperations:
         :param object_id: the ID of the model object to return.
         :returns: the matching model object.
         """
-        #return session.query(cls).filter(cls.id == object_id).first()
-        stmt = select(cls).where(cls.id == object_id)   #.options(selectinload(cls.<attribute>))
+        stmt = select(cls).where(cls.id == object_id)
         return await session.scalars(stmt).first()
         
 
