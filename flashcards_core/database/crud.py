@@ -1,5 +1,4 @@
 from typing import Any, List, Optional
-from unittest import result
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -104,7 +103,7 @@ class CrudOperations:
         """
         stmt = select(cls).limit(limit).offset(offset)
         results = await session.scalars(stmt)
-        return result.all()
+        return results.all()
         
 
     @classmethod
@@ -118,7 +117,7 @@ class CrudOperations:
         """
         stmt = select(cls).where(cls.id == object_id)
         results = await session.scalars(stmt)
-        return result.first()
+        return results.first()
 
 
     @classmethod
