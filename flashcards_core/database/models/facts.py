@@ -78,6 +78,18 @@ class Fact(Base, CrudOperations):
         session.commit()
         session.refresh(self)
 
+    async def assign_tag_async(self, session: Session, tag_id: UUID) -> None:
+        """
+        Assign the given Tag to this Fact (asyncio friendly).
+
+        :param tag_id: the name of the Tag to assign to the Fact.
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        insert = FactTag.insert().values(fact_id=self.id, tag_id=tag_id)
+        await session.execute(insert)
+        await session.commit()
+        await session.refresh(self)
+
     def remove_tag(self, session: Session, tag_id: UUID) -> None:
         """
         Remove the given Tag from this Fact.
@@ -89,3 +101,15 @@ class Fact(Base, CrudOperations):
         session.execute(delete)
         session.commit()
         session.refresh(self)
+
+    async def remove_tag_async(self, session: Session, tag_id: UUID) -> None:
+        """
+        Remove the given Tag from this Fact (asyncio friendly).
+
+        :param facttag_id: the ID of the connection between a tag and a fact.
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        delete = FactTag.delete().where(FactTag.c.tag_id == tag_id)
+        await session.execute(delete)
+        await session.commit()
+        await session.refresh(self)

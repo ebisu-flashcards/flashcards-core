@@ -111,6 +111,18 @@ class Card(Base, CrudOperations):
         session.commit()
         session.refresh(self)
 
+    async def assign_tag_async(self, session: Session, tag_id: UUID) -> None:
+        """
+        Assign the given Tag to this Card (asyncio friendly).
+
+        :param tag_id: the name of the Tag to assign to the Card.
+        :param session: the session (see flashcards_core.database:init_db())
+        """
+        insert = CardTag.insert().values(card_id=self.id, tag_id=tag_id)
+        await session.execute(insert)
+        await session.commit()
+        await session.refresh(self)
+
     def remove_tag(self, session: Session, tag_id: UUID) -> None:
         """
         Remove the given Tag from this Card.
@@ -122,6 +134,18 @@ class Card(Base, CrudOperations):
         session.execute(delete)
         session.commit()
         session.refresh(self)
+
+    async def remove_tag_async(self, session: Session, tag_id: UUID) -> None:
+        """
+        Remove the given Tag from this Card (asyncio friendly).
+
+        :param tag_id: the ID of the connection between a tag and a card.
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        delete = CardTag.delete().where(CardTag.c.tag_id == tag_id)
+        await session.execute(delete)
+        await session.commit()
+        await session.refresh(self)
 
     def assign_question_context(self, session: Session, fact_id: UUID) -> None:
         """
@@ -135,6 +159,19 @@ class Card(Base, CrudOperations):
         session.execute(insert)
         session.commit()
         session.refresh(self)
+
+    async def assign_question_context_async(self, session: Session, fact_id: UUID) -> None:
+        """
+        Assign the given Fact as context to the Question to this Card (asyncio friendly).
+
+        :param fact_id: the name of the Fact to assign as context to the question
+            of this card.
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        insert = CardQuestionContext.insert().values(card_id=self.id, fact_id=fact_id)
+        await session.execute(insert)
+        await session.commit()
+        await session.refresh(self)
 
     def remove_question_context(self, session: Session, fact_id: UUID) -> None:
         """
@@ -150,6 +187,20 @@ class Card(Base, CrudOperations):
         session.commit()
         session.refresh(self)
 
+    async def remove_question_context_async(self, session: Session, fact_id: UUID) -> None:
+        """
+        Remove the given Fact as a context for the Question from this Card (asyncio friendly).
+
+        :param fact_id: the ID of the fact to remove from the answer's context
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        delete = CardQuestionContext.delete().where(
+            CardQuestionContext.c.fact_id == fact_id
+        )
+        await session.execute(delete)
+        await session.commit()
+        await session.refresh(self)
+
     def assign_answer_context(self, session: Session, fact_id: UUID) -> None:
         """
         Assign the given Fact as context to the Answer to this Card.
@@ -162,6 +213,19 @@ class Card(Base, CrudOperations):
         session.execute(insert)
         session.commit()
         session.refresh(self)
+
+    async def assign_answer_context_async(self, session: Session, fact_id: UUID) -> None:
+        """
+        Assign the given Fact as context to the Answer to this Card (asyncio friendly).
+
+        :param fact_id: the name of the Fact to assign as context to the answer
+            of this card.
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        insert = CardAnswerContext.insert().values(card_id=self.id, fact_id=fact_id)
+        await session.execute(insert)
+        await session.commit()
+        await session.refresh(self)
 
     def remove_answer_context(self, session: Session, fact_id: UUID) -> None:
         """
@@ -176,3 +240,17 @@ class Card(Base, CrudOperations):
         session.execute(delete)
         session.commit()
         session.refresh(self)
+
+    async def remove_answer_context_async(self, session: Session, fact_id: UUID) -> None:
+        """
+        Remove the given Fact as a context for the Answer from this Card (asyncio friendly).
+
+        :param fact_id: the ID of the fact to remove from the answer's context
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        delete = CardAnswerContext.delete().where(
+            CardAnswerContext.c.fact_id == fact_id
+        )
+        await session.execute(delete)
+        await session.commit()
+        await session.refresh(self)

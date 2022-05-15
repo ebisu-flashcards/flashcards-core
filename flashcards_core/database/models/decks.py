@@ -1,7 +1,8 @@
 from typing import Any, List, Optional
+from unittest import result
 
 from uuid import uuid4, UUID
-from sqlalchemy import Column, ForeignKey, String, Table, JSON
+from sqlalchemy import Column, ForeignKey, String, Table, JSON, select
 from sqlalchemy.orm import relationship, Session
 from sqlalchemy_json import mutable_json_type
 
@@ -69,6 +70,19 @@ class Deck(Base, CrudOperations):
         """
         return session.query(Deck).filter(Deck.name == name).first()
 
+    @classmethod
+    async def get_by_name_async(cls, session: Session, name: str) -> Optional[Any]:
+        """
+        Returns the deck corresponding to the given name (asyncio friendly).
+
+        :param session: the session (see flashcards_core.database:init_db()).
+        :param name: the name of the model object to return.
+        :returns: the matching model object.
+        """
+        stmt = select(Deck).where(Deck.name == name)
+        results = session.execute(stmt)
+        return results.first()
+
     def unseen_cards_list(self) -> List[Any]:
         """
         Return a list of all the cards belonging to this deck that have no Reviews,
@@ -77,7 +91,23 @@ class Deck(Base, CrudOperations):
         # FIXME Redo as a proper SQL query!!!
         return [card for card in self.cards if len(card.reviews) == 0]
 
+    async def unseen_cards_list_async(self) -> List[Any]:
+        """
+        Return a list of all the cards belonging to this deck that have no Reviews,
+        which means they have never been seen/reviewed.
+        """
+        # FIXME Redo as a proper SQL query!!!
+        return [card for card in self.cards if len(card.reviews) == 0]
+
     def unseen_cards_number(self) -> int:
+        """
+        Return the number of cards belonging to this deck that have no Reviews,
+        which means they have never been seen/reviewed.
+        """
+        # FIXME Redo as a proper SQL query!!!
+        return len([card for card in self.cards if len(card.reviews) == 0])
+
+    async def unseen_cards_number_async(self) -> int:
         """
         Return the number of cards belonging to this deck that have no Reviews,
         which means they have never been seen/reviewed.
@@ -97,6 +127,18 @@ class Deck(Base, CrudOperations):
         session.refresh(self)
         session.commit()
 
+    async def assign_tag(self, session: Session, tag_id: UUID) -> None:
+        """
+        Assign the given Tag to this Deck and refreshes the Deck object (asyncio friendly).
+
+        :param tag_id: the name of the Tag to assign to the Deck.
+        :param session: the session (see flashcards_core.database:init_db()).
+        """
+        insert = DeckTag.insert().values(deck_id=self.id, tag_id=tag_id)
+        await session.execute(insert)
+        await session.refresh(self)
+        await session.commit()
+
     def remove_tag(self, session: Session, tag_id: UUID) -> None:
         """
         Remove the given Tag from this Deck.
@@ -109,3 +151,16 @@ class Deck(Base, CrudOperations):
         session.execute(delete)
         session.commit()
         session.refresh(self)
+
+    async def remove_tag_async(self, session: Session, tag_id: UUID) -> None:
+        """
+        Remove the given Tag from this Deck.
+
+        :param tag_id: the ID of the tag to remove from this deck
+        :param session: the session (see flashcards_core.database:init_db()).
+        :returns: None.
+        """
+        delete = DeckTag.delete().where(DeckTag.c.tag_id == tag_id)
+        await session.execute(delete)
+        await session.commit()
+        await session.refresh(self)
