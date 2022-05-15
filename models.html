@@ -433,6 +433,19 @@ Relationships are named (to help discoverability), see RelatedCards</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.related_cards_async">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">related_cards_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#flashcards_core.database.models.cards.Card" title="flashcards_core.database.models.cards.Card"><span class="pre">flashcards_core.database.models.cards.Card</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.related_cards_async" title="Permalink to this definition"></a></dt>
+<dd><p>Returns all the related cards pairs in an asyncio friendly way.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of Card with a “relationship” attribute, which</p>
+</dd>
+</dl>
+<p>contains the name of the relationship as it was stored in the RelatedCard
+associative table</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="flashcards_core.database.models.cards.Card.remove_answer_context">
 <span class="sig-name descname"><span class="pre">remove_answer_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fact_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uuid.UUID</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#flashcards_core.database.models.cards.Card.remove_answer_context" title="Permalink to this definition"></a></dt>
 <dd><p>Remove the given Fact as a context for the Answer from this Card.</p>
@@ -610,6 +623,19 @@ hint. For example, it can have values like ‘plaintext’,
 <span class="sig-name descname"><span class="pre">related_facts</span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.related_facts" title="Permalink to this definition"></a></dt>
 <dd><p>All the facts that are somehow related to the current one
 Relationships are named (to help discoverability), see RelatedFacts</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.facts.Fact.related_facts_async">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">related_facts_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#flashcards_core.database.models.facts.Fact" title="flashcards_core.database.models.facts.Fact"><span class="pre">flashcards_core.database.models.facts.Fact</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#flashcards_core.database.models.facts.Fact.related_facts_async" title="Permalink to this definition"></a></dt>
+<dd><p>Returns all the related facts pairs in an asyncio friently way.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of Fact with a “relationship” attribute, which</p>
+</dd>
+</dl>
+<p>contains the name of the relationship as it was stored in the RelatedFacts
+associative table</p>
 </dd></dl>
 
 <dl class="py method">
