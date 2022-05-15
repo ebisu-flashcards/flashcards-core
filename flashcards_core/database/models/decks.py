@@ -127,7 +127,7 @@ class Deck(Base, CrudOperations):
         session.refresh(self)
         session.commit()
 
-    async def assign_tag(self, session: Session, tag_id: UUID) -> None:
+    async def assign_tag_async(self, session: Session, tag_id: UUID) -> None:
         """
         Assign the given Tag to this Deck and refreshes the Deck object (asyncio friendly).
 

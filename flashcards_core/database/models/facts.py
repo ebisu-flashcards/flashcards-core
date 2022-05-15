@@ -53,9 +53,8 @@ class Fact(Base, CrudOperations):
         secondary=RelatedFact,
         primaryjoin=(RelatedFact.c.original_fact_id == id),
         secondaryjoin=(RelatedFact.c.related_fact_id == id),
-        backref=backref("original_fact_id", lazy="select"),
-        lazy="select",
-    )
+        backref=backref("original_fact_id"),
+            )
 
     #: All the tags assigned to this fact
     tags = relationship("Tag", secondary="facttags")

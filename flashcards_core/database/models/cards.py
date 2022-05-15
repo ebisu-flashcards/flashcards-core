@@ -86,9 +86,8 @@ class Card(Base, CrudOperations):
         secondary=RelatedCard,
         primaryjoin=(RelatedCard.c.original_card_id == id),
         secondaryjoin=(RelatedCard.c.related_card_id == id),
-        backref=backref("original_card_id", lazy="select"),
-        lazy="select",
-    )
+        backref=backref("original_card_id"),
+            )
 
     #: All the reviews done on this card.
     reviews = relationship("Review", cascade="all,delete", back_populates="card")
