@@ -266,7 +266,8 @@ class Card(Base, CrudOperations):
         associative table
         """
         stmt = RelatedCard.select().where(RelatedCard.c.original_card_id == self.id)
-        pairs = await session.scalars(stmt)
+        results = await session.scalars(stmt)
+        pairs = results.all()
 
         related_cards = []
         for pair in pairs:

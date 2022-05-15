@@ -124,7 +124,8 @@ class Fact(Base, CrudOperations):
         associative table
         """
         stmt = RelatedFact.select().where(RelatedFact.c.original_fact_id == self.id)
-        pairs = await session.scalars(stmt)
+        results = await session.scalars(stmt)
+        pairs = results.all()
 
         related_facts = []
         for pair in pairs:
