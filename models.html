@@ -544,10 +544,55 @@ SRS algorithm used for the review, so use the content of
 <dt class="sig sig-object py" id="flashcards_core.database.models.tags.Tag">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flashcards_core.database.models.tags.</span></span><span class="sig-name descname"><span class="pre">Tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashcards_core.database.models.tags.Tag" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.orm.decl_api.Base</span></code>, <a class="reference internal" href="database.html#flashcards_core.database.crud.CrudOperations" title="flashcards_core.database.crud.CrudOperations"><code class="xref py py-class docutils literal notranslate"><span class="pre">flashcards_core.database.crud.CrudOperations</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.tags.Tag.get_by_name">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#flashcards_core.database.models.tags.Tag.get_by_name" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the tag corresponding to the given name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+<li><p><strong>name</strong> – the name of the tag to return.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the matching tag object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashcards_core.database.models.tags.Tag.get_by_name_async">
+<em class="property"><span class="pre">async</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_by_name_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sqlalchemy.orm.session.Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#flashcards_core.database.models.tags.Tag.get_by_name_async" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the tag corresponding to the given name (asyncio-friendly).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session</strong> – the session (see flashcards_core.database:init_db()).</p></li>
+<li><p><strong>name</strong> – the name of the tag to return.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the matching tag object.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashcards_core.database.models.tags.Tag.id">
 <span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#flashcards_core.database.models.tags.Tag.id" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the tag (primary key)</p>
+<dd><p>this allows to rename a tag without breaking all existing relationships)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Primary key (NOTE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashcards_core.database.models.tags.Tag.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#flashcards_core.database.models.tags.Tag.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the tag</p>
 </dd></dl>
 
 </dd></dl>
